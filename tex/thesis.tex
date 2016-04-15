@@ -32,7 +32,7 @@
 \usepackage{amsmath}        % extensions for typesetting of math
 \usepackage{amsfonts}       % math fonts
 \usepackage{amsthm}         % theorems, definitions, etc.
-% \usepackage{bbding}         % various symbols (squares, asterisks, scissors, ...)
+\usepackage{bbding}         % various symbols (squares, asterisks, scissors, ...)
 \usepackage{bm}             % boldface symbols (\bm)
 \usepackage{graphicx}       % embedding of pictures
 \usepackage{fancyvrb}       % improved verbatim environment
@@ -44,6 +44,10 @@
 \usepackage{booktabs}       % improved horizontal lines in tables
 \usepackage{paralist}       % improved enumerate and itemize
 \usepackage[usenames]{xcolor}  % typesetting in color
+
+%% my packages
+\usepackage{algorithm}
+\usepackage{algpseudocode}
 
 %%% Basic information on the thesis
 
@@ -59,7 +63,7 @@
 % Name of the department or institute, where the work was officially assigned
 % (according to the Organizational Structure of MFF UK in English,
 % or a full name of a department outside MFF)
-\def\Department{Name of the department}
+\def\Department{Department of Theoretical Computer Science and Mathematical Logic}
 
 % Is it a department (katedra), or an institute (ústav)?
 \def\DeptType{Department}
@@ -68,11 +72,11 @@
 \def\Supervisor{RNDr. David Obdržálek, Ph.D.}
 
 % Supervisor's department (again according to Organizational structure of MFF)
-\def\SupervisorsDepartment{department}
+\def\SupervisorsDepartment{Department of Theoretical Computer Science and Mathematical Logic}
 
 % Study programme and specialization
-\def\StudyProgramme{study programme}
-\def\StudyBranch{study branch}
+\def\StudyProgramme{Computer Science}
+\def\StudyBranch{General Computer Science}
 
 % An optional dedication: you can thank whomever you wish (your supervisor,
 % consultant, a person who lent the software, etc.)
@@ -87,7 +91,7 @@ Abstract.
 
 % 3 to 5 keywords (recommended), each enclosed in curly braces
 \def\Keywords{%
-{map-merging} {multi-robot system} {ROS} {SLAM}
+{map-merging} {multi-robot system} {ROS} {SLAM} {computer vision}
 }
 
 %% The hyperref package for clickable links in PDF and also for storing
@@ -112,6 +116,7 @@ Abstract.
 
 %%% Each chapter is kept in a separate file
 \include{preface}
+\include{algorithm}
 \include{chap01}
 \include{chap02}
 
