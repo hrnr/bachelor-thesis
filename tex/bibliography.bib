@@ -11,83 +11,87 @@
 %
 %  ===========================================================================
 
-@BOOK{Andel07,
-  title = {Základy matematické statistiky},
-  publisher = {Matfyzpress},
-  year = {2007},
-  author = {Anděl, J.},
-  address = {Praha},
-  series = {Druhé opravené vydání},
-  isbn = {80-7378-001-1}
+@InProceedings{Andre2014,
+  Title                    = {Coordinated Multi-Robot Exploration: Out of the Box Packages for {ROS}},
+  Author                   = {Andre, T. and Neuhold, D. and Bettstetter, C.},
+  Booktitle                = {Proc. of IEEE GLOBECOM WiUAV Workshop},
+  Year                     = {2014},
+  Month                    = dec,
 }
 
-@BOOK{Andel98,
-  title = {Statistické metody},
-  publisher = {Matfyzpress},
-  year = {1998},
-  author = {Anděl, J.},
-  address = {Praha},
-  series = {Druhé přepracované vydání},
-  isbn = {80-85863-27-8}
+@misc{MapstitchROS,
+  author = {Philipp M. Scholl},
+  journal = {ROS Wiki},
+  title = {Mapstitch},
+  publisher = {Open Source Robotics Foundation},
+  address = {Mountain View, CA},
+  URL = {http://wiki.ros.org/mapstitch},
 }
 
-@ARTICLE{Cox72,
-  author = {Cox, D. R.},
-  title = {Regression models and life-tables (with {D}iscussion)},
-  journal = {Journal of the Royal Statistical Society, Series B},
-  year = {1972},
-  volume = {34},
-  pages = {187--220},
-  number = {2}
+@Article{Brown2006,
+author="Brown, Matthew
+and Lowe, David G.",
+title="Automatic Panoramic Image Stitching using Invariant Features",
+journal="International Journal of Computer Vision",
+year="2006",
+volume="74",
+number="1",
+pages="59--73",
+abstract="This paper concerns the problem of fully automated panoramic image stitching. Though the 1D problem (single axis of rotation) is well studied, 2D or multi-row stitching is more difficult. Previous approaches have used human input or restrictions on the image sequence in order to establish matching images. In this work, we formulate stitching as a multi-image matching problem, and use invariant local features to find matches between all of the images. Because of this our method is insensitive to the ordering, orientation, scale and illumination of the input images. It is also insensitive to noise images that are not part of a panorama, and can recognise multiple panoramas in an unordered image dataset. In addition to providing more detail, this paper extends our previous work in the area (Brown and Lowe, 2003) by introducing gain compensation and automatic straightening steps.",
+issn="1573-1405",
+doi="10.1007/s11263-006-0002-3",
+url="http://dx.doi.org/10.1007/s11263-006-0002-3"
 }
 
-@ARTICLE{DempsterLairdRubin77,
-  author = {Dempster, A. P. and Laird, N. M. and Rubin, D. B.},
-  title = {Maximum likelihood from incomplete data via the {EM} algorithm},
-  journal = {Journal of the Royal Statistical Society, Series B},
-  year = {1977},
-  volume = {39},
-  pages = {1--38},
-  number = {1}
+@TechReport {Szeliski2004,
+abstract     = {This tutorial reviews image alignment and image stitching algorithms. Image
+                alignment (registration) algorithms can discover the large-scale (parametric)
+                correspondence relationships among images with varying degrees of overlap. They
+                are ideally suited for applications such as video stabilization, summarization,
+                and the creation of large-scale panoramic photographs. Image stitching algorithms
+                take the alignment estimates produced by such registration algorithms and blend
+                the images in a seamless manner, taking care to deal with potential problems such
+                as blurring or ghosting caused by parallax and scene movement as well as varying
+                image exposures. This tutorial reviews the basic motion models underlying
+                alignment and stitching algorithms, describes effective direct (pixel-based) and
+                feature-based alignment algorithms, and describes blending algorithms used to
+                produce seamless mosaics. It closes with a discussion of open research problems
+                in the area.},
+author       = {Richard Szeliski},
+institution  = {Microsoft Research},
+month        = {October},
+number       = {MSR-TR-2004-92},
+pages        = {89},
+title        = {Image Alignment and Stitching: A Tutorial},
+url          = {http://research.microsoft.com/apps/pubs/default.aspx?id=70092},
+year         = {2004},
 }
 
-@ARTICLE{Genberget08,
-  author = {Genberg, B. L. and Kulich, M. and Kawichai, S. and Modiba, P. and
-	Chingono, A. and Kilonzo, G. P. and Richter, L. and Pettifor, A.
-	and Sweat, M. and Celentano, D. D.},
-  title = {{HIV} risk behaviors in Sub-{S}aharan {A}frica and {N}orthern {T}hailand:
-	{B}aseline behavioral data from project {A}ccept},
-  journal = {Journal of Acquired Immune Deficiency Syndrome},
-  year = {2008},
-  volume = {49},
-  pages = {309--319}
-}
-
-@ARTICLE{KaplanMeier58,
-  author = {Kaplan, E. L. and Meier, P.},
-  title = {Nonparametric estimation from incomplete observations},
-  journal = {Journal of the American Statistical Association},
-  year = {1958},
-  volume = {53},
-  pages = {457--481},
-  number = {282}
-}
-
-@BOOK{LehmannCasella98,
-  title = {Theory of Point Estimation},
-  publisher = {Springer-Verlag},
-  year = {1998},
-  author = {Lehmann, E. L. and Casella, G.},
-  address = {New York},
-  series = {{S}econd {E}dition},
-  isbn = {0-387-98502-6}
-}
-
-@ARTICLE{Student08,
-  author = {Student},
-  title = {On the probable error of the mean},
-  journal = {Biometrika},
-  year = {1908},
-  volume = {6},
-  pages = {1-25}
+@Inproceedings {Shum1998,
+abstract     = {This paper presents a new approach to computing depth maps from a large
+                collection of images where the camera motion has been constrained to planar
+                concentric circles. We resample the resulting collection of regular perspective
+                images into a set of multiperspective panoramas, and then compute depth maps
+                directly from these resampled images. Only a small number of multiperspective
+                panoramas is needed to obtain a dense and accurate 3D reconstruction, since our
+                panoramas sample uniformly in three dimensions: rotation angle, inverse radial
+                distance, and vertical elevation. Using multiperspective panoramas avoids the
+                limited overlap between the original input images that causes problems in
+                conventional multi-baseline stereo. Our approach differs from stereo matching of
+                panoramic images taken from different locations, where the epipolar constraints
+                are sine curves. For our multiperspective panoramas, the epipolar geometry, to
+                first order, consists of horizontal lines. Therefore, any traditional stereo
+                algorithm can be applied to multiperspective panoramas without modification.
+                Experimental results show that our approach generates good depth maps that can be
+                used for image-based rendering tasks such as view interpolation and
+                extrapolation.},
+address      = {Bombay},
+author       = {Heung-Yeung Shum and Richard Szeliski},
+booktitle    = {Sixth International Conference on Computer Vision (ICCV'98)},
+month        = {January},
+pages        = {953-958},
+publisher    = {IEEE Computer Society},
+title        = {Construction and refinement of panoramic mosaics with global and local alignment},
+url          = {http://research.microsoft.com/apps/pubs/default.aspx?id=75611},
+year         = {1998},
 }
