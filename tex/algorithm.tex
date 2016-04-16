@@ -23,7 +23,8 @@ Algorithm~\ref{alg:mapstitch} shows original algorithm used in \cite{MapstitchRO
 
 Although our algorithm also uses computer vision-based approach, proposed algorithm deals with most of the limitations of the original simple algorithm. Proposed algorithm is designed to work with unlimited number of grids, so it requires no additional need for iterative merging. More importantly, by design, algorithm can determine optimal order of individual pairwise merges. I assume this might be the main reason for decrease in performance in $4$-robot setup observed by\cite{Andre2014}. Also proposed algorithm deals with other problems arising for general $n$-map merge problem such as situations when it is not possible to merge some of the maps because transformation to others could not be reliably estimated, cases where map transformation can be estimated from more sources (multiple neighbours) etc.
 
-\section{Stitching pipeline}
+\section{Stitching pipeline} % (fold)
+\label{sec:stitching_pipeline}
 
 As discussed in chapter \#reference here\# our algorithm is inspired by image stitching algorithms. Stitching algorithms are well-understood and implementations are broadly available. General concept of multi-step stitching pipeline is described in \cite{Brown2006}. Stitching pipeline is also well established code in OpenCV, mostly based on \cite{Brown2006}, along with \cite{Szeliski2004} \cite{Shum1998} and others. Figure~\ref{fig:opencv} highlights processing steps in stitching as implemented in OpenCV.
 
@@ -73,3 +74,16 @@ Algorithm~\ref{alg:estimategridtrasform} offers overview of the proposed algorit
         \EndProcedure
     \end{algorithmic}
 \end{algorithm}
+
+% section stitching_pipeline (end)
+
+\section{Feature detection} % (fold)
+\label{sec:feature_detection}
+
+Stitching pipeline proposed in \cite{Brown2006} is using SIFT features. SIFT features have been used with success for stitching in many applications. Some of the recent approaches to stitching, improving traditional SIFT-based algorithm, are also building on top of SIFT features \cite{Xie2015}. SIFT features are patented in the US \cite{lowe2004method}, limiting its use.
+
+I have decided to use ORB as feature detector a descriptor described in \cite{Rublee2011}. ORB algorithm is patent-free, and available in OpenCV. ORB features has been already used with occupancy grid images \cite{MapstitchROS} \cite{Andre2014}.
+
+Other alternatives for feature detection and feature description has not been tested yet. Performance of other detectors for map merging and effect of choose of detector to overall merging performance remains to be evaluated. Some feature detectors and descriptors promising good performance are \cite{Alahi2012} \cite{alcantarilla2011fast} \cite{calonder2010brief}.
+
+% section feature_detection (end)
