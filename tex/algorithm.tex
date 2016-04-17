@@ -86,4 +86,26 @@ I have decided to use ORB as feature detector a descriptor described in \cite{Ru
 
 Other alternatives for feature detection and feature description has not been tested yet. Performance of other detectors for map merging and effect of choose of detector to overall merging performance remains to be evaluated. Some feature detectors and descriptors promising good performance are \cite{Alahi2012} \cite{alcantarilla2011fast} \cite{calonder2010brief}.
 
+For image stitching, images are usually downscaled for further processing as seen is figure~\ref{fig:opencv}. Feature extraction and feature matching on smaller images is considerably faster and final performance is acceptable. We don't propose any such down scaling for occupancy grids. Occupancy grids acquired from mapping are usually smaller than multi-megapixel images from camera, so stitching time is reasonable even for full-scale grids. Also occupancy grids have usually much smaller number of features than photos making stitching harder and less precise.
+
+During online merging we can run stitching with low frequency even if higher map update frequencies are required by simply using previously estimated transform between grids. This further reduces cost of estimation over time. Since transformation between grids is fixed in most cases (when SLAM algorithm work reasonably well), depending only on starting points of robots, this approach does not reduce map quality considerably.
+
+In most tested scenarios estimated transformation change only during initial phase. After there is enough overlapping regions in the map, such that transformation can be estimated with enough precision, transformation estimated with stitching algorithm remains stable over time. This property allows to run re-estimation with low frequencies.
+
 % section feature_detection (end)
+
+\section{Pairwise matching} % (fold)
+\label{sec:pairwise_matching}
+
+Pairwise matching is the most resource demanding part of the algorithm. We do matching for all $\bigO(n^2)$ pairs of grids. For panorama images it is possible to push this down to $\bigO(n)$ matching by expecting photos to be taken in ordered sequence. We can then match image only $k$ neighbours (for small $k$) in sequence, because neighbours are expected to have overlapping area.
+
+For occupancy grids in multi-robot mapping scenario it is impractical to assume any
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{../img/matches.pdf}
+    \caption{Graph showing matches between occupancy grids during map merging. This graph was acquired for maps from MIT dataset, see chapter \#reference here\#. Grids without any matches are omitted. Legend: $Nm$ number of matches, $Ni$ number of inliers from RANSAC, $C$ confidence.}
+    \label{fig:matches}
+\end{figure}
+
+% section pairwise_matching (end)
