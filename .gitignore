@@ -8,6 +8,7 @@
 *.bbl
 *.blg
 vzor-bp
-*.pdf
 *.sublime-*
+tex/*.pdf
+bp_uprava15_en.pdf
 
