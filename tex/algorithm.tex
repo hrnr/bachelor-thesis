@@ -99,13 +99,100 @@ In most tested scenarios estimated transformation change only during initial pha
 
 Pairwise matching is the most resource demanding part of the algorithm. We do matching for all $\bigO(n^2)$ pairs of grids. For panorama images it is possible to push this down to $\bigO(n)$ matching by expecting photos to be taken in ordered sequence. We can then match image only $k$ neighbours (for small $k$) in sequence, because neighbours are expected to have overlapping area.
 
-For occupancy grids in multi-robot mapping scenario it is impractical to assume any
+For occupancy grids in multi-robot mapping scenario it is impractical to assume any such ordering in robot's initial poses. It might not even be possible when robots are exploring given areas independently. Our algorithm therefore always match all $\bigO(n^2)$ pairs.
+
+Because computations in each pair are independent it is easy to run matching of all pairs in parallel or offload it GPU. This approach is used in map merging node presented in \#reference here\#.
 
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{../img/matches.pdf}
-    \caption{Graph showing matches between occupancy grids during map merging. This graph was acquired for maps from MIT dataset, see chapter \#reference here\#. Grids without any matches are omitted. Legend: $Nm$ number of matches, $Ni$ number of inliers from RANSAC, $C$ confidence.}
+    \caption{Graph showing matches between $37$ occupancy grids during map merging. This graph was acquired for maps from MIT dataset, see chapter \#reference here\#. Grids without any matches are omitted. Legend: $Nm$ number of matches, $Ni$ number of inliers from RANSAC, $C$ confidence.}
     \label{fig:matches}
 \end{figure}
+
+Figure~\ref{fig:matches} shows matching results for $37$ occupancy grids acquired during experiment \#reference here\#.
+
+Because of non-linear number of pairs it is usually too computationally expensive to search for matches using simple (brute-force) search unless this can be offloaded to GPU. For matching on CPU it is better to use approximate methods, which can be much faster.
+
+For vector-based features, such as SIFT and SURF, the solution has been to use approximate nearest-neighbour search, but these existing algorithms are not suitable for binary features \cite{Muja2012}. For ORB features, which are binary based, searching for nearest neighbours using parallel hierarchical clustering trees proposed in \cite{Muja2012} can provide similar speed-up for ORB features. This method is used through the FLANN library by the same authors, which is now part of OpenCV.
+
+When matching keypoints are found for pair of grids, algorithm estimates transformation between grids. Traditional image stitching algorithms are using homography in projective spaces, which is a good for modelling perspective affecting camera images. For occupancy grids this is not an expected transformation under normal circumstances, and even when there are errors in maps produced by SLAM or other mapping algorithm, these are not errors produced by projective transformation.
+
+For occupancy grids we propose a different model based on reduced affine transform. This is a partial affine transformation with $4$ degrees of freedom.
+
+\begin{defn}[Reduced affine transformation]
+For given matrices $R$ (rotation), $S$ (scaling), $T$ (translation), where
+
+\begin{align}
+    R &=
+    \begin{pmatrix}
+        \cos{\theta} & -\sin{\theta} \\
+        \sin{\theta} & \cos{\theta} \\
+    \end{pmatrix} \\
+    S &=
+    \begin{pmatrix}
+        s & 0 \\
+        0 & s \\
+    \end{pmatrix} \\
+    T &=
+    \begin{pmatrix}
+        tx \\
+        ty \\
+    \end{pmatrix}
+\end{align}
+
+we define matrix of reduced affine transformation as
+
+\begin{equation}
+    A =
+    \begin{pmatrix}
+        RS|T
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+        \cos(\theta)s & -\sin(\theta)s & tx \\
+        \sin(\theta)s & \cos(\theta)s & ty \\
+    \end{pmatrix}
+\end{equation}.
+\end{defn}
+
+As usual when representing translations we will work with reduced affine transformation in homogeneous coordinates, where this transformation is homomorphism. Therefore we extend $A$ as
+
+\begin{equation}
+    A' =
+    \begin{pmatrix}
+        \cos(\theta)s & -\sin(\theta)s & tx \\
+        \sin(\theta)s & \cos(\theta)s & ty \\
+        0 & 0 & 1 \\
+    \end{pmatrix}
+\end{equation}
+
+to represent reduced affine transformation in homogeneous coordinates space.
+
+For pair of matched points $X=\T{(x_1,x_2,1)}$, $Y=\T{(y_1, y_2, 1)}$ we can then solve
+
+\begin{align}
+    A'X &= Y \label{eq:affinetrans}\\
+    \begin{pmatrix}
+        \cos(\theta)s & -\sin(\theta)s & tx \\
+        \sin(\theta)s & \cos(\theta)s & ty \\
+        0 & 0 & 1 \\
+    \end{pmatrix}
+    \begin{pmatrix}
+        x_1 \\
+        x_2 \\
+        1
+    \end{pmatrix}
+    &=
+    \begin{pmatrix}
+        y_1 \\
+        y_2 \\
+        1
+    \end{pmatrix}
+\end{align}
+
+for $\T{(\cos(\theta)s, \sin(\theta)s, tx, ty)}$ to obtain transformation between grids. This is easy to solve and need only $2$ points to get the transformation.
+
+We combine \eqref{eq:affinetrans} with RANSAC~\cite{fischler1981random} (random sample consensus) method to obtain final transformation. Using RANSAC
 
 % section pairwise_matching (end)
