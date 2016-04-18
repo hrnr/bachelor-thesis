@@ -7,8 +7,16 @@
 *.out
 *.bbl
 *.blg
+*.acn
+*.glo
+*.glsdefs
+*.ist
+*.acr
+*.alg
+*.glg
+*.gls
 vzor-bp
 *.sublime-*
 tex/*.pdf
 bp_uprava15_en.pdf
-
+example.pdf

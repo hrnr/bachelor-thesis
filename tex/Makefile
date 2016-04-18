@@ -9,5 +9,5 @@ thesis.pdf: thesis.tex $(wildcard *.tex) bibliography.bib
 	pdflatex $<
 
 clean:
-	rm -f *.log *.dvi *.aux *.toc *.lof *.lot *.out *.bbl *.blg *.acn *.glo *.glsdefs *.ist
+	rm -f *.log *.dvi *.aux *.toc *.lof *.lot *.out *.bbl *.blg *.acn *.glo *.glsdefs *.ist *.acr *.alg *.glg *.gls
 	rm -f thesis.pdf
