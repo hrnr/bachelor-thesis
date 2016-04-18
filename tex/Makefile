@@ -4,9 +4,10 @@ all: thesis.pdf
 thesis.pdf: thesis.tex $(wildcard *.tex) bibliography.bib
 	pdflatex $<
 	bibtex thesis
+	makeglossaries thesis
 	pdflatex $<
 	pdflatex $<
 
 clean:
-	rm -f *.log *.dvi *.aux *.toc *.lof *.lot *.out *.bbl *.blg
+	rm -f *.log *.dvi *.aux *.toc *.lof *.lot *.out *.bbl *.blg *.acn *.glo *.glsdefs *.ist
 	rm -f thesis.pdf
