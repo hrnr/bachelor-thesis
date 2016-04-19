@@ -21,7 +21,7 @@ Due to its original purpose, mapstitch algorithm shows some limitations for mult
 
 Algorithm~\ref{alg:mapstitch} shows original algorithm used in \cite{MapstitchROS}, version used in \cite{Andre2014} is only a slightly modified.
 
-Although our algorithm also uses computer vision-based approach, proposed algorithm deals with most of the limitations of the original simple algorithm. Proposed algorithm is designed to work with unlimited number of grids, so it requires no additional need for iterative merging. More importantly, by design, algorithm can determine optimal order of individual pairwise merges. I assume this might be the main reason for decrease in performance in $4$-robot setup observed by\cite{Andre2014}. Also proposed algorithm deals with other problems arising for general $n$-map merge problem such as situations when it is not possible to merge some of the maps because transformation to others could not be reliably estimated, cases where map transformation can be estimated from more sources (multiple neighbours) etc.
+Although our algorithm also uses computer vision-based approach, proposed algorithm deals with most of the limitations of the original simple algorithm. Proposed algorithm is designed to work with unlimited number of grids, so there is no additional need for iterative merging. More importantly, by design, algorithm can determine optimal order of individual pairwise merges. I assume this might be the main reason for decrease in performance in $4$-robot setup observed by\cite{Andre2014}. Also proposed algorithm deals with other problems arising for general $n$-map merge problem such as situations when it is not possible to merge some of the maps because transformation to others could not be reliably estimated, cases where map transformation can be estimated from more sources (multiple neighbours) etc.
 
 \section{Stitching pipeline} % (fold)
 \label{sec:stitching_pipeline}
@@ -35,7 +35,7 @@ As discussed in chapter \#reference here\# our algorithm is inspired by image st
 	\label{fig:opencv}
 \end{figure}
 
-Our algorithm will solve the registration part of stitching according to figure~\ref{fig:opencv}. As compositing part of stitching is relatively simple for occupancy grids compared to images from camera, this solves the main problem of acquiring transformation between robots individual frames and bridging the problem of merging maps with known initial positions and unknown initial positions.
+Our algorithm will solve the registration part of stitching according to figure~\ref{fig:opencv}. As compositing part of stitching is relatively simple (we don't need to compensate exposure errors, gain etc.) for occupancy grids compared to images from camera, this solves the main problem of acquiring transformation between robots individual frames and bridging the problem of merging maps with known initial positions and unknown initial positions.
 
 ROS node for map merging described in \#reference here\# implements also compositing part of the pipeline, which is simple when transformation is estimated with high precision.
 
@@ -58,9 +58,9 @@ Algorithm~\ref{alg:estimategridtrasform} offers overview of the proposed algorit
             		\State confidence $\gets 0$
             	\Else
             		\State find restricted affine transformation for keypoints using RANSAC
-            		\State $\vartheta \gets \text{number of inliers in RANSAC}$
+            		\State $\psi \gets \text{number of inliers in RANSAC}$
             		\If{transformation found}
-            			\State confidence $\gets \frac{\vartheta}{8 + 0.3 \cdot n}$
+            			\State confidence $\gets \frac{\psi}{8 + 0.3 \cdot n}$
             		\Else
             			\State confidence $\gets 0$
             		\EndIf
@@ -193,6 +193,44 @@ For pair of matched points $X=\T{(x_1,x_2,1)}$, $Y=\T{(y_1, y_2, 1)}$ we can the
 
 for $\T{(\cos(\theta)s, \sin(\theta)s, tx, ty)}$ to obtain transformation between grids. This is easy to solve and need only $2$ points to get the transformation.
 
-We combine \eqref{eq:affinetrans} with \gls{ransac}~\cite{fischler1981random} method to obtain final transformation. Using \gls{ransac}
+Reduced affine transformation is designed to model transformation between initial robot poses in $2D$ space. Each robot can start at different position and have different orientation in terms of rotation in $2D$ space. Scaling enables occupancy grids to have different resolution.
+
+We combine \eqref{eq:affinetrans} with \gls{ransac}~\cite{fischler1981random} method to obtain final transformation. \gls{ransac} is used to estimate homography in image stitching method proposed in~\cite{Brown2006}. We use the same method for estimating reduced affine transformation. Using \gls{ransac} has another advantage. We can used number of inliers in \gls{ransac} to estimate transformation accuracy.
+
+For each pair we compute confidence as $\frac{\psi}{8 + 0.3 \cdot n}$, where $n$ is number of matches and $\psi$ is number of inliers in \gls{ransac}. Model for confidence is based on probabilistic model for image match verification proposed in~\cite{Brown2006}.
+
+For \gls{ransac} I have chosen following parameters: maximum number of iterations $500$, good ratio $0.5$. Same parameters are used internally in OpenCV. If maximum number of iteration is reached and transformation therefore could not found, its confidence is set to $0$.
 
 % section pairwise_matching (end)
+
+\section{Finding largest connected component} % (fold)
+\label{sec:finding_largest_connected_component}
+
+As seen in figure~\ref{fig:matches} it is common that not all transformations could be established between grids. Graph of matching therefore can have multiple connected components. We need to deal with missing transformations between components to
+
+We could include all components to resulting map and position them such they don't overlap. This setup would preserve all information, but resulting map can't be topologically correct. Another approach is to choose only one connected component for final merge. This approach preserves map's topological accuracy. I have chosen the latter approach.
+
+As a next in the algorithm we filter out matches according to selected probabilistic model for accuracy. Matches with computed confidence $\le 1.0$ are not further considered for matching.
+
+After matches are filtered largest component is found in matches graph. Transformation will be established only for grids in largest connected component.
+
+Choosing largest connected component might seem natural, but this approach has its caveats. Largest connected component represents matches between largest number of robots, however maps from the largest number of robots does not need to represent largest area in the map. This might be a problem especially in systems with heterogeneous robots, where mapping performance differs greatly between robots. Also some parts of maps might be much harder for robots to explore and despite large number of robots in such an area, produced map may be smaller than map produced by other group of robots (represented in graph as smaller component).
+
+Modifications of this algorithm might choose to find weighted largest connected component in matchings graph. Weight could be based on discovered area in each map, such that the largest weighted connected component would represent largest discovered area.
+
+I have chosen to use unweighted largest connected component, because it is less computationally expensive (weighting grids to represent discovered area in each grid require visiting each cell of each grid). Algorithm using unweighted largest connected component provides good results to small number of robots \#reference here\#. Approach using weighted components needs to be evaluated for more robots and larger environments.
+
+% section finding_largest_connected_component (end)
+
+\section{Estimate final transformation} % (fold)
+\label{sec:estimate_final_transformation}
+
+Remaining graph is connected and it is possible to estimate transformation for all grids. We have estimated transformations between pairs of grids, edges for some pairs may be missing, because they were filtered out in previous steps.
+
+Final part of the algorithm estimates transformation to global reference frame for each grid. We can choose reference frame of one of the grids as global reference frame, because we are interested in relative transformations between all grids for merging. This will the reference frame of merged map.
+
+Selecting global reference frame is not enough, because there may exist multiple paths from grid selected as reference frame to other grids. We construct maximum spanning tree to break these cycles. Edges are weighted with number of inliers to prefer stronger matches. This approach is routinely used for image stitching, exactly the same construct is implemented in OpenCV.
+
+
+
+% section estimate_final_transformation (end)
