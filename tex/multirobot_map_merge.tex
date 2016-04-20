@@ -1,0 +1,108 @@
+\chapter{multirobot_map_merge}
+
+\section{Package Summary}
+
+Merging multiple maps with knowledge of the initial relative positions of robots.
+
+\begin{itemize}
+    \item Maintainer status: developed
+    \item Maintainer: Jiri Horner \textless laeqten AT gmail DOT com\textgreater
+    \item Author: Jiri Horner \textless laeqten AT gmail DOT com\textgreater
+    \item License: BSD
+    \item Source: git \url{https://github.com/hrnr/m-explore.git} (branch: master)
+\end{itemize}
+
+\section{Overview}
+
+This package provides global map for multiple robots. It can merge maps from arbitrary number of robots. It expects maps from individual robots as ROS topics. If your run multiple robots under the same ROS master then \texttt{multirobot_\-map_\-merge} will probably work for you out-of-the-box. It is also very easy to setup an simulation experiment.
+
+%{{attachment:screenshot.jpg||width="755px"}}
+
+If your run your robots under multiple ROS masters you need to run your own way of communication between robots and provide maps from robots on local topics (under the same master). Also if you want to distribute merged map back to robots your communication must take care of it.
+
+%<<Youtube(8Adrn29BVbM&rel=0)>>
+
+\texttt{multirobot_map_merge} does not depend on any particular communication between robots.
+
+\section{Architecture}
+
+\texttt{multirobot_map_merge} finds robot maps dynamically and new robots can be added to system at any time.
+
+%{{attachment:architecture.svg||width="755px"}}
+
+To make this dynamic behaviour possible there are some constrains placed on robots. First all robots must publish map under \texttt{<robot_namespace>/map}, where topic name (\texttt{map}) is configurable, but must be same for all robots. For each robot \texttt{<robot_namespace>} will be of cause different.
+
+This node support merging maps with known initial positions of the robots or without. See below for details.
+
+\section{Merging modes}
+\label{sec:mergingmodes}
+
+Two merging modes are currently supported as orthogonal options. If you know initial positions of robots you may preferably use the first mode and get exact results (rigid transformation will be computed according to initial positions). If you don't know robot's starting points you are still able to use the second mode where transformation between grids will be determined using heuristic algorithm. You can choose between these two modes using the \texttt{known_init_poses} parameter.
+
+\subsection{merging with known initial positions}
+
+This is preferred mode whenever you are able to determine exact starting point for each robot. You need to provide initial position for each robot. You need to provide set of \texttt{<robot_namespace>/map_merge/init_pose} parameters. These positions should be in \texttt{world_frame}. See~\ref{sec:rosapi}.
+
+In this merging these parameters are mandatory. If any of the required parameters is missing robot won't be considered for merging (you will get warning with name of affected robot).
+
+\subsection{merging without known initial positions}
+
+If you can't provide initial poses for robots this mode has minimal configuration requirements. You need to provide only map topic for each robot. Transformation between grids is estimated by feature-matching algorithm and therefore requires grids to have sufficient amount of overlapping space to make a high-probability match. If grids don't have enough overlapping space to make a solid match, merged map can differ greatly from physical situation.
+
+Estimating transforms between grids is cpu-intesive so you might want to tune \texttt{estimation_rate} parameter to run re-estimation less often if it causes any troubles.
+
+\section{ROS API}
+\label{sec:rosapi}
+
+\subsection{map_merge}
+
+Provides map merging services offered by this package. Dynamically looks for new robots in the system and merges their maps.
+
+\subsubsection{Subscribed Topics}
+  \ROStopic{<robot_namespace>/map}{nav_msgs/OccupancyGrid}{Local map for specific robot.}
+
+  \ROStopic{<robot_namespace>/map_updates}{map_msgs/OccupancyGridUpdate}{Local map updates for specific robot. Most of the \texttt{nav_msgs/OccupancyGrid} sources (mapping algorithms) provides incremental map updates via this topic so they don't need to send always full map. This topic is optional. If your mapping algorithm does not provide this topic it is safe to ignore this topic. However if your mapping algorithm does provide this topic, it is preferable to subscribe to this topic. Otherwise map updates will be slow as all partial updates will be missed and map will be able to update only on full map updates.}
+
+\subsubsection{Published Topics}
+  \ROStopic{map}{nav_msgs/OccupancyGrid}{Merged map from all robots in the system.}
+
+\subsubsection{Parameters}
+\paragraph{Robot Parameters}
+
+Parameters that should be defined in the namespace of each robot if you want to use merging with known initial poses of robots (\texttt{known_init_poses} is \texttt{true}). Without these parameters robots won't be considered for merging. If you can't provide these parameters use merging without known initial poses. See~\ref{sec:mergingmodes}
+
+    \ROSparam{<robot_namespace>/map_merge/init_pose_x}{<no_default>}{double}{\texttt{x} coordinate of robot initial position in \texttt{world_frame}. Should be in meters. It does not matter which frame you will consider global (preferably it should be different from all robots frames), but relative positions of robots in this frame must be correct.}
+
+    \ROSparam{<robot_namespace>/map_merge/init_pose_y}{<no_default>}{double}{\texttt{y} coordinate of robot initial position in \texttt{world_frame}.}
+
+    \ROSparam{<robot_namespace>/map_merge/init_pose_z}{<no_default>}{double}{\texttt{z} coordinate of robot initial position in \texttt{world_frame}.}
+
+    \ROSparam{<robot_namespace>/map_merge/init_pose_yaw}{<no_default>}{double}{\texttt{yaw} component of robot initial position in \texttt{world_frame}. Represents robot rotation in radians.}
+
+\paragraph{Node Parameters}
+
+Parameters that should be defined in the namespace of this node.
+
+    \ROSparam{\~{}robot_map_topic}{map}{string}{Name of robot map topic without namespaces (last component of topic name). Only topics with this name will be considered when looking for new maps to merge. This topics may be subject to further filtering (see below).}
+
+    \ROSparam{\~{}robot_map_updates_topic}{map_updates}{string}{Name of robot map updates topic of \texttt{map_msgs/OccupancyGridUpdate} without namespaces (last component of topic name). This topic will be always subscribed in the same namespace as \texttt{robot_map_topic}. You'll likely need to change this only when you changed \texttt{robot_map_topic}. These topics are never considered when searching for new robots.}
+
+    \ROSparam{\~{}robot_namespace}{<empty string>}{string}{Fixed part of robot map topic. You can employ this parameter to further limit which topics will be considered during dynamic lookup for robots. Only topics which contain (anywhere) this string will be considered for lookup. Unlike \texttt{robot_map_topic} you are not limited by namespace logic. Topics will be filtered using text-based search. Therefore \texttt{robot_namespace} does not need to be ROS namespace, but can contain slashes etc. This must be common part of all robots map topics name (all robots for which you want to merge map).}
+
+    \ROSparam{\~{}known_init_poses}{true}{bool}{Selects between merging modes. \texttt{true} if merging with known initial positions. See~\ref{sec:mergingmodes}}
+
+    \ROSparam{\~{}merged_map_topic}{map}{string}{Topic name where merged map will be published.}
+
+    \ROSparam{\~{}world_frame}{world}{string}{Frame id (in \href{http://wiki.ros.org/tf}{tf} tree) which will be assigned to published merged map. This should be frame where you specified robot initial positions.}
+
+    \ROSparam{\~{}merging_rate}{4.0}{double}{Rate in Hz. Basic frequency on which this node discovers merges robots maps and publish merged map. Increase this value if you want faster updates.}
+
+    \ROSparam{\~{}discovery_rate}{0.05}{double}{Rate in Hz. Frequency on which this node discovers new robots. Increase this value if you need more agile behaviour when adding new robots. Robots will be discovered sooner.}
+
+    \ROSparam{\~{}estimation_rate}{0.5}{double}{Rate in Hz. This parameter is relevant only when merging without known positions, see~\ref{sec:mergingmodes}. Frequency on which this node re-estimates transformation between grids. Estimation is cpu-intensive, so you may wish to lower this value.}
+
+\section{Acknowledgements}
+
+This package was developed as part of my bachelor thesis at \href{http://www.mff.cuni.cz/to.en/}{Charles University} in Prague.
+
+Idea for dynamic robot discovery is from \href{http://wiki.ros.org/map_merging}{map_merging} package from Zhi Yan. Merging algorithm and configuration are different.
