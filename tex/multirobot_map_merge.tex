@@ -16,7 +16,12 @@ Merging multiple maps with knowledge of the initial relative positions of robots
 
 This package provides global map for multiple robots. It can merge maps from arbitrary number of robots. It expects maps from individual robots as ROS topics. If your run multiple robots under the same ROS master then \texttt{multirobot\_map\_merge} will probably work for you out-of-the-box. It is also very easy to setup an simulation experiment.
 
-%{{attachment:screenshot.jpg||width="755px"}}
+\begin{figure}
+    \centering
+    \includegraphics[width=4.53in]{../img/map_merge_cover.png}
+    \caption{Output of \texttt{multirobot\_map\_merge}, map merging node for \gls{ROS}. Merged map from $2$ robots. Robots in the environment visualised on the left, merged map on the right.}
+    \label{fig:mapmergecover}
+\end{figure}
 
 If your run your robots under multiple ROS masters you need to run your own way of communication between robots and provide maps from robots on local topics (under the same master). Also if you want to distribute merged map back to robots your communication must take care of it.
 
@@ -28,11 +33,10 @@ If your run your robots under multiple ROS masters you need to run your own way 
 
 \texttt{multirobot\_map\_merge} finds robot maps dynamically and new robots can be added to system at any time.
 
-%{{attachment:architecture.svg||width="755px"}}
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{../img/map_merge_architecture.pdf}
-    \caption{Architecture of proposed map merging node for \gls{ROS}.}
+    \caption{Architecture of \texttt{multirobot\_map\_merge}, proposed map merging node for \gls{ROS}.}
     \label{fig:mapmergearchitecture}
 \end{figure}
 
