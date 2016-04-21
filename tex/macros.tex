@@ -109,3 +109,6 @@
 \newcommand{\ROStopic}[3]{\begin{sloppypar} \noindent\texttt{#1} (#2) \end{sloppypar} \par \hangindent=15pt \parskip=12pt \vspace{-12pt} \hangafter=0 \noindent #3}
 \newcommand{\ROSparam}[4]{\begin{sloppypar} \noindent\texttt{#1} (#3, default: \texttt{#2}) \end{sloppypar} \par \hangindent=15pt \parskip=12pt \vspace{-12pt} \hangafter=0 \noindent #4}
 
+% allow hyphenation after underscore
+\let\oldunderscore\_
+\renewcommand{\_}{\oldunderscore\-}
