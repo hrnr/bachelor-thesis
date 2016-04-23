@@ -1,0 +1,28 @@
+\chapter{ROS packages}
+\label{chap:ros-packages}
+
+It this section we present \gls{ROS} packages developed as part of this work. Merging algorithm presented in section~\ref{chap:algorithm} was implemented in \gls{ROS} package \texttt{multirobot\_map\_merge}. To evaluate performance of map-merging in multi-robot exploring scenarios I have developed the second package, \texttt{explore\_lite} for automatic exploring.
+
+Both packages are now part of the \gls{ROS} project. Documentation for packages is available online on \gls{ROS} wiki pages:
+
+\begin{enumerate}
+	\item \url{http://wiki.ros.org/multirobot_map_merge}
+	\item \url{http://wiki.ros.org/explore_lite}
+\end{enumerate}
+
+This documentation is also reproduced as appendix~\ref{chap:map_merge-doc} and appendix~\ref{chap:explore-doc}.
+
+\section{\texttt{multirobot\_map\_merge} package} % (fold)
+\label{sec:map_merge-package}
+
+\texttt{multirobot\_map\_merge} package solves several problems for merging maps from multiple robots. Dynamic robot discovery, initial poses estimation and map-merging.
+
+Dynamic robot discovery allows efficient easy-to-use auto-configuration of the package and also allows number of robots to change during exploring. Therefore robots can be assigned to system based on exploration progress.
+
+Initial poses estimation is necessary for situations where initial robot positions could not be measured with required precision by user. Package uses algorithm discussed in section~\ref{chap:mergingalgorithm}, which was specifically designed for this purpose. When robots are starting from different places, getting the initial positions might be difficult without proper equipment. Even when robots are starting exploration from common place, it might be more comfortable for users to let merging system estimate initial positions itself. In this situation merging algorithm can take the advantage of initial overlapping area and produce high-quality merges quickly.
+
+In situations where robots initial positions are known (simulations) or can be measured with required precision (required equipment is available on robots or at the starting place) \texttt{multirobot\_map\_merge} package allows merging with user-provided initial robots positions. This can be also used for producing a reference map to evaluate performance of multi robot exploring systems.
+
+Regardless of how transformation between grids have been acquired (from user supplied initial poses or estimated by the algorithm) map-merging is the final step to produce a merged map. This phase must be able to deal with different map sizes between robots, different map resolutions, be able to apply scaling, rotation and translation transformations while keeping the merged map as small as possible.
+
+% section map_merge-package (end)
