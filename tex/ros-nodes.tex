@@ -19,10 +19,50 @@ This documentation is also reproduced as appendix~\ref{chap:map_merge-doc} and a
 
 Dynamic robot discovery allows efficient easy-to-use auto-configuration of the package and also allows number of robots to change during exploring. Therefore robots can be assigned to system based on exploration progress.
 
-Initial poses estimation is necessary for situations where initial robot positions could not be measured with required precision by user. Package uses algorithm discussed in section~\ref{chap:mergingalgorithm}, which was specifically designed for this purpose. When robots are starting from different places, getting the initial positions might be difficult without proper equipment. Even when robots are starting exploration from common place, it might be more comfortable for users to let merging system estimate initial positions itself. In this situation merging algorithm can take the advantage of initial overlapping area and produce high-quality merges quickly.
+Initial poses estimation is a key feature of this package allowing merging map for robots with unknown initial positions.
 
 In situations where robots initial positions are known (simulations) or can be measured with required precision (required equipment is available on robots or at the starting place) \texttt{multirobot\_map\_merge} package allows merging with user-provided initial robots positions. This can be also used for producing a reference map to evaluate performance of multi robot exploring systems.
 
 Regardless of how transformation between grids have been acquired (from user supplied initial poses or estimated by the algorithm) map-merging is the final step to produce a merged map. This phase must be able to deal with different map sizes between robots, different map resolutions, be able to apply scaling, rotation and translation transformations while keeping the merged map as small as possible.
 
+\subsection{Inter-robot communication}
+
+Running map-merging for multiple physical robots require network connection between robots. Managing this connection is deliberately out-of-scope of this package. However solutions exists in \gls{ROS} to make this task relatively easy.
+
+First of all \gls{ROS} is designed to work natively across multiple computers. This setup requires almost no configuration and is supported by default. In this configuration one of the computers/robots in the runs a \texttt{roscore} service (also referred as \gls{ROS} master), which acts as a directory listing (broker) service. All \gls{ROS} topics and \gls{ROS} services are available transparently through the whole network.
+
+Main disadvantage of this setup is a single-point-of-failure \texttt{roscore} service. Although the communication in the \gls{ROS} network is always peer-to-peer \texttt{roscore} is required for advertisement, enumerating topics and establishing communication. This might not be acceptable for exploration robots communicating over unreliable link.
+
+\gls{ROS} community is aware that single \gls{ROS} master is a limiting factor for many applications. There is a \gls{ROS} Multi-master \gls{SIG}~\cite{MultiMasterSIG} coordinating efforts for multi-master support.
+
+As part of these efforts there exist \texttt{multimaster\_fkie} package for described in technical report~\cite{herrero2015multimaster}, which allows setting a multi-master network transparently.
+
+\texttt{multirobot\_map\_merge} can work transparently with both configurations as it is not tied to any particular communication between robots, allowing a great flexibility. It can take an advantage of native \gls{ROS} solution in environments with reliable network link (such as a simulation over a cluster) and use a user provided communication (such as \texttt{multimaster\_fkie}) for exploring harsh environments. This is a key difference to framework presented in~\cite{Andre2014}, which always depends on custom ad-hoc messaging.
+
+\subsection{Dynamic robot discovery}
+
+This package allows merging maps from arbitrary number of robots. To make configuration of map-merging easy, robots are auto-discovered through the whole merging procedure. This also allows robots to be added or removed during exploring.
+
+This package requires only maps produced by \gls{SLAM} and does not depend on any additional info about robots. Robot discovery is therefore implemented as scanning available \gls{ROS} map topics, each map topic is being considered as one robot (or simple one map to be added for merging). This approach is inspired by a discovery algorithm introduced in~\cite{Yan2014}.
+
+Robot discovery runs in parallel to map-merging and rate in which it runs is configurable. Robot discovery therefore does not negatively impacts map-merging performance, when configured at low rate.
+
+\subsection{Initial poses estimation}
+
+Initial poses estimation is necessary for situations where initial robot positions could not be measured with required precision by user. Package uses algorithm discussed in section~\ref{chap:mergingalgorithm}, which was specifically designed for this purpose. When robots are starting from different places, getting the initial positions might be difficult without proper equipment. Even when robots are starting exploration from common place, it might be more comfortable for users to let merging system estimate initial positions itself. In this situation merging algorithm can take the advantage of initial overlapping area and produce high-quality merges quickly.
+
+Estimation is also designed to run in parallel to other parts of this package. Estimation rate is user-settable.
+
+\subsection{Map-merging}
+
+After estimating transformation between grids map-merging combines final merged map. For map-merging task I have adapted the relevant code from \texttt{occupancy\_grid\_utils} package \#reference here\#. This code is robust, it can deal with all differences in size and resolution between grids to allow merging maps in heterogeneous systems. This however does not provide expected performance for merging big maps from large number of robots. In future versions of \texttt{multirobot\_map\_merge}, this algorithm may be changed for more efficient one.
+Current solution works well for smaller groups of robots $\le 10$ on low end hardware.
+
+Merging frequency is user-adjustable and can be increased to deliver faster update frequency.
 % section map_merge-package (end)
+
+\section{\texttt{explore\_lite} package} % (fold)
+\label{sec:explore_lite-package}
+
+% section explore_lite-package (end)
+
