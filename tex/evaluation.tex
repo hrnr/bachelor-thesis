@@ -23,3 +23,53 @@ It is important to node that presented maps were created by a single robot in mu
 
 \section{Minimal overlapping area}
 
+Presented merging algorithm~\ref{chap:mergingalgorithm} relies on overlapping areas of occupancy grids to produce a merged map. Minimal overlapping area to produce a reliable merge depends on explored environment. Areas with high number of features in occupancy grids require small overlaps and vice versa.
+
+Experiments showed that a reliable merge requires only about $90$ inliers, sometimes only a $80$ inliers is enough to produce a correct transformation as seen in excerpt~\ref{fig:minimal-overlapping-area-log}. This excerpt is from log of map-merging node~\ref{sec:map_merge-package} acquired during simulation. Full log containing number of matches and number of inliers required to produce a transformation along with other details is available in attachments, see section~\ref{chap:files}.
+
+\begin{figure}
+    \centering
+	\begin{code}
+AffineMatcher: have 121 matches
+estimate:
+[1.002576035215622, 0.00299917716022613, 62.49276756175958;
+ -0.00299917716022613, 1.002576035215622, -240.2015971108993]
+num_inliers 83
+AffineMatcher: have 147 matches
+estimate:
+[1.002175802299877, -0.0004136975345276905, -15.26120294301828;
+ 0.0004136975345276905, 1.002175802299877, -120.7595895934327]
+num_inliers 95
+AffineMatcher: have 193 matches
+estimate:
+[1.000933706668138, 0.001232315845354937, 78.01218357952351;
+ -0.001232315845354937, 1.000933706668138, -119.6792960984003]
+num_inliers 157
+	\end{code}
+    \caption{Excerpt from log of map-merging node captured during simulation. Shows output of matching phase of the algorithm for $3$ pairwise matches along with number of inliers.}
+    \label{fig:minimal-overlapping-area-log}
+\end{figure}
+
+
+Simulation featured $3$ robots exploring common area. Figure~\ref{fig:minimal-overlapping-area-scene} show scene used in experiment and initial robots positions.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=3.93in]{../img/minimal-overlapping-area-scene.png}
+    \caption{Scene for experiment with $3$ robots as seen in \gls{VREP} simulator. Robot positions in scene ware used as initial positions of robots for experiment.}
+    \label{fig:minimal-overlapping-area-scene}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=2.22in]{../img/minimal-overlapping-area-final-maps.png}
+    \caption{Maps produced by multi-robot mapping in simulator. Simulated scene can be seen in figure~\ref{fig:minimal-overlapping-area-scene}. Robots' positions are final positions when robots finished mapping.}
+    \label{fig:minimal-overlapping-area-final-maps}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1.58in]{../img/minimal-overlapping-area-merged-map.png}
+    \caption{Merged map produced by map-merging node. Map was produced from $3$ maps from figure~\ref{fig:minimal-overlapping-area-final-maps}.}
+    \label{fig:minimal-overlapping-area-merged-map}
+\end{figure}
