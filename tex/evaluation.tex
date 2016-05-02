@@ -28,7 +28,7 @@ Presented merging node can work with both known and unknown initial positions of
 
 Simulation scene is shown in figure~\ref{fig:minimal-overlapping-area-scene}. Figure~\ref{fig:merging-with-known-initial-positions-begin} shows initial maps, figure~\ref{fig:merging-with-known-initial-positions-end} shows maps after simulation ended. Note that figures~\ref{fig:merging-with-known-initial-positions-begin} \ref{fig:merging-with-known-initial-positions-end} shows maps rotated compared to figure~\ref{fig:minimal-overlapping-area-scene}.
 
-Video capturing map-merging during whole simulation, rosbag with map topics, scene with $3$ robots for \gls{VREP} simulator are attached in tar archive.
+Video capturing map-merging during whole simulation, rosbag with map topics, scene with $3$ robots for \gls{VREP} simulator and full quality graphics are attached in tar archive.
 
 \begin{figure}
     \centering
@@ -56,7 +56,9 @@ Video capturing map-merging during whole simulation, rosbag with map topics, sce
 
 Presented merging algorithm~\ref{chap:mergingalgorithm} relies on overlapping areas of occupancy grids to produce a merged map. Minimal overlapping area to produce a reliable merge depends on explored environment. Areas with high number of features in occupancy grids require small overlaps and vice versa.
 
-Experiments showed that a reliable merge requires only about $90$ inliers, sometimes only a $80$ inliers is enough to produce a correct transformation as seen in excerpt~\ref{fig:minimal-overlapping-area-log}. This excerpt is from log of map-merging node~\ref{sec:map_merge-package} acquired during simulation. Full log containing number of matches and number of inliers required to produce a transformation along with other details is available in attachments, see section~\ref{chap:files}.
+Experiments showed that a reliable merge requires only about $90$ inliers, sometimes only a $80$ inliers is enough to produce a correct transformation as seen in excerpt~\ref{fig:minimal-overlapping-area-log}. This excerpt is from log of map-merging node~\ref{sec:map_merge-package} acquired during simulation.
+
+Full log containing number of matches and number of inliers required to produce a transformation along with other details is available in attachments. Attached is also scene for \gls{VREP} simulator, merged map and maps produced by robots. Maps has been taken as screenshots in rviz visualiser.
 
 \begin{figure}
     \centering
@@ -111,6 +113,8 @@ Map-merging with unknown initial positions with largest transformation retaining
 
 Based on this and others experiments largest transformation retaining behaviour has been removed from map-merging node presented in~\ref{sec:map_merge-package}.
 
+Data for this experiment are available in the attachments. This data include rosbag with map topics, scene for \gls{VREP} simulator and presented maps.
+
 \begin{figure}
     \centering
     \includegraphics[width=5.71in]{../img/retaining-largest-transformation-montage.png}
@@ -135,6 +139,8 @@ Figure~\ref{fig:probability-model-evaluation-montage} shows $36$ maps obtained f
 Merging algorithm~\ref{chap:mergingalgorithm} uses thresholding based on probabilistic model to reject low-confident matches~\ref{sec:findinglargestconnectedcomponent}. I have experimented with confidence threshold, which directly affects which matches will be present in merging (matches with low confidence are not considered). Figures~\ref{fig:probability-model-evaluation-treshold_1.0-12maps} \ref{fig:probability-model-evaluation-treshold_1.5-9maps} \ref{fig:probability-model-evaluation-treshold_2.0-3maps} shows maps merged with confidence thresholds $1.0$, $1.5$ and $2.0$ respectively. Note that number of maps included in the merge goes from $12$ to $3$.
 
 Experiment showed that increasing the confidence threshold to values greater that $1.0$ may lead to better results when maps are difficult to merge. Increasing threshold decreases number of maps merged significantly.
+
+Data used for this experiment are available in the attachments. This data consist of maps produced by \gls{SLAM} on \gls{MIT} dataset and merged maps for tested thresholds. Raw data of \gls{MIT} dataset are available online as per~\cite{Fallon2013}.
 
 \begin{figure}
     \centering
