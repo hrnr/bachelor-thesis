@@ -1,11 +1,11 @@
 \chapter{Evaluation}
 \label{chap:evaluation}
 
-To evaluate presented map-merging algorithm~\ref{chap:mergingalgorithm} and test performance of implemented map-merging node~\ref{sec:map_merge-package} I used $2$ data sources. First data source was simulation running several P3DX robots. Map-merging node was running through the whole exploring session testing online behaviour of the algorithm. Second data source were maps produced by \gls{SLAM} on \gls{MIT} dataset \#reference here\#. \gls{MIT} dataset produced using a single PR2 robot starting from different locations. Although this data does not come from multi-robot mapping, it is possible to test offline merging performance.
+To evaluate presented map-merging algorithm~\ref{chap:mergingalgorithm} and test performance of implemented map-merging node~\ref{sec:map_merge-package} I used $2$ data sources. First data source was simulation running several P3DX robots. Map-merging node was running through the whole exploring session testing online behaviour of the algorithm. Second data source were maps produced by \gls{SLAM} on \gls{MIT} Stata Center dataset presented in~\cite{Fallon2013}. \gls{MIT} dataset produced using a single PR2 robot starting from different locations. Although this data does not come from multi-robot mapping, it is possible to test offline merging performance.
 
 \section{Simulation setup}
 
-I used \gls{VREP} simulator for experiment. All simulated robots were Pioneers P3-DX, which formed a homogeneous exploring team. Robots were setup using \texttt{p3dx\_robot} \# reference here \# package, which also setups \gls{SLAM} and navigation for robots. Robots were using \texttt{hector\_slam} package providing \gls{SLAM} algorithm and \texttt{move\_base} package providing navigation for robots.
+I used \gls{VREP} simulator for experiment. All simulated robots were Pioneers P3-DX, which formed a homogeneous exploring team. Robots were setup using \texttt{p3dx\_robot} package available at~\cite{GitHubRoboRescue}, which also configures \gls{SLAM} and navigation for robots. Robots were using \texttt{hector\_slam} package~\cite{2013:RoboCup} providing \gls{SLAM} algorithm and \texttt{move\_base} package~\cite{Marder2016}, part of the \gls{ROS} navigation stack, providing navigation for robots.
 
 Cluster of 5 computers was formed to run simulator, robots, map-merging and exploring nodes. \gls{ROS} network was configured across all workstations using a single \gls{ROS} master running \texttt{roscore}. Every robot was using its own \gls{ROS} namespace for topics and was using a prefix for published \texttt{tf} frames to allow running multiple robots under the same \gls{ROS} master. This setup is well supported in \texttt{p3dx\_robot} package.
 
@@ -13,7 +13,7 @@ While \gls{VREP} is powerful and feature-rich simulator, its usage for multi-rob
 
 \section{\gls{MIT} dataset}
 
-\gls{MIT} dataset are data available as rosbags from \#reference here\#. Data comes from mapping multi-floor \gls{MIT} building with PR2 robot. I have used only datasets from the second floor.
+\gls{MIT} dataset are data available as rosbags online, see~\cite{Fallon2013}. Data comes from mapping multi-floor \gls{MIT} building with PR2 robot. I have used only datasets from the second floor.
 
 For all rosbags I have created maps using the \texttt{hector\_slam} package. It is same \gls{SLAM} algorithm, which was used in simulation. This resulted in $36$ occupancy grid maps with $2048 \times 2048$ cells each.
 
@@ -21,7 +21,38 @@ Produced maps has been statically served in \gls{ROS} with running map-merging n
 
 It is important to node that presented maps were created by a single robot in multi-session mapping. It is not a result of multi-robot mapping, although the robot initial positions vary between sessions and produced maps are similar to maps we would expect from multi-robot mapping.
 
+\section{Merging with known initial positions}
+\label{sec:merging-with-known-initial-positions}
+
+Presented merging node can work with both known and unknown initial positions of robots. In the fist case the node uses initial positions to obtain transformation between grids. This setup was used in this experiment. Maps in this mode are not required to have common overlapping area.
+
+Simulation scene is shown in figure~\ref{fig:minimal-overlapping-area-scene}. Figure~\ref{fig:merging-with-known-initial-positions-begin} shows initial maps, figure~\ref{fig:merging-with-known-initial-positions-end} shows maps after simulation ended. Note that figures~\ref{fig:merging-with-known-initial-positions-begin} \ref{fig:merging-with-known-initial-positions-end} shows maps rotated compared to figure~\ref{fig:minimal-overlapping-area-scene}.
+
+Video capturing map-merging during whole simulation, rosbag with map topics, scene with $3$ robots for \gls{VREP} simulator are attached in tar archive.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=3.93in]{../img/minimal-overlapping-area-scene.png}
+    \caption{Scene for experiment with $3$ robots as seen in \gls{VREP} simulator. Robot positions in scene are used as initial positions of robots for experiment.}
+    \label{fig:minimal-overlapping-area-scene}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=3.35in]{../img/merging-with-known-initial-positions-begin.png}
+    \caption{Initial maps produced by robots during experiment in simulator. Merged map is produced with knowledge of initial positions and can be therefore produced even without overlapping areas. In this situation merged map can be sparse.}
+    \label{fig:merging-with-known-initial-positions-begin}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=3.35in]{../img/merging-with-known-initial-positions-end.png}
+    \caption{Final maps produced in simulator. Merged map is produced with knowledge of initial positions.}
+    \label{fig:merging-with-known-initial-positions-end}
+\end{figure}
+
 \section{Minimal overlapping area}
+\label{sec:minimal-overlaping-area}
 
 Presented merging algorithm~\ref{chap:mergingalgorithm} relies on overlapping areas of occupancy grids to produce a merged map. Minimal overlapping area to produce a reliable merge depends on explored environment. Areas with high number of features in occupancy grids require small overlaps and vice versa.
 
@@ -51,14 +82,9 @@ num_inliers 157
 \end{figure}
 
 
-Simulation featured $3$ robots exploring common area. Figure~\ref{fig:minimal-overlapping-area-scene} show scene used in experiment and initial robots positions.
+Simulation featured $3$ robots exploring common area. Figure~\ref{fig:minimal-overlapping-area-scene} shows scene used in experiment and initial robots positions. Figure~\ref{fig:minimal-overlapping-area-final-maps} shows maps produced by \gls{SLAM} after mapping finished. Figure~\ref{fig:minimal-overlapping-area-merged-map} shows merged map produced by map-merging node with unknown initial positions.
 
-\begin{figure}
-    \centering
-    \includegraphics[width=3.93in]{../img/minimal-overlapping-area-scene.png}
-    \caption{Scene for experiment with $3$ robots as seen in \gls{VREP} simulator. Robot positions in scene ware used as initial positions of robots for experiment.}
-    \label{fig:minimal-overlapping-area-scene}
-\end{figure}
+In scene~\ref{fig:minimal-overlapping-area-scene} simulation showed that reliable merge between maps could be produced for $5-6$ overlapping rooms. After transformation is estimated produced map is comparable to reference map.
 
 \begin{figure}
     \centering
@@ -73,3 +99,61 @@ Simulation featured $3$ robots exploring common area. Figure~\ref{fig:minimal-ov
     \caption{Merged map produced by map-merging node. Map was produced from $3$ maps from figure~\ref{fig:minimal-overlapping-area-final-maps}.}
     \label{fig:minimal-overlapping-area-merged-map}
 \end{figure}
+
+\section{Retaining largest transformation}
+\label{sec:retaining-largest-transformation}
+
+During online merging the merging algorithm~\ref{chap:mergingalgorithm} is launched repeatedly on growing grids. It might seem natural to preserve the transformation between largest number of grids. If the algorithm was able to produce a merge between $n$ grids in one point of time, it might seem like a good idea to preserve this transformation and use it for merging grids when the current transformation estimated by the algorithm is between less than $n$ grids.
+
+Experiments showed that this approach produced worse results than approach using always newest transformation. This approach is problematic especially, when there is not enough overlapping area between grids. Experiment presented in section~\ref{sec:merging-with-known-initial-positions} have maps that have very small overlaps.
+
+Map-merging with unknown initial positions with largest transformation retaining launched in the same experiment as presented in section~\ref{sec:merging-with-known-initial-positions} shows the key problem of a such approach. Problem occurs when incorrect merge is produced due to too small overlaps. As shown in figure~\ref{fig:retaining-largest-transformation-montage}, incorrect unstable transformations, which are usually corrected quickly with small maps changes, are preserved due to largest transformation retaining after the estimation algorithm is no longer producing incorrect transformation. Incorrect transformations can be preserved for a long period of time with largest transformation retaining behaviour, when there is not enough overlapping area in the maps, so the incorrect transformation can be replaced with correct larger transformation.
+
+Based on this and others experiments largest transformation retaining behaviour has been removed from map-merging node presented in~\ref{sec:map_merge-package}.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=5.71in]{../img/retaining-largest-transformation-montage.png}
+    \caption{Map-merging with largest transformation retaining. From the left: Maps have no overlaps, unable to merge more than a single map. Incorrect transformation estimated due to too small overlaps. Overlapping space is still too small to produce a merge, but incorrect transformation was rejected. Due to largest transformation retaining incorrect merge is still produced.}
+    \label{fig:retaining-largest-transformation-montage}
+\end{figure}
+
+\section{Probability model evaluation}
+\label{sec:probability-model-evaluation}
+
+Data from \gls{MIT} dataset are complex and difficult for \gls{SLAM} to produce a map without errors. In some cases overlapping areas does not exists. Such data are therefore suitable to test capabilities of map merging node to reject incorrect or non-mergeable maps.
+
+Figure~\ref{fig:probability-model-evaluation-montage} shows $36$ maps obtained from \gls{MIT} dataset, all of them are from second floor. Empty maps are caused by \gls{SLAM} node failure. Note that maps contain many errors, some of them are completely broken as \gls{SLAM} localization failed completely. \texttt{hector\_slam} node uses only scans from base-mounted laser, better results might be achieved with different \gls{SLAM} approaches using stereo cameras and 3D scanning.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{../img/mit-dataset-montage.png}
+    \caption{$36$ maps created by \texttt{hector\_slam} from \gls{MIT} dataset.}
+    \label{fig:probability-model-evaluation-montage}
+\end{figure}
+
+Merging algorithm~\ref{chap:mergingalgorithm} uses thresholding based on probabilistic model to reject low-confident matches~\ref{sec:findinglargestconnectedcomponent}. I have experimented with confidence threshold, which directly affects which matches will be present in merging (matches with low confidence are not considered). Figures~\ref{fig:probability-model-evaluation-treshold_1.0-12maps} \ref{fig:probability-model-evaluation-treshold_1.5-9maps} \ref{fig:probability-model-evaluation-treshold_2.0-3maps} shows maps merged with confidence thresholds $1.0$, $1.5$ and $2.0$ respectively. Note that number of maps included in the merge goes from $12$ to $3$.
+
+Experiment showed that increasing the confidence threshold to values greater that $1.0$ may lead to better results when maps are difficult to merge. Increasing threshold decreases number of maps merged significantly.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{../img/probability-model-evaluation-treshold_1_0-12maps.png}
+    \caption{Merged map created from $36$ maps from figure~\ref{fig:probability-model-evaluation-montage}. $12$ maps are included in the merge. Confidence threshold is set to $1.0$.}
+    \label{fig:probability-model-evaluation-treshold_1.0-12maps}
+\end{figure}
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{../img/probability-model-evaluation-treshold_1_5-9maps.png}
+    \caption{Merged map created from $36$ maps from figure~\ref{fig:probability-model-evaluation-montage}. $9$ maps are included in the merge. Confidence threshold is set to $1.5$.}
+    \label{fig:probability-model-evaluation-treshold_1.5-9maps}
+\end{figure}
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{../img/probability-model-evaluation-treshold_2_0-3maps.png}
+    \caption{Merged map created from $36$ maps from figure~\ref{fig:probability-model-evaluation-montage}. $3$ maps are included in the merge. Confidence threshold is set to $2.0$.}
+    \label{fig:probability-model-evaluation-treshold_2.0-3maps}
+\end{figure}
+
+% TODO:
+% 3-robots evo 2 - rozbity slam
