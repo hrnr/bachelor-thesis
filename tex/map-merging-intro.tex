@@ -1,0 +1,20 @@
+\chapter{Initial pose estimation problem}
+\label{chap:map-merging-intro}
+
+Key problem of map-merging is getting transformation between reference frames of robots. When the transformation is known, merging maps produced by robots is simple. In such a case we can compute transformation to chosen global reference frame and overlay maps in global reference frame. Due to errors in mapping or while mapping in dynamic environment we could still get different values across maps for specific global frame coordinates, but this can be solved by taking arithmetic mean, median or extremal values for such coordinates.
+
+Transformation between grids can be acquired from initial poses of robots and vice versa, considering initial pose is represented as origin in the map. This holds usually true for existing \gls{SLAM} algorithms.
+
+Problem arises when initial poses of robots are not known to merging algorithm. When robots are starting from the same place, initial relative positions can be measured with basic equipment either present on the site or mounted on robots. When robots are starting from distant locations measuring initial poses might require more sophisticated equipment, as widely available hardware such as \gls{GPS} sensors might not provide required precision. In indoor environments determining starting positions might be even more difficult.
+
+Because of these difficulties, algorithms that can estimate transformations between maps and therefore merge maps without knowledge of initial positions have been developed. A comprehensive survey of map-merging techniques is done in~\cite{Lee2012}, which classifies algorithms as Direct Map Merging and Indirect Map Merging.
+
+\section{Direct map merging}
+
+Direct map merging algorithm relies on sensors to directly compute transformation between reference frame of robots. This includes techniques relying on direct robot rendezvous~\cite{Zhou2006} and similar. This techniques can provide a highly accurate transformation estimate, but are limited by relying on specific conditions to estimate this transformation such as the robot rendezvous or encountering specific landmark. These systems also exchange specific data related to selected feature to estimate transformation or even require control over robot~\cite{Konolige2003}. Implemented solutions therefore tend to be monolithic, because they rely on exchange of custom messages and specific sensors data, which makes them hard to implement especially for heterogeneous robots.
+
+\section{Indirect map merging}
+
+Indirect Map Merging algorithm uses overlapping areas in maps to estimate transformation between maps. Merging maps based on map data only naturally creates a simple interface between robots and works well for heterogeneous groups of robots. Each robot only need to expose map in common format, sensor equipment mounted on robots may be different as well as \gls{SLAM} algorithm used for creating map. This approach is usually more flexible than direct map merging, robots may visit overlapping area at different time (in contrast to robot rendezvous) and this approach is also absolutely passive requiring no control over robot.
+
+Techniques for indirect map merging include spectra-based approach of~\cite{Carpin2008} extended by~\cite{Lee2011}, \cite{Wang2012}

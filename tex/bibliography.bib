@@ -309,3 +309,85 @@ URL = {http://ijr.sagepub.com/content/32/14/1695.abstract},
 eprint = {http://ijr.sagepub.com/content/32/14/1695.full.pdf+html},
 journal = {The International Journal of Robotics Research}
 }
+
+@INPROCEEDINGS{Lee2012,
+author={H. C. Lee and Seung-Hwan Lee and Tae-Seok Lee and Doo-Jin Kim and B. H. Lee},
+booktitle={Ubiquitous Robots and Ambient Intelligence (URAI), 2012 9th International Conference on},
+title={A survey of map merging techniques for cooperative-SLAM},
+year={2012},
+pages={285-287},
+abstract={This paper presents a survey of map merging techniques for cooperative-SLAM. The recently proposed map merging techniques are classified into two categories: direct map merging and indirect map merging. In each category, several techniques are briefly described. Then, their advantages and disadvantages are discussed in the context of accuracy and computation time. The description and discussion can contribute to realizing and improving cooperative-SLAM.},
+keywords={SLAM (robots);mobile robots;multi-robot systems;cooperative-SLAM;direct map merging;indirect map merging;map merging techniques;simultaneous localization and mapping;Feature extraction;Hardware;Merging;Simultaneous localization and mapping;Visualization;Cooperative-SLAM;Distributed robot system;Map merging technique},
+doi={10.1109/URAI.2012.6462995},
+month={Nov},}
+
+@INPROCEEDINGS{Zhou2006,
+author={X. S. Zhou and S. I. Roumeliotis},
+booktitle={2006 IEEE/RSJ International Conference on Intelligent Robots and Systems},
+title={Multi-robot SLAM with Unknown Initial Correspondence: The Robot Rendezvous Case},
+year={2006},
+pages={1785-1792},
+abstract={This paper presents a new approach to the multi-robot map-alignment problem that enables teams of robots to build joint maps without initial knowledge of their relative poses. The key contribution of this work is an optimal algorithm for merging (not necessarily overlapping) maps that are created by different robots independently. Relative pose measurements between pairs of robots are processed to compute the coordinate transformation between any two maps. Noise in the robot-to-robot observations, propagated through the map-alignment process, increases the error in the position estimates of the transformed landmarks, and reduces the overall accuracy of the merged map. When there is overlap between the two maps, landmarks that appear twice provide additional information, in the form of constraints, which increases the alignment accuracy. Landmark duplicates are identified through a fast nearest-neighbor matching algorithm. In order to reduce the computational complexity of this search process, a kd-tree is used to represent the landmarks in the original map. The criterion employed for matching any two landmarks is the Mahalanobis distance. As a means of validation, we present experimental results obtained from two robots mapping an area of 4,800 m2},
+keywords={SLAM (robots);computational complexity;image matching;multi-robot systems;navigation;optimisation;robot vision;trees (mathematics);Mahalanobis distance;computational complexity;coordinate transformation;fast nearest-neighbor matching algorithm;joint maps;kd tree;map alignment problem;multi-robot SLAM;optimal map merging algorithm;position estimates;relative pose measurements;robot rendezvous case;robot-to-robot observation noise;unknown initial correspondence;Computational complexity;Computer science;Coordinate measuring machines;Intelligent robots;Maximum likelihood estimation;Merging;Noise reduction;Robot kinematics;Robot sensing systems;Simultaneous localization and mapping},
+doi={10.1109/IROS.2006.282219},
+ISSN={2153-0858},
+month={Oct},}
+
+@INPROCEEDINGS{Konolige2003,
+author={K. Konolige and D. Fox and B. Limketkai and J. Ko and B. Stewart},
+booktitle={Intelligent Robots and Systems, 2003. (IROS 2003). Proceedings. 2003 IEEE/RSJ International Conference on},
+title={Map merging for distributed robot navigation},
+year={2003},
+volume={1},
+pages={212-217 vol.1},
+abstract={A set of robots mapping an area can potentially combine their information to produce a distributed map more efficiently than a single robot alone. We describe a general framework for distributed map building in the presence of uncertain communication. Within this framework, we then present a technical solution to the key decision problem of determining relative location within partial maps.},
+keywords={image matching;mobile robots;multi-robot systems;navigation;distributed map building;distributed robot navigation;map merging;robot mapping;uncertain communication;Artificial intelligence;Centralized control;Communication system control;Intelligent robots;Merging;Navigation;Robot kinematics;Robot sensing systems;Robustness;Solids},
+doi={10.1109/IROS.2003.1250630},
+month={Oct},}
+
+@Article{Carpin2008,
+author="Carpin, Stefano",
+title="Fast and accurate map merging for multi-robot systems",
+journal="Autonomous Robots",
+year="2008",
+volume="25",
+number="3",
+pages="305--316",
+abstract="We present a new algorithm for merging occupancy grid maps produced by multiple robots exploring the same environment. The algorithm produces a set of possible transformations needed to merge two maps, i.e translations and rotations. Each transformation is weighted, thus allowing to distinguish uncertain situations, and enabling to track multiple cases when ambiguities arise. Transformations are produced extracting some spectral information from the maps. The approach is deterministic, non-iterative, and fast. The algorithm has been tested on public available datasets, as well as on maps produced by two robots concurrently exploring both indoor and outdoor environments. Throughout the experimental validation stage the technique we propose consistently merged maps exhibiting very different characteristics.",
+issn="1573-7527",
+doi="10.1007/s10514-008-9097-4",
+url="http://dx.doi.org/10.1007/s10514-008-9097-4"
+}
+
+@article{Lee2011,
+author = { Heon-Cheol   Lee  and  Beom-Hee   Lee },
+title = {Improved Feature Map Merging Using Virtual Supporting Lines for Multi-Robot Systems},
+journal = {Advanced Robotics},
+volume = {25},
+number = {13-14},
+pages = {1675-1696},
+year = {2011},
+doi = {10.1163/016918611X584631},
+
+URL = {
+        http://dx.doi.org/10.1163/016918611X584631
+
+},
+eprint = {
+        http://dx.doi.org/10.1163/016918611X584631
+
+}
+,
+    abstract = { This paper addresses the problem of feature map merging, which is one of the essential techniques for multi-robot systems. If inter-robot measurements are not available for feature map merging, the only way to obtain the map transformation matrix is feature map matching. However, the conventional feature map matching technique requires too much computation time because it has to be iteratively performed to compute the degree of the mismatch between multiple feature maps. This paper proposes a non-iterative feature map merging technique using virtual supporting lines (VSLs) which is also accurate and robust. The proposed technique extracts the spectral information of multiple feature maps using VSLs and obtains the map transformation matrix using the circular cross-correlation between the extracted spectral information of the multiple feature maps. The proposed technique was tested on feature maps produced by experiments with vision sensors, which was performed non-iteratively. In addition, it consistently showed a high acceptance index, which indicates the degree of accuracy for feature map merging. }
+}
+
+@INPROCEEDINGS{Wang2012,
+author={K. Wang and S. Jia and Y. Li and X. Li and B. Guo},
+booktitle={Information and Automation (ICIA), 2012 International Conference on},
+title={Research on map merging for multi-robotic system based on RTM},
+year={2012},
+pages={156-161},
+abstract={Multi-robotic system is widely used in exploring in large-scale unknown environment and performing the complex tasks. This paper presents a method of local map merging for Multi-robotic system using RTM as communication platform. We integrate Scale-Invariant Feature Transform (SIFT) feature matching information with iterative closest point (ICP) algorithm to realize the local map merging. We use the USARSim as simulation platform to realize topological map and map merging for the environment in which mobile robots moving using the proposed method. The paper details the architecture of the proposed method and gives some experiments to verify the effectiveness.},
+keywords={SLAM (robots);control engineering computing;feature extraction;image matching;iterative methods;middleware;mobile robots;multi-robot systems;robot vision;transforms;ICP;RTM;SIFT;USARSim;iterative closest point algorithm;local map merging method;mobile robots;multirobotic system;robot technology middleware;scale-invariant feature transform feature matching information;topological map;Feature extraction;Merging;Mobile robots;Path planning;Robot sensing systems;Topology;ICP;Multi-robotic system;RTM;SIFT;map merging},
+doi={10.1109/ICInfA.2012.6246800},
+month={June},}
