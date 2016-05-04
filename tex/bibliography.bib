@@ -391,3 +391,65 @@ abstract={Multi-robotic system is widely used in exploring in large-scale unknow
 keywords={SLAM (robots);control engineering computing;feature extraction;image matching;iterative methods;middleware;mobile robots;multi-robot systems;robot vision;transforms;ICP;RTM;SIFT;USARSim;iterative closest point algorithm;local map merging method;mobile robots;multirobotic system;robot technology middleware;scale-invariant feature transform feature matching information;topological map;Feature extraction;Merging;Mobile robots;Path planning;Robot sensing systems;Topology;ICP;Multi-robotic system;RTM;SIFT;map merging},
 doi={10.1109/ICInfA.2012.6246800},
 month={June},}
+
+@INPROCEEDINGS{Tungandi2010,
+author={F. Tungadi and W. L. D. Lui and L. Kleeman and R. Jarvis},
+booktitle={Intelligent Robots and Systems (IROS), 2010 IEEE/RSJ International Conference on},
+title={Robust online map merging system using laser scan matching and omnidirectional vision},
+year={2010},
+pages={7-14},
+abstract={This paper describes a probabilistic online map merging system for a single mobile robot. It performs intermittent exploration by fusing laser scan matching and omnidirectional vision. Moreover, it can also be adapted to a multi-robot system for large scale environments. Map merging is achieved by means of a probabilistic Haar-based place recognition system using omnidirectional images and is capable of discriminating new and previously visited locations in the current or previously collected maps. This dramatically reduces the search space for laser scan matching. The combination of laser range finding and omnidirectional vision is very attractive because they reinforce one another when there is sufficient structure and visual information in the environment. In other cases, they complement one another, leading to improved robustness of the system. This is the first system to combine a probabilistic Haar-based place recognition system using omnidirectional images with laser range finding to merge maps. The proposed system is also algorithmically simple, efficient and does not require any offline processing. Experimental results of the approach clearly illustrate that the proposed system can perform both online map merging and exploration robustly using a single robot configuration in a real indoor lab environment.},
+keywords={image matching;laser ranging;mobile robots;multi-robot systems;robot vision;laser range finding;laser scan matching;mobile robot;multi-robot system;omnidirectional vision;online map merging system;probabilistic Haar-based place recognition},
+doi={10.1109/IROS.2010.5654446},
+ISSN={2153-0858},
+month={Oct},}
+
+todo get this!
+@article{Lee2012PropMerge,
+author = {Lee,Heon-Cheol and Lee,Seung-Hwan and Choi,Myoung Hwan and Lee,Beom-Hee},
+title = {Probabilistic map merging for multi-robot RBPF-SLAM with unknown initial poses},
+journal = {Robotica},
+volume = {30},
+issue = {02},
+month = {3},
+month = {3},
+year = {2012},
+issn = {1469-8668},
+pages = {205--220},
+numpages = {16},
+doi = {10.1017/S026357471100049X},
+URL = {http://journals.cambridge.org/article_S026357471100049X},
+}
+
+@book{martins2013mrslam,
+  title={MRSLAM - Multi-Robot Simultaneous Localization and Mapping},
+  author={Martins, J.A.S.},
+  series={Master of Science Dissertation},
+  url={https://books.google.cz/books?id=mYb4AQAAQBAJ},
+  year={2013},
+  publisher={University of Coimbra}
+}
+
+@INPROCEEDINGS{Cunningham2012,
+author={A. Cunningham and K. M. Wurm and W. Burgard and F. Dellaert},
+booktitle={Robotics and Automation (ICRA), 2012 IEEE International Conference on},
+title={Fully distributed scalable smoothing and mapping with robust multi-robot data association},
+year={2012},
+pages={1093-1100},
+abstract={In this paper we focus on the multi-robot perception problem, and present an experimentally validated end-to-end multi-robot mapping framework, enabling individual robots in a team to see beyond their individual sensor horizons. The inference part of our system is the DDF-SAM algorithm [1], which provides a decentralized communication and inference scheme, but did not address the crucial issue of data association. One key contribution is a novel, RANSAC-based, approach for performing the between-robot data associations and initialization of relative frames of reference. We demonstrate this system with both data collected from real robot experiments, as well as in a large scale simulated experiment demonstrating the scalability of the proposed approach.},
+keywords={data mining;inference mechanisms;iterative methods;multi-robot systems;DDF-SAM algorithm;RANSAC-based approach;decentralized communication;distributed scalable mapping;distributed scalable smoothing;end-to-end multirobot mapping framework;inference scheme;multirobot perception problem;robust multirobot data association;sensor horizons;Optimization;Robot kinematics;Robustness;Simultaneous localization and mapping;Transforms},
+doi={10.1109/ICRA.2012.6225356},
+ISSN={1050-4729},
+month={May},}
+
+@INPROCEEDINGS{Lazaro2013,
+author={M. T. Lázaro and L. M. Paz and P. Piniés and J. A. Castellanos and G. Grisetti},
+booktitle={2013 IEEE/RSJ International Conference on Intelligent Robots and Systems},
+title={Multi-robot SLAM using condensed measurements},
+year={2013},
+pages={1069-1076},
+abstract={In this paper we describe a Simultaneous Localization and Mapping (SLAM) approach specifically designed to address the communication and computational issues that affect multi-robot systems. Our method utilizes condensed measurements to exchange map information between the robots. These measurements can effectively compress relevant portions of a map in a few data. This results in a substantial reduction of both the data to be transmitted and processed, that renders the system more robust and efficient. As documented by our simulated and real world experiments, these advantages come with a very little decrease in accuracy compared to ideal (but not realistic) methods that share the full data among all the robots.},
+keywords={SLAM (robots);data compression;graph theory;multi-robot systems;communication issues;compression;computational issues;condensed measurements;data processing;data reduction;data transmission;multirobot SLAM;multirobot system;robot map information exchange;simultaneous localization and mapping;Bandwidth;Current measurement;Optimization;Robustness;Simultaneous localization and mapping},
+doi={10.1109/IROS.2013.6696483},
+ISSN={2153-0858},
+month={Nov},}
