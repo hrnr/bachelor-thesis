@@ -39,8 +39,6 @@ Unlike similar packages, \texttt{explore\_lite} does not create it's own costmap
 
 \texttt{explore\_lite} subscribes to a \texttt{nav\_msgs/Occu\-pan\-cy\-Grid} and \texttt{map\_msgs/Occu\-pan\-cy\-Grid\-Up\-da\-te} messages to construct a map where it looks for frontiers. You can either use costmap published by \href{http://wiki.ros.org/move_base}{move\_base} (ie. \texttt{<mo\-ve\_ba\-se>/glo\-bal\_cost\-map/\-cost\-map}) or you can use map constructed by mapping algorithm (SLAM). Better results were achieved on maps constructed by SLAM as they usually contain less noise.
 
-Currently \texttt{explore\_lite} also requires footprint information. Footprint is published by \href{http://wiki.ros.org/move_base}{move\_base} \texttt{move\_base/global\_costmap/footprint}. You can specify different footprint topic, but that should not be necassary. Default works for both circular and non-circular robots depending on \href{http://wiki.ros.org/move_base}{move\_base} configuration.
-
 \section{ROS API}
 \subsection{explore}
 
@@ -54,7 +52,6 @@ Provides exploration services offered by this package. Exploration will start im
 
   \ROStopic{costmap\_updates}{map\_msgs/OccupancyGridUpdate}{Incremental updates on costmap. Not necessary if source of map is always publishing full updates, i.e. does not provide this topic.}
 
-  \ROStopic{footprint\_stamped}{geometry\_msgs/PolygonStamped}{Robot footprints updates. Usually provided by \href{http://wiki.ros.org/move_base}{move\_base} (see above).}
 \subsubsection{Published Topics}
   \ROStopic{\~{}frontiers}{visualization\_msgs/MarkerArray}{Visualization of frontiers considered by exploring algorithm. Each frontier is visualized as vector in the middle of frontier pointing towards unknown area.}
 
@@ -63,13 +60,9 @@ Provides exploration services offered by this package. Exploration will start im
 
   \ROSparam{\~{}costmap\_topic}{costmap}{string}{Specifies topic of source \texttt{nav\_msgs/OccupancyGrid}. Mandatory.}
 
-  \ROSparam{\~{}footprint\_topic}{footprint\_stamped}{string}{Specifies topic of source \texttt{geometry\_msgs/PolygonStamped} representing robot foot print. Usualy provided by \href{http://wiki.ros.org/move_base}{move\_base} (see above). Mandatory.}
-
   \ROSparam{\~{}costmap\_updates\_topic}{costmap\_updates}{string}{Specifies topic of source \texttt{map\_msgs/OccupancyGridUpdate}. Not necessary if source of map is always publishing full updates, i.e. does not provide this topic.}
 
   \ROSparam{\~{}visualize}{false}{bool}{Specifies whether or not publish visualized frontiers.}
-
-  \ROSparam{\~{}static\_footprint}{false}{bool}{Specifies whether or not robot footprint is static over time. If robot footprint will not change, set this parameter to \texttt{true} to save some CPU cycles. If you are not sure, setting to \texttt{false} will always work.}
 
   \ROSparam{\~{}planner\_frequency}{1.0}{double}{Rate in Hz at which new frontiers will computed and goal reconsidered.}
 

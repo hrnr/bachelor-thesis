@@ -112,6 +112,8 @@ Parameters that should be defined in the namespace of this node.
 
     \ROSparam{\~{}estimation\_rate}{0.5}{double}{Rate in Hz. This parameter is relevant only when merging without known positions, see~\ref{sec:mergingmodes}. Frequency on which this node re-estimates transformation between grids. Estimation is cpu-intensive, so you may wish to lower this value.}
 
+    \ROSparam{\~{}estimation\_confidence}{1.0}{double}{Relevant only when merging without known positions, see~\ref{sec:mergingmodes}. Confidence according to probabilistic model for initial positions estimation. Default value 1.0 is suitable for most applications, increase this value for more confident estimations. Number of maps included in the merge may decrease with increasing confidence. Generally larger overlaps between maps will be required for map to be included in merge. Good range for tuning is $[1.0, 2.0]$.}
+
 \section{Acknowledgements}
 
 This package was developed as part of my bachelor thesis at \href{http://www.mff.cuni.cz/to.en/}{Charles University} in Prague.
