@@ -1,7 +1,7 @@
 \chapter{Evaluation}
 \label{chap:evaluation}
 
-To evaluate presented map-merging algorithm~\ref{chap:mergingalgorithm} and test performance of implemented map-merging node~\ref{sec:map_merge-package} I used $2$ data sources. First data source was simulation running several P3DX robots. Map-merging node was running through the whole exploring session testing online behaviour of the algorithm. Second data source were maps produced by \gls{SLAM} on \gls{MIT} Stata Center dataset presented in~\cite{Fallon2013}. \gls{MIT} dataset produced using a single PR2 robot starting from different locations. Although this data does not come from multi-robot mapping, it is possible to test offline merging performance.
+To evaluate map-merging algorithm introduced in section~\ref{chap:mergingalgorithm} and to test performance of implemented map-merging node described in section~\ref{sec:map_merge-package}, I used $2$ data sources. First source are data from  simulation running several P3DX robots. Map-merging node was running through the whole exploring session testing online behaviour of the algorithm. Second data source are maps produced by \gls{SLAM} on \gls{MIT} Stata Center dataset presented in~\cite{Fallon2013}. \gls{MIT} dataset produced using a single PR2 robot starting from different locations. Although this data does not come from multi-robot mapping, it is possible to test offline merging performance.
 
 \section{Simulation setup}
 
@@ -12,6 +12,7 @@ Cluster of 5 computers was formed to run simulator, robots, map-merging and expl
 While \gls{VREP} is powerful and feature-rich simulator, its usage for multi-robot simulation have some limitations. First of all, \gls{VREP} support for headless mode (running without graphical environment) is not complete. Virtual framebuffer or similar technology is required, which adds performance overhead. Further \gls{VREP} does not scale properly to large number of threads, limiting number of robots for which simulation runs at bearable speed. For this reason it wasn't possible  to test more than 4 robots with this setup.
 
 \section{\gls{MIT} dataset}
+\label{sec:mit-dataset}
 
 \gls{MIT} dataset are data available as rosbags online, see~\cite{Fallon2013}. Data comes from mapping multi-floor \gls{MIT} building with PR2 robot. I have used only datasets from the second floor.
 

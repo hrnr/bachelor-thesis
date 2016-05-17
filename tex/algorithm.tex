@@ -76,7 +76,7 @@ Algorithm~\ref{alg:estimategridtrasform} offers overview of the proposed algorit
             \State $g \gets (grids, matches)$
             \State $h \gets$ largest connected component in $g$
             \State $t \gets$ maximum spanning tree in $h$
-            \State \Call{estimateFinalTransform}{$t$, $P_{(i,j)} \forall e \in \text{edges of } t$} \Comment{walk $t$ and compute transformations to global reference frame}
+            \State \Call{estimateFinalTransform}{$t$, $P_{(i,j)} \forall e \in \text{edges of } t$} \Comment{walk $t$ and compute transformations to global reference frame. See algorithm~\ref{alg:estimatefinaltrans}.}
         \EndProcedure
     \end{algorithmic}
 \end{algorithm}
@@ -86,45 +86,43 @@ Algorithm~\ref{alg:estimategridtrasform} offers overview of the proposed algorit
 \section{Feature detection} % (fold)
 \label{sec:featuredetection}
 
-Stitching pipeline proposed in \cite{Brown2006} is using \gls{SIFT} features. \gls{SIFT} features have been used with success for stitching in many applications. Some of the recent approaches to stitching, improving traditional \gls{SIFT}-based algorithm, are also building on top of \gls{SIFT} features \cite{Xie2015}. \gls{SIFT} features are patented in the US \cite{lowe2004method}, limiting its use.
+Stitching pipeline proposed in~\cite{Brown2006} is using \gls{SIFT} features. \gls{SIFT} features have been used with success for stitching in many applications. Some of the recent approaches to stitching, improving traditional \gls{SIFT}-based algorithm, are also building on top of \gls{SIFT} features~\cite{Xie2015}. Use of \gls{SIFT} features is limited by US patent~\cite{lowe2004method}.
 
-I have decided to use \gls{ORB} as feature detector a descriptor described in \cite{Rublee2011}. \gls{ORB} algorithm is patent-free, and available in \gls{OpenCV}. \gls{ORB} features has been already used with occupancy grid images \cite{MapstitchROS} \cite{Andre2014}.
+I have decided to use \gls{ORB} feature detector and descriptor described in~\cite{Rublee2011}. \gls{ORB} algorithm is patent-free, and available in \gls{OpenCV}. Moreover \gls{ORB} features has already been used with occupancy grid images~\cite{MapstitchROS} and \cite{Andre2014}.
 
-Other alternatives for feature detection and feature description has not been tested yet. Performance of other detectors for map merging and effect of choose of detector to overall merging performance remains to be evaluated. Some feature detectors and descriptors promising good performance are \cite{Alahi2012} \cite{alcantarilla2011fast} \cite{calonder2010brief}.
+Other alternatives for feature detection and feature description has not been tested yet. Performance of other detectors for map-merging and effect of choose of detector to overall merging performance remains to be evaluated. Some feature detectors and descriptors promising good performance are~\cite{Alahi2012}, \cite{alcantarilla2011fast} and \cite{calonder2010brief}.
 
-For image stitching, images are usually downscaled for further processing as seen is figure~\ref{fig:opencv}. Feature extraction and feature matching on smaller images is considerably faster and final performance is acceptable. I don't propose any such down scaling for occupancy grids. Occupancy grids acquired from mapping are usually smaller than multi-megapixel images from camera, so stitching time is reasonable even for full-scale grids. Also occupancy grids have usually much smaller number of features than photos making stitching harder and less precise.
+For image stitching, images are usually downscaled for further processing as seen is figure~\ref{fig:opencv}. Feature extraction and feature matching on smaller images is considerably faster and overall accuracy is acceptable. I don't propose any such down scaling for occupancy grids. Occupancy grids acquired from mapping are usually smaller than multi-megapixel images from camera, so stitching time is reasonable even for full-scale grids. Also occupancy grids have usually much smaller number of features than photos making stitching harder and less accurate.
 
-During online merging we can run stitching with low frequency even if higher map update frequencies are required by simply using previously estimated transform between grids. This further reduces cost of estimation over time. Since transformation between grids is fixed in most cases (when \gls{SLAM} algorithm work reasonably well), depending only on starting points of robots, this approach does not reduce map quality considerably.
+During online merging stitching can run with low frequency even if higher map update frequencies are required by simply using previously estimated transformation between grids. This further reduces cost of estimation over time. Transformation between grids is fixed in most cases (when \gls{SLAM} algorithm works reasonably well), because transformation depends only on starting positions of robots. Therefore reusing previous transformations does not reduce map quality considerably.
 
-In most tested scenarios estimated transformation change only during initial phase. After there is enough overlapping regions in the map, such that transformation can be estimated with enough precision, transformation estimated with stitching algorithm remains stable over time. This property allows to run re-estimation with low frequencies.
+In most scenarios estimated transformation change only during initial phase. After there is enough overlapping regions in the map, such that transformation can be estimated with high precision, transformation estimated with stitching algorithm remains stable over time. This property allows to run re-estimation with even lower frequencies if map quality in initial phase is not a problem.
 
 % section feature_detection (end)
 
 \section{Pairwise matching} % (fold)
 \label{sec:pairwisematching}
 
-Pairwise matching is the most resource demanding part of the algorithm. We do matching for all $\bigO(n^2)$ pairs of grids. For panorama images it is possible to push this down to $\bigO(n)$ matching by expecting photos to be taken in ordered sequence. We can then match image only $k$ neighbours (for small $k$) in sequence, because neighbours are expected to have overlapping area.
+Pairwise matching is the most resource demanding part of the algorithm. We do matching for all $\bigO(n^2)$ pairs of grids. For panorama images it is possible to push this down to $\bigO(n)$ matchings by expecting photos to be taken in ordered sequence. Then we can match only $k$ neighbours (for small $k$) in image sequence, because only neighbours are expected to have overlapping area.
 
-For occupancy grids in multi-robot mapping scenario it is impractical to assume any such ordering in robot's initial poses. It might not even be possible when robots are exploring given areas independently. Our algorithm therefore always match all $\bigO(n^2)$ pairs.
-
-Because computations in each pair are independent it is easy to run matching of all pairs in parallel or offload it GPU. This approach is used in map merging node presented in \#reference here\#.
+For occupancy grids in multi-robot mapping scenario it is impractical to assume any such ordering in initial poses of robots. It is not even possible in certain scenarios especially when robots are exploring given areas independently. Our algorithm therefore always match all $\bigO(n^2)$ pairs.
 
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{../img/matches.pdf}
-    \caption{Graph showing matches between $37$ occupancy grids during map merging. This graph was acquired for maps from MIT dataset, see chapter \#reference here\#. Grids without any matches are omitted. Legend: $Nm$ number of matches, $Ni$ number of inliers from \gls{RANSAC}, $C$ confidence.}
+    \caption{Graph showing matches between $37$ occupancy grids during map merging. This graph was acquired for maps from MIT dataset described in section~\ref{sec:mit-dataset}. Grids without any matches are omitted. Legend: $Nm$ number of matches, $Ni$ number of inliers from \gls{RANSAC}, $C$ confidence.}
     \label{fig:matches}
 \end{figure}
 
-Figure~\ref{fig:matches} shows matching results for $37$ occupancy grids acquired during experiment \#reference here\#.
+Figure~\ref{fig:matches} shows matching results for $37$ occupancy grids acquired during experiment presented in section~\ref{sec:probability-model-evaluation}. Computations for each pair are independent, so it is easy to run matching of all pairs in parallel. This approach is used in map merging node presented in section~\ref{sec:map_merge-package}.
 
-Because of non-linear number of pairs it is usually too computationally expensive to search for matches using simple (brute-force) search unless this can be offloaded to GPU. For matching on CPU it is better to use approximate methods, which can be much faster.
+Because of non-linear number of pairs it is usually too computationally expensive to search for matches using simple brute-force search (even if it runs in parallel) unless it can be offloaded to GPU. For matching on CPU it is better to use approximate methods, which can be much faster.
 
 For vector-based features, such as \gls{SIFT} and \gls{SURF}, the solution has been to use approximate nearest-neighbour search, but these existing algorithms are not suitable for binary features \cite{Muja2012}. For \gls{ORB} features, which are binary based, searching for nearest neighbours using parallel hierarchical clustering trees proposed in \cite{Muja2012} can provide similar speed-up for \gls{ORB} features. This method is used through the \gls{FLANN} by the same authors, which is now part of \gls{OpenCV}.
 
 When matching keypoints are found for pair of grids, algorithm estimates transformation between grids. Traditional image stitching algorithms are using homography in projective spaces, which is a good for modelling perspective affecting camera images. For occupancy grids this is not an expected transformation under normal circumstances, and even when there are errors in maps produced by \gls{SLAM} algorithm, these are not errors produced by projective transformation.
 
-For occupancy grids we propose a different model based on reduced affine transform. This is a partial affine transformation with $4$ degrees of freedom.
+For occupancy grids I propose a different model based on reduced affine transformation. This is a partial affine transformation with $4$ degrees of freedom. This model extends the usual definition of map-merging problem as defined in~\cite{Lee2012} by allowing scaling. Scaling allows maps to have different resolutions, which may occur in heterogeneous multi-robot systems.
 
 \begin{defn}[Reduced affine transformation]
 For given matrices $R$ (rotation), $S$ (scaling), $T$ (translation), where
@@ -159,7 +157,7 @@ we define matrix of reduced affine transformation as
         \cos(\theta)s & -\sin(\theta)s & tx \\
         \sin(\theta)s & \cos(\theta)s & ty \\
     \end{pmatrix}
-\end{equation}.
+\end{equation}
 \end{defn}
 
 As usual when representing translations we will work with reduced affine transformation in homogeneous coordinates, where this transformation is homomorphism. Therefore we extend $A$ as
@@ -197,56 +195,56 @@ For pair of matched points $X=\T{(x_1,x_2,1)}$, $Y=\T{(y_1, y_2, 1)}$ we can the
     \end{pmatrix}
 \end{align}
 
-for $\T{(\cos(\theta)s, \sin(\theta)s, tx, ty)}$ to obtain transformation between grids. This is easy to solve and need only $2$ points to get the transformation.
+for $\T{(\cos(\theta)s, \sin(\theta)s, tx, ty)}$ to obtain transformation between grids. This system is easy to solve and we need only $2$ points to get the transformation.
 
 Reduced affine transformation is chosen to model transformation between initial robot poses in $2D$ space. Each robot can start at different position and have different orientation in terms of rotation in $2D$ space. Scaling enables occupancy grids to have different resolution.
 
-We combine~\eqref{eq:affinetrans} with \gls{RANSAC}~\cite{fischler1981random} method to obtain final transformation. \gls{RANSAC} is used to estimate homography in image stitching method proposed in~\cite{Brown2006}. We use the same method for estimating reduced affine transformation. Using \gls{RANSAC} has another advantage. We can used number of inliers in \gls{RANSAC} to estimate transformation accuracy.
+We combine~\eqref{eq:affinetrans} with \gls{RANSAC}~\cite{fischler1981random} method to obtain final transformation. \gls{RANSAC} is used to estimate homography in image stitching method proposed in~\cite{Brown2006}. We use the same method for robust estimation of reduced affine transformation. Using \gls{RANSAC} has another advantage. We can use number of inliers from \gls{RANSAC} to estimate transformation accuracy.
 
-For each pair we compute confidence as $\frac{\psi}{8 + 0.3 \cdot n}$, where $n$ is number of matches and $\psi$ is number of inliers in \gls{RANSAC}. Model for confidence is based on probabilistic model for image match verification proposed in~\cite{Brown2006}.
+For each pair we compute transformation confidence as $\frac{\psi}{8 + 0.3 \cdot n}$, where $n$ is number of matches and $\psi$ is number of inliers in \gls{RANSAC}. Model for confidence is based on probabilistic model for image match verification proposed in~\cite{Brown2006}.
 
-For \gls{RANSAC} I have chosen following parameters: maximum number of iterations $500$, good ratio $0.5$. Same parameters are used internally in \gls{OpenCV}. If maximum number of iteration is reached and transformation therefore could not be found, its confidence is set to $0$.
+For \gls{RANSAC} I have chosen following parameters: maximum number of iterations $500$, good ratio $0.5$. Same parameters are used internally in \gls{OpenCV}. If maximum number of iterations is reached and transformation therefore could not be found, its confidence is set to $0$.
 
 % section pairwise_matching (end)
 
 \section{Finding largest connected component} % (fold)
 \label{sec:findinglargestconnectedcomponent}
 
-As seen in figure~\ref{fig:matches} it is common that not all transformations could be established between grids. Graph of matchings therefore can have multiple connected components. We need to deal with missing transformations between components to estimate transformations for grids.
+As seen in figure~\ref{fig:matches} it is common that some transformations can not be established between grids. Graph of matchings therefore can have multiple connected components. We need to deal with missing transformations between components to estimate transformations for grids.
 
 We could include all components to resulting map and position them such they don't overlap. This setup would preserve all information, but resulting map can't be topologically correct. Another approach is to choose only one connected component for final merge. This approach preserves map's topological accuracy. I have chosen the latter approach.
 
-As a next in the algorithm we filter out matches according to selected probabilistic model for accuracy. Matches with computed confidence $\le 1.0$ are not further considered for matching.
+As a next step in the algorithm we filter out matches according to selected probabilistic model for accuracy. Matches with computed confidence less than or equal to $1.0$ are not further considered.
 
-After matches are filtered largest component is found in matches graph. Transformation will be established only for grids in largest connected component.
+After matches are filtered, largest component is found in the matches graph. Transformation will be established only for grids in largest connected component.
 
 Choosing largest connected component might seem natural, but this approach has its caveats. Largest connected component represents matches between largest number of robots, however maps from the largest number of robots does not need to represent largest area in the map. This might be a problem especially in systems with heterogeneous robots, where mapping performance differs greatly between robots. Also some parts of maps might be much harder for robots to explore and despite large number of robots in such an area, produced map may be smaller than map produced by other group of robots (represented in graph as smaller component).
 
 Modifications of this algorithm might choose to find weighted largest connected component in matchings graph. Weight could be based on discovered area in each map, such that the largest weighted connected component would represent largest discovered area.
 
-I have chosen to use unweighted largest connected component, because it is less computationally expensive (weighting grids to represent discovered area in each grid require visiting each cell of each grid). Algorithm using unweighted largest connected component provides good results for small number of robots \#reference here\#. Approach using weighted components needs to be evaluated for more robots and larger environments.
+I have chosen to use unweighted largest connected component, because it is less computationally expensive (weighting grids to represent discovered area in each grid require visiting each cell of each grid). Algorithm using unweighted largest connected component showed good results in tested scenarios~\ref{sec:minimal-overlaping-area}. Approach using weighted components needs to be evaluated for more robots and larger environments.
 
 % section finding_largest_connected_component (end)
 
 \section{Estimate final transformation} % (fold)
 \label{sec:estimatefinaltransformation}
 
-Remaining graph is connected and it is possible to estimate transformation for all grids. We have estimated transformations between pairs of grids, edges for some pairs may be missing, because they were filtered out in previous steps.
+Remaining graph is connected and it is possible to estimate transformation for all grids. We have estimated transformations between all pairs of grids, but edges for some pairs in the connected component may be missing, because they were filtered out in previous steps.
 
 Final part of the algorithm estimates transformation to global reference frame for each grid. We can choose reference frame of one of the grids as global reference frame, because we are interested in relative transformations between all grids for merging. This will be the reference frame of merged map.
 
-Selecting global reference frame is not enough, because there may exist multiple paths from grid selected as reference frame to other grids. We construct maximum spanning tree to break these cycles. Edges are weighted with number of inliers to prefer stronger matches. This approach is routinely used for image stitching, exactly the same construct is implemented in \gls{OpenCV}.
+Selecting global reference frame is not enough, because there may exist multiple paths from grid selected as reference frame to other grids. We construct maximum spanning tree to break these cycles. Edges are weighted with number of inliers to prefer stronger matches. This approach is routinely used for image stitching, the same construct is implemented in \gls{OpenCV}.
 
-Finally we can walk through spanning tree to obtain final transforms. There is now only one path from grid selected as reference frame to other grids. For each grid we can get the final by compositing pairwise transformations along the path. As we are working in homogeneous coordinates this is equivalent to matrix product of pairwise transformations along the path. This can be done in linear time with algorithm~\ref{alg:estimatefinaltrans}.
+Finally we can walk through spanning tree to obtain final transformations. There is now only one path from grid selected as reference frame to other grids. For each grid we can get the final by compositing pairwise transformations along the path. As we are working in homogeneous coordinates this is equivalent to matrix product of pairwise transformations along the path. This can be done in linear time with algorithm~\ref{alg:estimatefinaltrans}.
 
 \begin{algorithm}
     \caption{Algorithm estimating transformations to global reference frame from pairwise transformations on spanning tree.}
     \label{alg:estimatefinaltrans}
     \begin{algorithmic}[1]
-        \Require $t$ maximum spanning tree on grids, $P_{(i,j)}$ is pairwise reduced affine transformation between grids $i, j$
-        \Ensure $T_i \forall i \in V$ transformations
+        \Require $t$ maximum spanning tree on grids, $P_{(i,j)}$ pairwise reduced affine transformation in homogeneous coordinates between grids $i, j$.
+        \Ensure $T_i \forall i \in V$ transformations to global reference frame
         \Procedure{estimateFinalTransform}{$t = (V,E)$, $P_e \forall e \in e$}
-            \State $e \gets$ edges of $t$ sorted by discover time in \gls{BFS} started from grid with reference frame \Comment{using \gls{BFS} or \gls{DFS} does not matter here}
+            \State $e \gets$ edges of $t$ sorted by discover time in \gls{BFS} starting from grid with global reference frame \Comment{using \gls{BFS} or \gls{DFS} does not matter here}
             \State $\forall T_i: T_i \gets I$ \Comment{initialize transformations with identity}
             \ForAll{$(i,j)$ in $e$}
                 $T_j \gets T_i P_{(i,j)}$

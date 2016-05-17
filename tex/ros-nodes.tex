@@ -1,9 +1,9 @@
 \chapter{ROS packages}
 \label{chap:ros-packages}
 
-It this section we present \gls{ROS} packages developed as part of this work. Merging algorithm presented in section~\ref{chap:mergingalgorithm} was implemented in \gls{ROS} package \texttt{multirobot\_map\_merge}. To evaluate performance of map-merging in multi-robot exploring scenarios I have developed the second package, \texttt{explore\_lite} for automatic exploring.
+It this section I present \gls{ROS} packages developed as part of this work. Merging algorithm presented in section~\ref{chap:mergingalgorithm} was implemented in \gls{ROS} package \texttt{multirobot\_map\_merge}. To evaluate performance of map-merging in multi-robot exploring scenarios I have developed the second package, \texttt{explore\_lite} for autonomous exploring.
 
-Both packages are now part of the \gls{ROS} project. Documentation for packages is available online on \gls{ROS} wiki pages:
+Both packages are now part of the \gls{ROS} distribution. Documentation for packages is available online at the \gls{ROS} wiki pages:
 
 \begin{itemize}
 	\item \url{http://wiki.ros.org/multirobot_map_merge}
@@ -15,17 +15,17 @@ This documentation is also reproduced as appendix~\ref{chap:map_merge-doc} and a
 \section{\texttt{multirobot\_map\_merge} package} % (fold)
 \label{sec:map_merge-package}
 
-\texttt{multirobot\_map\_merge} package solves several problems for merging maps from multiple robots. Dynamic robot discovery, initial poses estimation and map-merging.
+\texttt{multirobot\_map\_merge} package solves several problems for merging maps from multiple robots. Dynamic robot discovery, initial poses estimation and map composition.
 
-Dynamic robot discovery allows efficient easy-to-use auto-configuration of the package and also allows number of robots to change during exploring. Therefore robots can be launched and assigned to system based on exploration progress.
+Dynamic robot discovery allows efficient easy-to-use auto-configuration of the package and also allows number of robots to change during exploring. This design allows robots to be launched and assigned to system based on exploration progress.
 
-Initial poses estimation is a key feature of this package allowing merging map for robots with unknown initial positions. For situations where robots initial positions are known (simulations) or can be measured with required precision (required equipment is available on robots or at the starting place) \texttt{multirobot\_map\_merge} package allows merging with user-provided initial robots positions. This was also used for producing a reference map to evaluate performance of estimation algorithm.
+Initial poses estimation is the key feature of this package allowing merging maps for robots with unknown initial positions. For situations where robots initial positions are known (simulations) or can be measured with required precision (required equipment is available on robots or at the starting place) \texttt{multirobot\_map\_merge} package supports merging with user-provided initial robots positions. This was also used for producing a reference map to evaluate performance of estimation algorithm.
 
-Regardless of how transformation between grids have been acquired (from user supplied initial poses or estimated by the algorithm) map-merging is the final step to produce a merged map. This phase must be able to deal with different map sizes between robots, different map resolutions, be able to apply scaling, rotation and translation transformations while keeping the merged map as small as possible.
+Regardless of how transformation between grids have been acquired (from user supplied initial poses or estimated by the algorithm) map composition is the final step to produce a merged map. This phase must be able to deal with different map sizes between robots, different map resolutions and be able to apply scaling, rotation and translation transformations.
 
 \subsection{Inter-robot communication}
 
-Running map-merging for multiple physical robots require network connection between robots. Managing this connection is deliberately out-of-scope of this package. However, solutions exists in \gls{ROS} to make this task relatively easy.
+Running map-merging for multiple physical robots requires network connection between robots. Managing this connection is deliberately out-of-scope of this package. However, solutions exists in \gls{ROS} to make this task relatively easy.
 
 First of all \gls{ROS} is designed to work natively across multiple computers. This setup requires almost no configuration and is supported by default. In this configuration one of the computers/robots runs a \texttt{roscore} service (also referred as \gls{ROS} master), which acts as a directory listing (broker) service. All \gls{ROS} topics and \gls{ROS} services are available transparently through the whole network.
 
@@ -33,17 +33,17 @@ Main disadvantage of this setup is a single-point-of-failure \texttt{roscore} se
 
 \gls{ROS} community is aware that single \gls{ROS} master is a limiting factor for many applications. There is a \gls{ROS} Multi-master \gls{SIG}~\cite{MultiMasterSIG} coordinating efforts for multi-master support.
 
-As part of these efforts there exist \texttt{multimaster\_fkie} package, described in technical report~\cite{herrero2015multimaster}, which allows setting a multi-master network transparently.
+As part of these efforts there exists the \texttt{multimaster\_fkie} package, described in technical report~\cite{herrero2015multimaster}, which allows setting a multi-master network transparently.
 
-\texttt{multirobot\_map\_merge} can work transparently with both configurations as it is not tied to any particular communication between robots, allowing a great flexibility. It can take an advantage of native \gls{ROS} communication in environments with reliable network link (such as a simulation running on a cluster) and use a user provided communication (such as \texttt{multimaster\_fkie}) for exploring harsh environments with unrelible link. This is a key difference to framework presented in~\cite{Andre2014}, which always depends on custom ad-hoc messaging.
+\texttt{multirobot\_map\_merge} can work transparently with both configurations as it is not tied to any particular communication between robots, allowing a great flexibility. It can take an advantage of native \gls{ROS} communication in environments with reliable network link (such as a simulation running on a cluster) and use a user provided communication (such as the \texttt{multimaster\_fkie} package) for exploring harsh environments with unrelible link. This is an important difference to framework presented in~\cite{Andre2014}, which always depends on custom ad-hoc messaging.
 
 \subsection{Dynamic robot discovery}
 
 This package allows merging maps from arbitrary number of robots. To make configuration of map-merging easy, robots are auto-discovered during the merging procedure. This also allows robots to be added or removed during exploring.
 
-This package requires only maps produced by \gls{SLAM} and does not depend on any additional info about robots. Robot discovery is implemented by scanning available \gls{ROS} map topics, each map topic is being considered as one robot (or simple one map to be added for merging). This approach is inspired by a discovery algorithm introduced in~\cite{Yan2014}.
+This package requires only maps produced by \gls{SLAM} and does not depend on any additional info about robots. Robot discovery is implemented by scanning available \gls{ROS} map topics, each map topic is being considered as one robot (one map to be added for merging). This approach is inspired by a discovery algorithm introduced in~\cite{Yan2014}.
 
-Robot discovery runs in parallel to map-merging and rate in which it runs is configurable. Robot discovery therefore does not negatively impacts map-merging performance, when configured at low rate.
+Robot discovery runs in parallel to map-merging at rate which is configurable. Robot discovery therefore does not negatively impacts map-merging performance, when configured at low rate.
 
 \subsection{Initial poses estimation}
 
@@ -51,12 +51,12 @@ Initial poses estimation is necessary for situations where initial robot positio
 
 Estimation is designed to run in parallel to other parts of this package. Estimation rate is user-settable.
 
-\subsection{Map-merging}
+\subsection{Map composition}
 
-After estimating transformation between grids map-merging combines final merged map. For map-merging task I have adapted the relevant code from \texttt{occu\-pan\-cy\_grid\_uti\-ls} package~\cite{Marthi2014}. This package is no longer available in current \gls{ROS} distribution, current version is maintained by Clearpath Robotics in github repository~\cite{GitHubOccGridUtils}. I have contributed some fixes to this repository, but as the code of \texttt{occu\-pan\-cy\_grid\_uti\-ls} is mostly obsolete in current \gls{ROS} distribution (most of the functionality is provided by \gls{ROS} navigation stack), I have decided to incorporate merging-related code directly to \texttt{multi\-robot\_map\_merge} package.
+After estimating transformation between grids, map composition combines final merged map. For map-merging task I have adapted the relevant code from \texttt{occu\-pan\-cy\_grid\_uti\-ls} package~\cite{Marthi2014}. This package is no longer available in current \gls{ROS} distribution, current version is maintained by Clearpath Robotics in github repository~\cite{GitHubOccGridUtils}. I have contributed some fixes to this repository, but as the code of \texttt{occu\-pan\-cy\_grid\_uti\-ls} is mostly obsolete in current \gls{ROS} distribution (most of the functionality is provided by \gls{ROS} navigation stack), I have decided to incorporate merging-related code directly to \texttt{multi\-robot\_map\_merge} package.
 
-This code is robust, it can deal with all differences in size and resolution to allow merging maps in heterogeneous systems. This code however does not provide expected performance for merging big maps from large number of robots. In future versions of \texttt{multi\-rob\-ot\_map\_merge}, this algorithm may be changed for more efficient one.
-Current solution works well for smaller groups of robots $\le 10$ on low end hardware.
+The code is robust, it can deal with all differences in size and resolution to allow merging maps in heterogeneous systems. This code however does not provide expected performance for merging big maps from large number of robots. In future versions of \texttt{multi\-rob\-ot\_map\_merge}, this algorithm may be changed for more efficient one.
+Current solution works well for smaller groups of robots (up to $10$ robots) on low end hardware.
 
 Merging frequency is user-adjustable and can be increased to deliver faster update frequency.
 % section map_merge-package (end)
@@ -64,9 +64,9 @@ Merging frequency is user-adjustable and can be increased to deliver faster upda
 \section{\texttt{explore\_lite} package} % (fold)
 \label{sec:explore_lite-package}
 
-\texttt{explore\_lite} package provides \gls{ROS} node for autonomous exploration. Although there exists \gls{ROS} packages for exploring~\cite{2013:RoboCup}, \cite{DuHadway2010}, \cite{Bovbel2010} and exploring node from~\cite{Andre2014}. None of existing packages met our requirements out-of-the-box, \cite{2013:RoboCup} is complex and includes custom navigation stack, \cite{DuHadway2010}, \cite{Bovbel2010} are not available as of Apr 2016 for current version of \gls{ROS} and \cite{Andre2014} offers some multi-robot coordination capabilities, but relies on custom ad-hoc communication between robots, which is an approach different from our map-merging node presented in~\ref{sec:map_merge-package}.
+\texttt{explore\_lite} package provides \gls{ROS} node for autonomous exploration. Although there exists \gls{ROS} packages for exploring~\cite{2013:RoboCup}, \cite{DuHadway2010}, \cite{Bovbel2010} and exploring node from~\cite{Andre2014}, none of the existing packages met my requirements out-of-the-box. \cite{2013:RoboCup} is complex and includes custom navigation stack, \cite{DuHadway2010}, \cite{Bovbel2010} are not available as of Apr 2016 for current version of \gls{ROS} and \cite{Andre2014} offers some multi-robot coordination capabilities, but relies on custom ad-hoc communication between robots, which is an approach different from the map-merging node presented in section~\ref{sec:map_merge-package}.
 
-For purposes of evaluation of presented map-merging node, I have developed a new exploring node for \gls{ROS}. This node is based on code of~\cite{DuHadway2010} with major improvements. Main design goal of this new node was light-weightiness. I have needed to allow running more robots in our testing environment with limited resources. Although the node does not have multi-robot coordination capabilities as this was not required for running selected simulation scenarios, this node must handle properly \gls{ROS} namespaces and \texttt{tf} namespaces to allow running multiple robots under the same \gls{ROS} master. As a result of these requirements major parts of the node have been redesigned.
+For purposes of evaluation of the presented map-merging node, I have developed a new exploration node for \gls{ROS}. This node is based on code of~\cite{DuHadway2010} with major improvements. Main design goal of this node is light-weightiness. I have needed to allow running more robots in a testing environment with limited resources. Although the node does not have multi-robot coordination capabilities as this was not required for running selected simulation scenarios, this node must handle properly \gls{ROS} namespaces and \texttt{tf} namespaces to allow running multiple robots under the same \gls{ROS} master. As a result of these requirements major parts of the node have been redesigned.
 
 \subsection{Navigation}
 
@@ -74,21 +74,21 @@ For purposes of evaluation of presented map-merging node, I have developed a new
 
 \subsection{Map sourcing}
 
-Exploring packages, which use the \gls{ROS} navigation stack~\cite{Bovbel2010} and \cite{DuHadway2010} are using local costmaps provided by \gls{ROS} navigation packages through \texttt{Cost\-map\-2D\-ROS}. Local costmap is then used to search for frontiers and finding paths to frontiers from robot's position.
+Exploring packages, which use the \gls{ROS} navigation stack~\cite{Bovbel2010} and \cite{DuHadway2010} are using a local costmap provided by \gls{ROS} navigation packages through \texttt{Cost\-map\-2D\-ROS}. The local costmap is then used to search for frontiers and finding paths to frontiers from the robot's position.
 
-\texttt{Costmap2DROS} is a feature-rich framework for building costmaps, allowing usage of plugins and several layers for costmaps. It can build costmaps from various sources including laser scans and handle inflating obstacles on-the-fly. Although all this features are great when building costmap for robot navigation purposes it brings unnecessary overhead when using costmap for searching for frontiers and other exploration purposes.
+\texttt{Costmap2DROS} is a feature-rich framework for building costmaps, allowing usage of plugins and several layers for costmaps. It can build costmaps from various sources including laser scans and handle inflating obstacles on-the-fly. Although all these features are great when building a costmap for robot navigation purposes it brings an unnecessary overhead when using the costmap for searching for frontiers and other exploration purposes.
 
-For \texttt{explore\_lite} I have introduced a custom \texttt{costmap\_client} code, which subscribes to map source in \gls{ROS} and provides local costmap with only minimal processing. This reduces the overhead significantly, compared to situation when costmap is being rebuild by ray-tracing from scans in explore node. Provided local costmap is then used for both frontier search and planing.
+For the \texttt{explore\_lite} package I have introduced a custom \texttt{costmap\_client} code, which subscribes to a map source in the \gls{ROS} and provides a local costmap with only minimal processing. This reduces the overhead significantly compared to the situation when the costmap is build by ray-tracing from scans in explore node. Provided local costmap is then used for both frontier search and planing.
 
-Choosing the right map source can also improve frontier discovery accuracy. Constantly better results were achieved in simulation when local costmap has been built from \gls{SLAM}-constructed map, instead of laser ray-traced costmap, such as the costmap created by \texttt{move\_base} node. This may be due to the higher quality of map produced by \gls{SLAM}.
+Choosing the right map source can also improve frontier discovery accuracy. Constantly better results has been achieved when the local costmap has been built from \gls{SLAM}-constructed map, instead of a laser ray-traced costmap, such as the costmap created by \texttt{move\_base} node.
 
 \subsection{Frontier search}
 
-Searching for frontiers is based upon~\cite{DuHadway2010}. Minor changes have been made to improve performance.
+Frontier search algorithm is based on the code in~\cite{DuHadway2010}. Minor changes have been made to improve performance.
 
 During frontier search frontiers are weighted, so that frontier with biggest weight could be forwarded to navigation node (\texttt{move\_base}) as the next goal. To weight frontiers \texttt{explore\_lite} needs to run at least basic path planning to get distance to frontier.
 
-This planning is done through \texttt{NavfnROS} planner. During development it was apparent that this planner have several limitations, limiting its use to \texttt{Cost\-map\-2D\-ROS} as a source of costmap where planning happens. I have submitted a patch extending \texttt{NavfnROS} planner in the core \gls{ROS} navigation stack. These changes are expected to appear in the upcoming \gls{ROS} Kinetic Kame release.
+This planning is done through \texttt{NavfnROS} planner. During development it was apparent that this planner have several limitations, limiting its use to \texttt{Cost\-map\-2D\-ROS} as a source of costmap where planning happens. I have submitted a patch extending \texttt{NavfnROS} planner in the core \gls{ROS} navigation stack. These changes have been accepted for the upcoming \gls{ROS} Kinetic Kame release.
 
 % section explore_lite-package (end)
 
