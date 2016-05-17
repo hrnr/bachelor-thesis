@@ -1,14 +1,14 @@
 \chapter{Merging algorithm}
 \label{chap:mergingalgorithm}
 
-In this chapter we present an merging algorithm for two-dimensional feature map-merging based on computer vision techniques. This is not completely new even in \gls{ROS} environment. First computer vision-based approach to merging was implemented in~\cite{MapstitchROS}. This package's primary purpose was to stitch generated map to existing static map.
+In this chapter I present a map-merging algorithm for two-dimensional maps based on computer vision techniques. This approach is not completely new. First map-merging algorithm implemented for \gls{ROS} based on image features is~\cite{MapstitchROS}. Purpose of this package is stitching map created by \gls{SLAM} to existing static map.
 
-Although this package was not developed for map merging in multi-robot configuration, algorithm and its original implementation were used for coordinated multi-robot exploration solution presented in~\cite{Andre2014}.
+Although this package was not developed for map-merging in multi-robot configuration, algorithm and its original implementation were used by~\cite{martins2013mrslam} for merging maps of two robots and in coordinated multi-robot exploration solution presented in~\cite{Andre2014}.
 
-Due to its original purpose, mapstitch algorithm shows some limitations for multi-robot map merging setup. Originally it was designed for offline use~\cite{Andre2014}. Also, it was designed for stitching two maps, one them being large reference map covering most of the environment. Although it is possible to incrementally merge maps from multiple robots with this algorithm, global map quality generally decreases with increasing number of robots. Significant decrease in performance was observed for 4 robots~\cite{Andre2014}.
+Due to its original purpose, mapstitch algorithm shows some limitations for multi-robot map-merging setup. Originally it was designed for offline use~\cite{Andre2014}. Also, it was designed for stitching two maps, one them being large reference map covering most of the environment. Although it is possible to incrementally merge maps from multiple robots with this algorithm, global map quality generally decreases with increasing number of robots. Significant decrease in performance was observed for 4 robots~\cite{Andre2014}.
 
 \begin{algorithm}
-    \caption{Mapstitch original algorithm}
+    \caption{Mapstitch original algorithm. Implemented for \gls{ROS} in~\cite{MapstitchROS}}
     \label{alg:mapstitch}
     \begin{algorithmic}[1]
         \Require $2$ occupancy grids
@@ -17,19 +17,19 @@ Due to its original purpose, mapstitch algorithm shows some limitations for mult
             \State detect \gls{ORB} features
             \State match keypoints with Brute-Force matcher
             \State find matching point pairs with same distance in both images
-            \State find homography (affine transform)
+            \State estimate affine transformation
         \EndProcedure
     \end{algorithmic}
 \end{algorithm}
 
-Algorithm~\ref{alg:mapstitch} shows original algorithm used in~\cite{MapstitchROS}, version used in~\cite{Andre2014} is only a slightly modified.
+Algorithm~\ref{alg:mapstitch} is original algorithm used in~\cite{MapstitchROS}, version used in~\cite{Andre2014} is only a slightly modified.
 
-Although our algorithm also uses computer vision-based approach, proposed algorithm deals with most of the limitations of the original simple algorithm. Proposed algorithm is designed to work with unlimited number of grids, so there is no additional need for iterative merging. More importantly, by design, algorithm can determine optimal order of individual pairwise merges. I assume this might be the main reason for decrease in performance in $4$-robot setup observed by~\cite{Andre2014}. Also proposed algorithm deals with other problems arising for general $n$-map merge problem such as situations when it is not possible to merge some of the maps because transformation to others could not be reliably estimated, cases where map transformation can be estimated from more sources (multiple neighbours) etc.
+Although our algorithm also uses computer vision based approach, it deals with limitations of the algorithm~\ref{alg:mapstitch}. Proposed algorithm is designed to work with arbitrary number of grids (while algorithm~\ref{alg:mapstitch} can only work with two grids). There is no need for iterative merging and moreover algorithm can determine optimal order of individual pairwise merges. I assume this might be the main reason for decrease in performance in $4$-robot setup observed by~\cite{Andre2014}. Also proposed algorithm deals with other problems arising for general $n$-map merge problem such as situations when it is not possible to merge some of the maps because transformation to others could not be reliably estimated, cases where map transformation can be estimated from more sources (multiple neighbours) etc.
 
 \section{Stitching pipeline} % (fold)
 \label{sec:stitchingpipeline}
 
-As discussed in chapter \#reference here\# our algorithm is inspired by image stitching algorithms. Stitching algorithms are well-understood and implementations are broadly available. General concept of multi-step stitching pipeline is described in~\cite{Brown2006}. Stitching pipeline is also well established code in \gls{OpenCV}, mostly based on~\cite{Brown2006}, along with~\cite{Szeliski2004} \cite{Shum1998} and others. Figure~\ref{fig:opencv} highlights processing steps in stitching as implemented in \gls{OpenCV}.
+As discussed in section~\ref{sec:indirect-map-merging} our algorithm is inspired by image stitching algorithms. Stitching algorithms are well-understood and implementations are broadly available. General concept of multi-step stitching pipeline is described in~\cite{Brown2006}. Stitching pipeline is also well established code in \gls{OpenCV}, mostly based on~\cite{Brown2006}, along with~\cite{Szeliski2004} \cite{Shum1998} and others. Figure~\ref{fig:opencv} highlights processing steps in stitching pipeline implemented in \gls{OpenCV}.
 
 \begin{figure}
 	\centering
@@ -38,34 +38,35 @@ As discussed in chapter \#reference here\# our algorithm is inspired by image st
 	\label{fig:opencv}
 \end{figure}
 
-Our algorithm will solve the registration part of stitching according to figure~\ref{fig:opencv}. As compositing part of stitching is relatively simple for occupancy grids compared to images from camera, because we don't need to compensate exposure errors, gain and other deficiencies. This solves the main problem of acquiring transformation between robots individual frames and bridging the problem of merging maps with known initial positions and unknown initial positions.
+Our algorithm will solve the registration part (estimating transformation between grids) according to figure~\ref{fig:opencv}. Compositing part of stitching is relatively simple for occupancy grids compared to images from camera, because we don't need to compensate exposure errors, gain and other deficiencies. Registration solves the main problem of acquiring transformation between individual frames of robots and bridges the problem of merging maps with known initial positions and unknown initial positions.
 
-\gls{ROS} node for map merging described in \#reference here\# implements also compositing part of the pipeline, which is simple when transformation is estimated with high precision.
+\gls{ROS} node for map merging described in section~\ref{sec:map_merge-package} implements also compositing part of the pipeline, which is an easy problem when transformation is estimated.
 
-For description of the algorithm we will assume to have maps represented as occupancy grids, with each cell containing value in range $[0,100]$ indicating probability that there is obstacle in the cell and $-1$ for indicating unknown probability. This representation is basically greyscale image, hence using image processing algorithms seems natural.
+For description of the algorithm we will assume maps are represented as occupancy grids, with each cell containing value in range $[0,100]$ indicating probability that there is obstacle in the cell and $-1$ for indicating unknown probability. \gls{ROS} uses the same representation. This representation can be mapped easily to greyscale image, hence using image processing algorithms is natural.
 
-We will consider occupancy grids greyscale images through algorithm~\ref{alg:estimategridtrasform}. Values in the image are exactly the same is in occupancy grids, without any mapping. This means images are be basically only $7$-bit depth.
+We will consider occupancy grids greyscale images through algorithm~\ref{alg:estimategridtrasform} and vice versa. Values in the range $[0,100]$ are the same, $-1$ is mapped to $255$ in the image. This way we get standard $8$-bit depth greyscale image.
 
-Algorithm~\ref{alg:estimategridtrasform} offers overview of the proposed algorithm, detailed description will be provided in following sections.
+Algorithm~\ref{alg:estimategridtrasform} offers overview of the proposed algorithm, detailed description is provided in following sections.
 
 \begin{algorithm}
-    \caption{Proposed algorithm for estimating transform between multiple occupancy grids}
+    \caption{Proposed algorithm for estimating transformation between multiple occupancy grids. Uses algorithm~\ref{alg:estimatefinaltrans} to estimate final transformations.}
     \label{alg:estimategridtrasform}
     \begin{algorithmic}[1]
-        \Require occupancy grids
+        \Require $k$ occupancy grids
         \Ensure for each grid: transformation between grid and global reference frame, or value indicating transformation could not be be estimated for current grid
         \Procedure{estimateGridTransform}{$grids$}
             \State detect \gls{ORB} features (keypoints) for each grid
-            \ForAll{pair of grids} \Comment{we will compute transformation between each image along with confidence}
+            \ForAll{$(i,j)$ pair of grids} \Comment{compute transform for each pair}
             	\State match features
             	\State $n \gets \text{number of matches}$
             	\If{$n \le \text{matches threshold}$}
             		\State confidence $\gets 0$
             	\Else
-            		\State find restricted affine transformation for keypoints using \gls{RANSAC}
+            		\State try find restricted affine transformation for features with \gls{RANSAC}
             		\State $\psi \gets \text{number of inliers in \gls{RANSAC}}$
             		\If{transformation found}
             			\State confidence $\gets \frac{\psi}{8 + 0.3 \cdot n}$
+                        \State $P_{(i,j)} \gets$ restricted affine transformation
             		\Else
             			\State confidence $\gets 0$
             		\EndIf
@@ -75,7 +76,7 @@ Algorithm~\ref{alg:estimategridtrasform} offers overview of the proposed algorit
             \State $g \gets (grids, matches)$
             \State $h \gets$ largest connected component in $g$
             \State $t \gets$ maximum spanning tree in $h$
-            \State walk $t$ and compute transformations to global reference frame
+            \State \Call{estimateFinalTransform}{$t$, $P_{(i,j)} \forall e \in \text{edges of } t$} \Comment{walk $t$ and compute transformations to global reference frame}
         \EndProcedure
     \end{algorithmic}
 \end{algorithm}
@@ -244,7 +245,7 @@ Finally we can walk through spanning tree to obtain final transforms. There is n
     \begin{algorithmic}[1]
         \Require $t$ maximum spanning tree on grids, $P_{(i,j)}$ is pairwise reduced affine transformation between grids $i, j$
         \Ensure $T_i \forall i \in V$ transformations
-        \Procedure{estimateFinalTrasform}{$t = (V,E)$, $P_e \forall e \in e$}
+        \Procedure{estimateFinalTransform}{$t = (V,E)$, $P_e \forall e \in e$}
             \State $e \gets$ edges of $t$ sorted by discover time in \gls{BFS} started from grid with reference frame \Comment{using \gls{BFS} or \gls{DFS} does not matter here}
             \State $\forall T_i: T_i \gets I$ \Comment{initialize transformations with identity}
             \ForAll{$(i,j)$ in $e$}
