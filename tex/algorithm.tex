@@ -110,11 +110,11 @@ For occupancy grids in multi-robot mapping scenario it is impractical to assume 
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{../img/matches.pdf}
-    \caption{Graph showing matches between $37$ occupancy grids during map merging. This graph was acquired for maps from MIT dataset described in section~\ref{sec:mit-dataset}. Grids without any matches are omitted. Legend: $Nm$ number of matches, $Ni$ number of inliers from \gls{RANSAC}, $C$ confidence.}
+    \caption{Graph showing matches between $36$ occupancy grids during map merging. This graph was acquired for maps from MIT dataset described in section~\ref{sec:mit-dataset}. Grids without any matches are omitted. Legend: $Nm$ number of matches, $Ni$ number of inliers from \gls{RANSAC}, $C$ confidence.}
     \label{fig:matches}
 \end{figure}
 
-Figure~\ref{fig:matches} shows matching results for $37$ occupancy grids acquired during experiment presented in section~\ref{sec:probability-model-evaluation}. Computations for each pair are independent, so it is easy to run matching of all pairs in parallel. This approach is used in map merging node presented in section~\ref{sec:map_merge-package}.
+Figure~\ref{fig:matches} shows matching results for $36$ occupancy grids acquired during experiment presented in section~\ref{sec:probability-model-evaluation}. Computations for each pair are independent, so it is easy to run matching of all pairs in parallel. This approach is used in map merging node presented in section~\ref{sec:map_merge-package}.
 
 Because of non-linear number of pairs it is usually too computationally expensive to search for matches using simple brute-force search (even if it runs in parallel) unless it can be offloaded to GPU. For matching on CPU it is better to use approximate methods, which can be much faster.
 
