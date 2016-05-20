@@ -14,7 +14,7 @@
 @InProceedings{Andre2014,
   Title                    = {Coordinated Multi-Robot Exploration: Out of the Box Packages for {ROS}},
   Author                   = {Andre, T. and Neuhold, D. and Bettstetter, C.},
-  Booktitle                = {Proc. of IEEE GLOBECOM WiUAV Workshop},
+  Booktitle                = {IEEE GLOBECOM WiUAV Workshop},
   Year                     = {2014},
   Month                    = dec,
 }
@@ -22,11 +22,12 @@
 @misc{MapstitchROS,
   author = {Philipp M. Scholl},
   journal = {ROS Wiki},
-  title = {Mapstitch},
+  title = {mapstitch},
   publisher = {Open Source Robotics Foundation},
   address = {Mountain View, CA},
-  URL = {http://wiki.ros.org/mapstitch},
+  howpublished = {\url{http://wiki.ros.org/mapstitch}},
   year="2012",
+  note = "[Online; accessed 2016-05-20]",
 }
 
 @Article{Brown2006,
@@ -60,7 +61,7 @@ abstract     = {This tutorial reviews image alignment and image stitching algori
                 in the area.},
 author       = {Richard Szeliski},
 institution  = {Microsoft Research},
-month        = {October},
+month        = oct,
 number       = {MSR-TR-2004-92},
 pages        = {89},
 title        = {Image Alignment and Stitching: A Tutorial},
@@ -89,8 +90,8 @@ abstract     = {This paper presents a new approach to computing depth maps from 
 address      = {Bombay},
 author       = {Heung-Yeung Shum and Richard Szeliski},
 booktitle    = {Sixth International Conference on Computer Vision (ICCV'98)},
-month        = {January},
-pages        = {953-958},
+month        = jan,
+pages        = {953--958},
 publisher    = {IEEE Computer Society},
 title        = {Construction and refinement of panoramic mosaics with global and local alignment},
 url          = {http://research.microsoft.com/apps/pubs/default.aspx?id=75611},
@@ -100,14 +101,14 @@ year         = {1998},
 @INPROCEEDINGS{Rublee2011,
 author={E. Rublee and V. Rabaud and K. Konolige and G. Bradski},
 booktitle={2011 International Conference on Computer Vision},
-title={ORB: An efficient alternative to SIFT or SURF},
+title={\gls{ORB}: An efficient alternative to \gls{SIFT} or \gls{SURF}},
 year={2011},
-pages={2564-2571},
+pages={2564--2571},
 abstract={Feature matching is at the base of many computer vision problems, such as object recognition or structure from motion. Current methods rely on costly descriptors for detection and matching. In this paper, we propose a very fast binary descriptor based on BRIEF, called ORB, which is rotation invariant and resistant to noise. We demonstrate through experiments how ORB is at two orders of magnitude faster than SIFT, while performing as well in many situations. The efficiency is tested on several real-world applications, including object detection and patch-tracking on a smart phone.},
 keywords={computer vision;image matching;object detection;object recognition;tracking;transforms;BRIEF;ORB;SIFT;SURF;binary descriptor;computer vision;feature matching;noise resistance;object detection;object recognition;patch-tracking;smart phone;Boats},
 doi={10.1109/ICCV.2011.6126544},
 ISSN={1550-5499},
-month={Nov},
+month=nov,
 }
 
 @Article{Xie2015,
@@ -133,29 +134,30 @@ url="http://dx.doi.org/10.1007/s12652-015-0319-2"
 @misc{lowe2004method,
   title={Method and apparatus for identifying scale invariant features in an image and use of same for locating an object in an image},
   author={Lowe, D.G.},
-  url={http://www.google.com/patents/US6711293},
+  howpublished={\url{http://www.google.com/patents/US6711293}},
   year={2004},
-  month=mar # "~23",
+  month=mar,
   publisher={Google Patents},
   note={US Patent 6,711,293}
 }
 
 @INPROCEEDINGS{Alahi2012,
 author={A. Alahi and R. Ortiz and P. Vandergheynst},
-booktitle={Computer Vision and Pattern Recognition (CVPR), 2012 IEEE Conference on},
+booktitle={IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},
 title={FREAK: Fast Retina Keypoint},
 year={2012},
-pages={510-517},
+pages={510--517},
 abstract={A large number of vision applications rely on matching keypoints across images. The last decade featured an arms-race towards faster and more robust keypoints and association algorithms: Scale Invariant Feature Transform (SIFT)[17], Speed-up Robust Feature (SURF)[4], and more recently Binary Robust Invariant Scalable Keypoints (BRISK)[I6] to name a few. These days, the deployment of vision algorithms on smart phones and embedded devices with low memory and computation complexity has even upped the ante: the goal is to make descriptors faster to compute, more compact while remaining robust to scale, rotation and noise. To best address the current requirements, we propose a novel keypoint descriptor inspired by the human visual system and more precisely the retina, coined Fast Retina Keypoint (FREAK). A cascade of binary strings is computed by efficiently comparing image intensities over a retinal sampling pattern. Our experiments show that FREAKs are in general faster to compute with lower memory load and also more robust than SIFT, SURF or BRISK. They are thus competitive alternatives to existing keypoints in particular for embedded applications.},
 keywords={computational complexity;eye;image matching;smart phones;transforms;SIFT;SURF;association algorithm;binary robust invariant scalable keypoint;binary string;computation complexity;embedded application;embedded device;fast retina keypoint;human visual system;keypoint descriptor;keypoint matching;scale invariant feature transform;smart phone;speed-up robust feature;vision application;Detectors;Humans;Kernel;Noise;Retina;Robustness;Vectors},
 doi={10.1109/CVPR.2012.6247715},
 ISSN={1063-6919},
-month={June},}
+month=jun,
+}
 
 @article{alcantarilla2011fast,
   title={Fast explicit diffusion for accelerated features in nonlinear scale spaces},
-  author={Alcantarilla, Pablo F and Solutions, TrueVision},
-  journal={IEEE Trans. Patt. Anal. Mach. Intell},
+  author={Alcantarilla, Pablo F. and Solutions, TrueVision},
+  journal={IEEE Transactions on Pattern Analysis and Machine Intelligence},
   volume={34},
   number={7},
   pages={1281--1298},
@@ -176,7 +178,7 @@ month={June},}
   title = {Fast Matching of Binary Features},
   booktitle = {Computer and Robot Vision {(CRV)}},
   year = {2012},
-  pages = {404-410}
+  pages = {404--410}
 }
 
 @article{fischler1981random,
@@ -204,38 +206,43 @@ month={June},}
   title = {Multimaster Special Interest Group},
   publisher = {Open Source Robotics Foundation},
   address = {Mountain View, CA},
-  year = {2015-04-02},
-  URL = {http://wiki.ros.org/sig/Multimaster},
+  year = {2015},
+  howpublished = {\url{http://wiki.ros.org/sig/Multimaster}},
+  note = "[Online; accessed 2016-05-20]",
 }
 
-@Inbook{Yan2014,
-author="Yan, Zhi
-and Fabresse, Luc
-and Laval, Jannik
-and Bouraqadi, Noury",
-editor="Brugali, Davide
-and Broenink, Jan F.
-and Kroeger, Torsten
-and MacDonald, Bruce A.",
-chapter="Team Size Optimization for Multi-robot Exploration",
-title="Simulation, Modeling, and Programming for Autonomous Robots: 4th International Conference, SIMPAR 2014, Bergamo, Italy, October 20-23, 2014. Proceedings",
+@INPROCEEDINGS{Yan2014,
+author="Yan, Zhi and Fabresse, Luc and Laval, Jannik and Bouraqadi, Noury",
+title="Team Size Optimization for Multi-robot Exploration",
+booktitle="Simulation, Modeling, and Programming for Autonomous Robots: 4th International Conference, SIMPAR 2014, Bergamo, Italy",
 year="2014",
 publisher="Springer International Publishing",
-address="Cham",
 pages="438--449",
 isbn="978-3-319-11900-7",
 doi="10.1007/978-3-319-11900-7_37",
-url="http://dx.doi.org/10.1007/978-3-319-11900-7_37"
+url="http://dx.doi.org/10.1007/978-3-319-11900-7_37",
+month=oct,
 }
 
-@INPROCEEDINGS{2013:RoboCup,
-  author = {S. Kohlbrecher and J. Meyer and T. Graber and K. Petersen and O. von Stryk and U. Klingauf},
-  title = {Hector open source modules for autonomous mapping and navigation with rescue robots},
-  year = {2013},
-  pages = {to appear},
-  publisher = {Springer},
-  series = {Lecture Notes in Artificial Intelligence (LNAI)},
-  booktitle = {Proc. RoboCup Symposium 2013},
+@Inbook{2013:RoboCup,
+author="Kohlbrecher, Stefan
+and Meyer, Johannes
+and Graber, Thorsten
+and Petersen, Karen
+and Klingauf, Uwe
+and von Stryk, Oskar",
+editor="Behnke, Sven
+and Veloso, Manuela
+and Visser, Arnoud
+and Xiong, Rong",
+chapter="Hector Open Source Modules for Autonomous Mapping and Navigation with Rescue Robots",
+title="RoboCup 2013: Robot World Cup XVII",
+year="2014",
+publisher="Springer Berlin Heidelberg",
+pages="624--631",
+isbn="978-3-662-44468-9",
+doi="10.1007/978-3-662-44468-9_58",
+url="http://dx.doi.org/10.1007/978-3-662-44468-9_58"
 }
 
 @misc{DuHadway2010,
@@ -244,8 +251,9 @@ url="http://dx.doi.org/10.1007/978-3-319-11900-7_37"
   title = {explore},
   publisher = {Open Source Robotics Foundation},
   address = {Mountain View, CA},
-  year = {2010-03-12},
-  URL = {http://wiki.ros.org/explore},
+  year = {2010},
+  howpublished = {\url{http://wiki.ros.org/explore}},
+  note = "[Online; accessed 2016-05-20]",
 }
 
 @misc{Bovbel2010,
@@ -254,8 +262,9 @@ url="http://dx.doi.org/10.1007/978-3-319-11900-7_37"
   title = {frontier\_exploration},
   publisher = {Open Source Robotics Foundation},
   address = {Mountain View, CA},
-  year = {2015-04-07},
-  URL = {http://wiki.ros.org/frontier_exploration},
+  year = {2015},
+  howpublished = {\url{http://wiki.ros.org/frontier_exploration}},
+  note = "[Online; accessed 2016-05-20]",
 }
 
 @misc{Marthi2014,
@@ -264,8 +273,9 @@ url="http://dx.doi.org/10.1007/978-3-319-11900-7_37"
   title = {occupancy\_grid\_utils},
   publisher = {Open Source Robotics Foundation},
   address = {Mountain View, CA},
-  year = {2014-04-04},
-  URL = {http://wiki.ros.org/occupancy_grid_utils},
+  year = {2014},
+  howpublished = {\url{http://wiki.ros.org/occupancy_grid_utils}},
+  note = "[Online; accessed 2016-05-20]",
 }
 
 @misc{Marder2016,
@@ -274,8 +284,9 @@ url="http://dx.doi.org/10.1007/978-3-319-11900-7_37"
   title = {move\_base},
   publisher = {Open Source Robotics Foundation},
   address = {Mountain View, CA},
-  year = {2016-03-03},
-  URL = {http://wiki.ros.org/move_base},
+  year = {2016},
+  howpublished = {\url{http://wiki.ros.org/move_base}},
+  note = "[Online; accessed 2016-05-20]",
 }
 
 @misc{GitHubOccGridUtils,
@@ -283,8 +294,9 @@ url="http://dx.doi.org/10.1007/978-3-319-11900-7_37"
   title = {occupancy\_grid\_utils},
   publisher = {GitHub},
   journal = {GitHub repository},
-  year = {2016-04-26},
-  URL = {https://github.com/clearpathrobotics/occupancy_grid_utils},
+  year = {2016},
+  howpublished = {\url{https://github.com/clearpathrobotics/occupancy_grid_utils}},
+  note = "[Online; accessed 2016-05-20]",
 }
 
 @misc{GitHubRoboRescue,
@@ -292,8 +304,9 @@ url="http://dx.doi.org/10.1007/978-3-319-11900-7_37"
   title = {p3dx\_robot},
   publisher = {GitHub},
   journal = {GitHub repository},
-  year = {2016-05-01},
-  URL = {https://github.com/hrnr/robo-rescue},
+  year = {2016},
+  howpublished = {\url{https://github.com/hrnr/robo-rescue}},
+  note = "[Online; accessed 2016-05-01]",
 }
 
 @article{Fallon2013,
@@ -301,7 +314,7 @@ author = {Fallon, Maurice and Johannsson, Hordur and Kaess, Michael and Leonard,
 title = {The MIT Stata Center dataset},
 volume = {32},
 number = {14},
-pages = {1695-1699},
+pages = {1695--1699},
 year = {2013},
 doi = {10.1177/0278364913509035},
 abstract ={This paper presents a large scale dataset of vision (stereo and RGB-D), laser and proprioceptive data collected over an extended duration by a Willow Garage PR2 robot in the 10 story MIT Stata Center. As of September 2012 the dataset comprises over 2.3 TB, 38 h and 42 km (the length of a marathon). The dataset is of particular interest to robotics and computer vision researchers interested in long-term autonomy. It is expected to be useful in a variety of research areas—robotic mapping (long-term, visual, RGB-D or laser), change detection in indoor environments, human pattern analysis, long-term path planning. For ease of use the original ROS ‘bag’ log files are provided and also a derivative version combining human readable data and imagery in standard formats. Of particular importance, this dataset also includes ground-truth position estimates of the robot at every instance (to typical accuracy of 2 cm) using as-built floor-plans—which were carefully extracted using our software tools. The provision of ground-truth for such a large dataset enables more meaningful comparison between algorithms than has previously been possible.},
@@ -312,38 +325,41 @@ journal = {The International Journal of Robotics Research}
 
 @INPROCEEDINGS{Lee2012,
 author={H. C. Lee and Seung-Hwan Lee and Tae-Seok Lee and Doo-Jin Kim and B. H. Lee},
-booktitle={Ubiquitous Robots and Ambient Intelligence (URAI), 2012 9th International Conference on},
+booktitle={9th International Conference on Ubiquitous Robots and Ambient Intelligence (URAI)},
 title={A survey of map merging techniques for cooperative-SLAM},
 year={2012},
-pages={285-287},
+pages={285--287},
 abstract={This paper presents a survey of map merging techniques for cooperative-SLAM. The recently proposed map merging techniques are classified into two categories: direct map merging and indirect map merging. In each category, several techniques are briefly described. Then, their advantages and disadvantages are discussed in the context of accuracy and computation time. The description and discussion can contribute to realizing and improving cooperative-SLAM.},
 keywords={SLAM (robots);mobile robots;multi-robot systems;cooperative-SLAM;direct map merging;indirect map merging;map merging techniques;simultaneous localization and mapping;Feature extraction;Hardware;Merging;Simultaneous localization and mapping;Visualization;Cooperative-SLAM;Distributed robot system;Map merging technique},
 doi={10.1109/URAI.2012.6462995},
-month={Nov},}
+month=nov,
+}
 
 @INPROCEEDINGS{Zhou2006,
 author={X. S. Zhou and S. I. Roumeliotis},
-booktitle={2006 IEEE/RSJ International Conference on Intelligent Robots and Systems},
+booktitle={IEEE/RSJ International Conference on Intelligent Robots and Systems},
 title={Multi-robot SLAM with Unknown Initial Correspondence: The Robot Rendezvous Case},
 year={2006},
-pages={1785-1792},
+pages={1785--1792},
 abstract={This paper presents a new approach to the multi-robot map-alignment problem that enables teams of robots to build joint maps without initial knowledge of their relative poses. The key contribution of this work is an optimal algorithm for merging (not necessarily overlapping) maps that are created by different robots independently. Relative pose measurements between pairs of robots are processed to compute the coordinate transformation between any two maps. Noise in the robot-to-robot observations, propagated through the map-alignment process, increases the error in the position estimates of the transformed landmarks, and reduces the overall accuracy of the merged map. When there is overlap between the two maps, landmarks that appear twice provide additional information, in the form of constraints, which increases the alignment accuracy. Landmark duplicates are identified through a fast nearest-neighbor matching algorithm. In order to reduce the computational complexity of this search process, a kd-tree is used to represent the landmarks in the original map. The criterion employed for matching any two landmarks is the Mahalanobis distance. As a means of validation, we present experimental results obtained from two robots mapping an area of 4,800 m2},
 keywords={SLAM (robots);computational complexity;image matching;multi-robot systems;navigation;optimisation;robot vision;trees (mathematics);Mahalanobis distance;computational complexity;coordinate transformation;fast nearest-neighbor matching algorithm;joint maps;kd tree;map alignment problem;multi-robot SLAM;optimal map merging algorithm;position estimates;relative pose measurements;robot rendezvous case;robot-to-robot observation noise;unknown initial correspondence;Computational complexity;Computer science;Coordinate measuring machines;Intelligent robots;Maximum likelihood estimation;Merging;Noise reduction;Robot kinematics;Robot sensing systems;Simultaneous localization and mapping},
 doi={10.1109/IROS.2006.282219},
 ISSN={2153-0858},
-month={Oct},}
+month=oct,
+}
 
 @INPROCEEDINGS{Konolige2003,
 author={K. Konolige and D. Fox and B. Limketkai and J. Ko and B. Stewart},
-booktitle={Intelligent Robots and Systems, 2003. (IROS 2003). Proceedings. 2003 IEEE/RSJ International Conference on},
+booktitle={IEEE/RSJ International Conference on Intelligent Robots and Systems},
 title={Map merging for distributed robot navigation},
 year={2003},
 volume={1},
-pages={212-217 vol.1},
+pages={212--217},
 abstract={A set of robots mapping an area can potentially combine their information to produce a distributed map more efficiently than a single robot alone. We describe a general framework for distributed map building in the presence of uncertain communication. Within this framework, we then present a technical solution to the key decision problem of determining relative location within partial maps.},
 keywords={image matching;mobile robots;multi-robot systems;navigation;distributed map building;distributed robot navigation;map merging;robot mapping;uncertain communication;Artificial intelligence;Centralized control;Communication system control;Intelligent robots;Merging;Navigation;Robot kinematics;Robot sensing systems;Robustness;Solids},
 doi={10.1109/IROS.2003.1250630},
-month={Oct},}
+month=oct
+}
 
 @Article{Carpin2008,
 author="Carpin, Stefano",
@@ -364,45 +380,38 @@ author = { Heon-Cheol   Lee  and  Beom-Hee   Lee },
 title = {Improved Feature Map Merging Using Virtual Supporting Lines for Multi-Robot Systems},
 journal = {Advanced Robotics},
 volume = {25},
-number = {13-14},
-pages = {1675-1696},
+number = {13--14},
+pages = {1675--1696},
 year = {2011},
 doi = {10.1163/016918611X584631},
-
-URL = {
-        http://dx.doi.org/10.1163/016918611X584631
-
-},
-eprint = {
-        http://dx.doi.org/10.1163/016918611X584631
-
-}
-,
-    abstract = { This paper addresses the problem of feature map merging, which is one of the essential techniques for multi-robot systems. If inter-robot measurements are not available for feature map merging, the only way to obtain the map transformation matrix is feature map matching. However, the conventional feature map matching technique requires too much computation time because it has to be iteratively performed to compute the degree of the mismatch between multiple feature maps. This paper proposes a non-iterative feature map merging technique using virtual supporting lines (VSLs) which is also accurate and robust. The proposed technique extracts the spectral information of multiple feature maps using VSLs and obtains the map transformation matrix using the circular cross-correlation between the extracted spectral information of the multiple feature maps. The proposed technique was tested on feature maps produced by experiments with vision sensors, which was performed non-iteratively. In addition, it consistently showed a high acceptance index, which indicates the degree of accuracy for feature map merging. }
+URL = {http://dx.doi.org/10.1163/016918611X584631},
+abstract = { This paper addresses the problem of feature map merging, which is one of the essential techniques for multi-robot systems. If inter-robot measurements are not available for feature map merging, the only way to obtain the map transformation matrix is feature map matching. However, the conventional feature map matching technique requires too much computation time because it has to be iteratively performed to compute the degree of the mismatch between multiple feature maps. This paper proposes a non-iterative feature map merging technique using virtual supporting lines (VSLs) which is also accurate and robust. The proposed technique extracts the spectral information of multiple feature maps using VSLs and obtains the map transformation matrix using the circular cross-correlation between the extracted spectral information of the multiple feature maps. The proposed technique was tested on feature maps produced by experiments with vision sensors, which was performed non-iteratively. In addition, it consistently showed a high acceptance index, which indicates the degree of accuracy for feature map merging. }
 }
 
 @INPROCEEDINGS{Wang2012,
 author={K. Wang and S. Jia and Y. Li and X. Li and B. Guo},
-booktitle={Information and Automation (ICIA), 2012 International Conference on},
+booktitle={International Conference on Information and Automation (ICIA)},
 title={Research on map merging for multi-robotic system based on RTM},
 year={2012},
-pages={156-161},
+pages={156--161},
 abstract={Multi-robotic system is widely used in exploring in large-scale unknown environment and performing the complex tasks. This paper presents a method of local map merging for Multi-robotic system using RTM as communication platform. We integrate Scale-Invariant Feature Transform (SIFT) feature matching information with iterative closest point (ICP) algorithm to realize the local map merging. We use the USARSim as simulation platform to realize topological map and map merging for the environment in which mobile robots moving using the proposed method. The paper details the architecture of the proposed method and gives some experiments to verify the effectiveness.},
 keywords={SLAM (robots);control engineering computing;feature extraction;image matching;iterative methods;middleware;mobile robots;multi-robot systems;robot vision;transforms;ICP;RTM;SIFT;USARSim;iterative closest point algorithm;local map merging method;mobile robots;multirobotic system;robot technology middleware;scale-invariant feature transform feature matching information;topological map;Feature extraction;Merging;Mobile robots;Path planning;Robot sensing systems;Topology;ICP;Multi-robotic system;RTM;SIFT;map merging},
 doi={10.1109/ICInfA.2012.6246800},
-month={June},}
+month=jun,
+}
 
 @INPROCEEDINGS{Tungandi2010,
 author={F. Tungadi and W. L. D. Lui and L. Kleeman and R. Jarvis},
-booktitle={Intelligent Robots and Systems (IROS), 2010 IEEE/RSJ International Conference on},
+booktitle={IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS)},
 title={Robust online map merging system using laser scan matching and omnidirectional vision},
 year={2010},
-pages={7-14},
+pages={7--14},
 abstract={This paper describes a probabilistic online map merging system for a single mobile robot. It performs intermittent exploration by fusing laser scan matching and omnidirectional vision. Moreover, it can also be adapted to a multi-robot system for large scale environments. Map merging is achieved by means of a probabilistic Haar-based place recognition system using omnidirectional images and is capable of discriminating new and previously visited locations in the current or previously collected maps. This dramatically reduces the search space for laser scan matching. The combination of laser range finding and omnidirectional vision is very attractive because they reinforce one another when there is sufficient structure and visual information in the environment. In other cases, they complement one another, leading to improved robustness of the system. This is the first system to combine a probabilistic Haar-based place recognition system using omnidirectional images with laser range finding to merge maps. The proposed system is also algorithmically simple, efficient and does not require any offline processing. Experimental results of the approach clearly illustrate that the proposed system can perform both online map merging and exploration robustly using a single robot configuration in a real indoor lab environment.},
 keywords={image matching;laser ranging;mobile robots;multi-robot systems;robot vision;laser range finding;laser scan matching;mobile robot;multi-robot system;omnidirectional vision;online map merging system;probabilistic Haar-based place recognition},
 doi={10.1109/IROS.2010.5654446},
 ISSN={2153-0858},
-month={Oct},}
+month=oct,
+}
 
 @article{Lee2012PropMerge,
 author = {Lee,Heon-Cheol and Lee,Seung-Hwan and Choi,Myoung Hwan and Lee,Beom-Hee},
@@ -410,8 +419,7 @@ title = {Probabilistic map merging for multi-robot RBPF-SLAM with unknown initia
 journal = {Robotica},
 volume = {30},
 issue = {02},
-month = {3},
-month = {3},
+month = mar,
 year = {2012},
 issn = {1469-8668},
 pages = {205--220},
@@ -431,24 +439,26 @@ URL = {http://journals.cambridge.org/article_S026357471100049X},
 
 @INPROCEEDINGS{Cunningham2012,
 author={A. Cunningham and K. M. Wurm and W. Burgard and F. Dellaert},
-booktitle={Robotics and Automation (ICRA), 2012 IEEE International Conference on},
+booktitle={IEEE International Conference on Robotics and Automation (ICRA)},
 title={Fully distributed scalable smoothing and mapping with robust multi-robot data association},
 year={2012},
-pages={1093-1100},
+pages={1093--1100},
 abstract={In this paper we focus on the multi-robot perception problem, and present an experimentally validated end-to-end multi-robot mapping framework, enabling individual robots in a team to see beyond their individual sensor horizons. The inference part of our system is the DDF-SAM algorithm [1], which provides a decentralized communication and inference scheme, but did not address the crucial issue of data association. One key contribution is a novel, RANSAC-based, approach for performing the between-robot data associations and initialization of relative frames of reference. We demonstrate this system with both data collected from real robot experiments, as well as in a large scale simulated experiment demonstrating the scalability of the proposed approach.},
 keywords={data mining;inference mechanisms;iterative methods;multi-robot systems;DDF-SAM algorithm;RANSAC-based approach;decentralized communication;distributed scalable mapping;distributed scalable smoothing;end-to-end multirobot mapping framework;inference scheme;multirobot perception problem;robust multirobot data association;sensor horizons;Optimization;Robot kinematics;Robustness;Simultaneous localization and mapping;Transforms},
 doi={10.1109/ICRA.2012.6225356},
 ISSN={1050-4729},
-month={May},}
+month=may,
+}
 
 @INPROCEEDINGS{Lazaro2013,
 author={M. T. Lázaro and L. M. Paz and P. Piniés and J. A. Castellanos and G. Grisetti},
 booktitle={2013 IEEE/RSJ International Conference on Intelligent Robots and Systems},
 title={Multi-robot SLAM using condensed measurements},
 year={2013},
-pages={1069-1076},
+pages={1069--1076},
 abstract={In this paper we describe a Simultaneous Localization and Mapping (SLAM) approach specifically designed to address the communication and computational issues that affect multi-robot systems. Our method utilizes condensed measurements to exchange map information between the robots. These measurements can effectively compress relevant portions of a map in a few data. This results in a substantial reduction of both the data to be transmitted and processed, that renders the system more robust and efficient. As documented by our simulated and real world experiments, these advantages come with a very little decrease in accuracy compared to ideal (but not realistic) methods that share the full data among all the robots.},
 keywords={SLAM (robots);data compression;graph theory;multi-robot systems;communication issues;compression;computational issues;condensed measurements;data processing;data reduction;data transmission;multirobot SLAM;multirobot system;robot map information exchange;simultaneous localization and mapping;Bandwidth;Current measurement;Optimization;Robustness;Simultaneous localization and mapping},
 doi={10.1109/IROS.2013.6696483},
 ISSN={2153-0858},
-month={Nov},}
+month=nov,
+}
