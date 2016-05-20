@@ -34,21 +34,21 @@ Video capturing map-merging during whole simulation, rosbag with map topics, sce
 \begin{figure}
     \centering
     \includegraphics[width=3.93in]{../img/minimal-overlapping-area-scene.png}
-    \caption{Scene for experiment with $3$ robots in \gls{VREP} simulator. Robot positions in scene are used as initial positions of robots for experiment.}
+    \caption[Scene for experiment with $3$ robots.]{Scene for experiment with $3$ robots in \gls{VREP} simulator. Robot positions in scene are used as initial positions of robots for experiment.}
     \label{fig:minimal-overlapping-area-scene}
 \end{figure}
 
 \begin{figure}
     \centering
     \includegraphics[width=3.35in]{../img/merging-with-known-initial-positions-begin.png}
-    \caption{Initial maps produced by robots during experiment in simulator. Merged map is produced with knowledge of initial positions and can be therefore produced even without overlapping areas. In this situation merged map can be sparse.}
+    \caption[Initial maps produced by robots in the simulator.]{Initial maps produced by robots during experiment in the simulator. Merged map is produced with knowledge of initial positions and can be therefore produced even without overlapping areas. In this situation merged map can be sparse.}
     \label{fig:merging-with-known-initial-positions-begin}
 \end{figure}
 
 \begin{figure}
     \centering
     \includegraphics[width=3.35in]{../img/merging-with-known-initial-positions-end.png}
-    \caption{Final maps produced in simulator. Merged map is produced with knowledge of initial positions.}
+    \caption[Final maps produced in during experiment the simulator.]{Final maps produced in the simulator. Merged map is produced with knowledge of initial positions.}
     \label{fig:merging-with-known-initial-positions-end}
 \end{figure}
 
@@ -80,7 +80,7 @@ estimate:
  -0.001232315845354937, 1.000933706668138, -119.6792960984003]
 num_inliers 157
 	\end{code}
-    \caption{Excerpt from the attached log of map-merging node captured during simulation. Shows output of matching phase of the algorithm for $3$ pairwise matches along with number of inliers.}
+    \caption[Excerpt from the attached log of the map-merging node.]{Excerpt from the attached log of the map-merging node captured during simulation. Shows output of matching phase of the algorithm for $3$ pairwise matches along with number of inliers.}
     \label{fig:minimal-overlapping-area-log}
 \end{figure}
 
@@ -92,14 +92,14 @@ Simulation showed that a reliable merge between maps can be produced for $5-6$ o
 \begin{figure}
     \centering
     \includegraphics[width=2.22in]{../img/minimal-overlapping-area-final-maps.png}
-    \caption{Maps produced by a multi-robot mapping in the simulator. Simulated scene can be seen in figure~\ref{fig:minimal-overlapping-area-scene}. Positions of the robots are final positions where robots finished mapping.}
+    \caption[Maps produced by a multi-robot mapping in the simulator.]{Maps produced by a multi-robot mapping in the simulator. Simulated scene can be seen in figure~\ref{fig:minimal-overlapping-area-scene}. Positions of the robots are final positions where robots finished mapping.}
     \label{fig:minimal-overlapping-area-final-maps}
 \end{figure}
 
 \begin{figure}
     \centering
     \includegraphics[width=1.58in]{../img/minimal-overlapping-area-merged-map.png}
-    \caption{Merged map produced by the map-merging node. This map has been produced from $3$ maps shown in figure~\ref{fig:minimal-overlapping-area-final-maps}.}
+    \caption[The merged map produced by the map-merging node.]{The merged map produced by the map-merging node. This map has been produced from $3$ maps shown in figure~\ref{fig:minimal-overlapping-area-final-maps}.}
     \label{fig:minimal-overlapping-area-merged-map}
 \end{figure}
 
@@ -119,7 +119,7 @@ Data for this experiment including rosbag with map topics, scene for \gls{VREP} 
 \begin{figure}
     \centering
     \includegraphics[width=5.71in]{../img/retaining-largest-transformation-montage.png}
-    \caption{Map-merging with largest transformation retaining. From the left: Maps have no overlaps, unable to merge more than a single map. Incorrect transformation estimated due to too small overlaps. Overlapping space is still too small to produce a merge, but incorrect transformation was rejected. Due to largest transformation retaining incorrect merge is still produced.}
+    \caption[Map-merging with largest transformation retaining.]{Map-merging with largest transformation retaining. From the left: Maps have no overlaps, unable to merge more than a single map. Incorrect transformation estimated due to too small overlaps. Overlapping space is still too small to produce a merge, but incorrect transformation was rejected. Due to largest transformation retaining incorrect merge is still produced.}
     \label{fig:retaining-largest-transformation-montage}
 \end{figure}
 
@@ -146,19 +146,19 @@ Data used for this experiment are available in the attachments. This data consis
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{../img/probability-model-evaluation-treshold_1_0-12maps.png}
-    \caption{Merged map created from $36$ maps shown in figure~\ref{fig:probability-model-evaluation-montage}. $12$ maps are included in the merged map. Confidence threshold is set to $1.0$.}
+    \caption[The merged map created with confidence threshold $1.0$.]{Merged map created from $36$ maps shown in figure~\ref{fig:probability-model-evaluation-montage}. $12$ maps are included in the merged map. Confidence threshold is set to $1.0$.}
     \label{fig:probability-model-evaluation-treshold_1.0-12maps}
 \end{figure}
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{../img/probability-model-evaluation-treshold_1_5-9maps.png}
-    \caption{Merged map created from $36$ maps shown in figure~\ref{fig:probability-model-evaluation-montage}. $9$ maps are included in the merged map. Confidence threshold is set to $1.5$.}
+    \caption[The merged map created with confidence threshold $1.5$.]{Merged map created from $36$ maps shown in figure~\ref{fig:probability-model-evaluation-montage}. $9$ maps are included in the merged map. Confidence threshold is set to $1.5$.}
     \label{fig:probability-model-evaluation-treshold_1.5-9maps}
 \end{figure}
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{../img/probability-model-evaluation-treshold_2_0-3maps.png}
-    \caption{Merged map created from $36$ maps shown in figure~\ref{fig:probability-model-evaluation-montage}. $3$ maps are included in the merged map. Confidence threshold is set to $2.0$.}
+    \caption[The merged map created with confidence threshold $2.0$.]{Merged map created from $36$ maps shown in figure~\ref{fig:probability-model-evaluation-montage}. $3$ maps are included in the merged map. Confidence threshold is set to $2.0$.}
     \label{fig:probability-model-evaluation-treshold_2.0-3maps}
 \end{figure}
 

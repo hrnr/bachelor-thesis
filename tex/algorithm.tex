@@ -8,7 +8,7 @@ Although this package was not developed for map-merging in multi-robot configura
 Due to its original purpose, mapstitch algorithm shows some limitations for multi-robot map-merging setup. Originally it was designed for offline use~\cite{Andre2014}. Also, it was designed for stitching two maps, one them being large reference map covering most of the environment. Although it is possible to incrementally merge maps from multiple robots with this algorithm, global map quality generally decreases with increasing number of robots. Significant decrease in performance was observed for 4 robots~\cite{Andre2014}.
 
 \begin{algorithm}
-    \caption{Mapstitch original algorithm. Implemented for \gls{ROS} in~\cite{MapstitchROS}}
+    \caption[Mapstitch algorithm.]{Mapstitch original algorithm. Implemented for \gls{ROS} in~\cite{MapstitchROS}}
     \label{alg:mapstitch}
     \begin{algorithmic}[1]
         \Require $2$ occupancy grids
@@ -110,7 +110,7 @@ For occupancy grids in multi-robot mapping scenario it is impractical to assume 
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{../img/matches.pdf}
-    \caption{Graph showing matches between $36$ occupancy grids during map merging. This graph was acquired for maps from MIT dataset described in section~\ref{sec:mit-dataset}. Grids without any matches are omitted. Legend: $Nm$ number of matches, $Ni$ number of inliers from \gls{RANSAC}, $C$ confidence.}
+    \caption[Matches between occupancy grids during map merging.]{Graph showing matches between $36$ occupancy grids during map merging. This graph was acquired for maps from MIT dataset described in section~\ref{sec:mit-dataset}. Grids without any matches are omitted. Legend: $Nm$ number of matches, $Ni$ number of inliers from \gls{RANSAC}, $C$ confidence.}
     \label{fig:matches}
 \end{figure}
 
