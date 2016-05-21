@@ -1,72 +1,34 @@
 \chapwithtoc{List of Attached Files}
 \label{chap:files}
 
-This is a list of files attached to this thesis.
+This is a list of files attached to this thesis. Source code is also available online, see appendices~\ref{chap:map_merge-doc}~\ref{chap:explore-doc}.
 
 \medskip
 \dirtree{%
-.1 attachements.zip.
-.2 merging-with-known-initial-positions\DTcomment{see~\ref{sec:merging-with-known-initial-positions}}. %
-.3 begin.png.
-.3 end.png.
-.3 scene.png.
-.3 scene.ttt.
-.3 simulation.bag.
-.3 simulation.mkv.
-.2 minimal-overlapping-area\DTcomment{see~\ref{sec:minimal-overlaping-area}}. %
-.3 final-maps.png.
-.3 log.txt.
-.3 merged-map.png.
-.3 robot0.png.
-.3 robot1.png.
-.3 robot2.png.
-.3 scene.png.
-.3 scene.ttt.
-.2 retaining-largest-transformation\DTcomment{see~\ref{sec:retaining-largest-transformation}}. %
-.3 begin.pgm.
-.3 end.pgm.
-.3 scene.png.
-.3 scene.ttt.
-.3 simulation.bag.
-.3 wrong-match.pgm.
-.2 probability-model-evaluation\DTcomment{see~\ref{sec:probability-model-evaluation}}. %
-.3 map00.pgm.
-.3 map01.pgm.
-.3 map02.pgm.
-.3 map03.pgm.
-.3 map04.pgm.
-.3 map05.pgm.
-.3 map06.pgm.
-.3 map07.pgm.
-.3 map08.pgm.
-.3 map09.pgm.
-.3 map10.pgm.
-.3 map11.pgm.
-.3 map12.pgm.
-.3 map13.pgm.
-.3 map14.pgm.
-.3 map15.pgm.
-.3 map16.pgm.
-.3 map17.pgm.
-.3 map18.pgm.
-.3 map19.pgm.
-.3 map20.pgm.
-.3 map21.pgm.
-.3 map22.pgm.
-.3 map23.pgm.
-.3 map24.pgm.
-.3 map25.pgm.
-.3 map26.pgm.
-.3 map27.pgm.
-.3 map28.pgm.
-.3 map29.pgm.
-.3 map30.pgm.
-.3 map31.pgm.
-.3 map32.pgm.
-.3 map33.pgm.
-.3 map34.pgm.
-.3 map35.pgm.
-.3 merged-map-treshold-1.0-12maps.pgm.
-.3 merged-map-treshold-1.5-9maps.pgm.
-.3 merged-map-treshold-2.0-3maps.pgm.
+.1 attachements.zip. %
+.2 merging-with-known-initial-positions\DTcomment{experiment data, see~\ref{sec:merging-with-known-initial-positions}}. %
+.2 minimal-overlapping-area\DTcomment{experiment data, see~\ref{sec:minimal-overlaping-area}}. %
+.2 retaining-largest-transformation\DTcomment{experiment data, see~\ref{sec:retaining-largest-transformation}}. %
+.2 probability-model-evaluation\DTcomment{experiment data, see~\ref{sec:probability-model-evaluation}}. %
+.2 m-explore\DTcomment{source code for ROS packages, see~\ref{chap:ros-packages}}. %
+.3 explore\DTcomment{see~\ref{sec:explore_lite-package}}. %
+.4 doc\DTcomment{package and code documentation}. %
+.4 include. %
+.5 explore. %
+.6 explore.h\DTcomment{ROS node}. %
+.6 navfn\_ros.h\DTcomment{ROS planner with extended API, see~\ref{sec:frontier-search}}. %
+.6 explore\_frontier.h\DTcomment{see~\ref{sec:frontier-search}}. %
+.6 costmap\_client.h\DTcomment{see~\ref{sec:map-sourcing}}. %
+.4 launch. %
+.4 src. %
+.3 map\_merge\DTcomment{see~\ref{sec:map_merge-package}}. %
+.4 doc\DTcomment{package and code documentation}. %
+.4 test\DTcomment{gtest based tests}. %
+.4 include. %
+.5 combine\_grids\DTcomment{implements algorithm presented in section~\ref{chap:mergingalgorithm}}. %
+.5 occupancy\_grid\_utils\DTcomment{see~\ref{sec:map-composition}}. %
+.5 map\_merge. %
+.6 map\_merge.h\DTcomment{ROS node}. %
+.4 launch. %
+.4 src. %
 }

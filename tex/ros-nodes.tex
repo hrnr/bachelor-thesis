@@ -52,6 +52,7 @@ Initial poses estimation is necessary for situations where initial robot positio
 Estimation is designed to run in parallel to other parts of this package. Estimation rate is user-settable.
 
 \subsection{Map composition}
+\label{sec:map-composition}
 
 After estimating transformation between grids, map composition combines final merged map. For map-merging task I have adapted the relevant code from \texttt{occu\-pan\-cy\_grid\_uti\-ls} package~\cite{Marthi2014}. This package is no longer available in current \gls{ROS} distribution, current version is maintained by Clearpath Robotics in github repository~\cite{GitHubOccGridUtils}. I have contributed some fixes to this repository, but as the code of \texttt{occu\-pan\-cy\_grid\_uti\-ls} is mostly obsolete in current \gls{ROS} distribution (most of the functionality is provided by \gls{ROS} navigation stack), I have decided to incorporate merging-related code directly to \texttt{multi\-robot\_map\_merge} package.
 
@@ -73,6 +74,7 @@ For purposes of evaluation of the presented map-merging node, I have developed a
 \texttt{explore\_lite} uses \gls{ROS} standard stack for navigation through the \texttt{move\_base} node. The same approach is used by~\cite{DuHadway2010}, \cite{Bovbel2010} and \cite{Andre2014}.
 
 \subsection{Map sourcing}
+\label{sec:map-sourcing}
 
 Exploring packages, which use the \gls{ROS} navigation stack~\cite{Bovbel2010} and \cite{DuHadway2010} are using a local costmap provided by \gls{ROS} navigation packages through \texttt{Cost\-map\-2D\-ROS}. The local costmap is then used to search for frontiers and finding paths to frontiers from the robot's position.
 
@@ -83,6 +85,7 @@ For the \texttt{explore\_lite} package I have introduced a custom \texttt{costma
 Choosing the right map source can also improve frontier discovery accuracy. Constantly better results has been achieved when the local costmap has been built from \gls{SLAM}-constructed map, instead of a laser ray-traced costmap, such as the costmap created by \texttt{move\_base} node.
 
 \subsection{Frontier search}
+\label{sec:frontier-search}
 
 Frontier search algorithm is based on the code in~\cite{DuHadway2010}. Minor changes have been made to improve performance.
 
