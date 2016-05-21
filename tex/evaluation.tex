@@ -87,22 +87,16 @@ num_inliers 157
 \end{figure}
 
 
-Simulation featured $3$ robots exploring common area. Figure~\ref{fig:minimal-overlapping-area-scene} shows the scene used in the experiment and initial robots positions. Figure~\ref{fig:minimal-overlapping-area-final-maps} shows maps produced by \gls{SLAM} after mapping finished. Figure~\ref{fig:minimal-overlapping-area-merged-map} shows the merged map produced by a map-merging node with unknown initial positions.
+Simulation featured $3$ robots exploring common area. Figure~\ref{fig:minimal-overlapping-area-scene} shows the scene used in the experiment and initial robots positions. Figure~\ref{fig:minimal-overlapping-area-final-maps} shows maps produced by \gls{SLAM} and the merged map produced by a map-merging node with unknown initial positions after mapping finished.
 
 Simulation showed that a reliable merge between maps can be produced for $5-6$ overlapping rooms. After transformation is estimated, produced map is comparable to the reference map.
 
 \begin{figure}
     \centering
-    \includegraphics[width=2.22in]{../img/minimal-overlapping-area-final-maps.png}
-    \caption[Maps produced by a multi-robot mapping in the simulator.]{Maps produced by a multi-robot mapping in the simulator. Simulated scene can be seen in figure~\ref{fig:minimal-overlapping-area-scene}. Positions of the robots are final positions where robots finished mapping.}
+    % 2.22in for 300dpi
+    \includegraphics[width=4.44in]{../img/minimal-overlapping-area-final-maps.png}
+    \caption[Maps produced by a multi-robot mapping in the simulator.]{Maps produced by a multi-robot mapping in the simulator with $3$ robots. The merged map (bottom right) is estimated by the map-merging node without knowledge of initial positions. Simulated scene can be seen in figure~\ref{fig:minimal-overlapping-area-scene}. Positions of the robots are final positions where robots finished mapping.}
     \label{fig:minimal-overlapping-area-final-maps}
-\end{figure}
-
-\begin{figure}
-    \centering
-    \includegraphics[width=1.58in]{../img/minimal-overlapping-area-merged-map.png}
-    \caption[The merged map produced by the map-merging node.]{The merged map produced by the map-merging node. This map has been produced from $3$ maps shown in figure~\ref{fig:minimal-overlapping-area-final-maps}.}
-    \label{fig:minimal-overlapping-area-merged-map}
 \end{figure}
 
 \section{Retaining largest transformation}
