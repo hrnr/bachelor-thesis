@@ -126,10 +126,12 @@ Data from \gls{MIT} dataset are complex and difficult for \gls{SLAM} to produce 
 
 Figure~\ref{fig:probability-model-evaluation-montage} shows $36$ maps obtained from \gls{MIT} dataset, all of them are from second floor. Empty maps are caused by \gls{SLAM} node failure. Note that maps contain many errors, some of them are completely broken as \gls{SLAM} localization failed. \texttt{hector\_slam} node uses only scans from base-mounted laser, better results might be achieved with different \gls{SLAM} approaches using stereo cameras and 3D scanning.
 
+This dataset is very difficult to merge properly, because most of the maps are broken. It is possible to filtrate broken maps from merge, because the area where mapping failed should not match any other maps, but this is very difficult when most of the maps are broken. Furthermore broken maps tend to have more features than correct maps of the same area, these features than may cause invalid matches between two broken maps to be generated making rejecting broken maps even more difficult.
+
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{../img/mit-dataset-montage.png}
-    \caption{$36$ maps created by \texttt{hector\_slam} from \gls{MIT} dataset.}
+    \caption[$36$ maps created by \texttt{hector\_slam} from \gls{MIT} dataset.]{$36$ maps created by \texttt{hector\_slam} from \gls{MIT} dataset. Note that the most of the maps contain serious mapping errors. These errors usually comes from \gls{SLAM} invalid estimation of rotation, generating misaligned walls and corners. Because of the new walls and corners, broken maps tend to have more features, especially in broken areas, making filtering of broken maps hard.}
     \label{fig:probability-model-evaluation-montage}
 \end{figure}
 
@@ -142,19 +144,19 @@ Data used for this experiment are available in the attachments. This data consis
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{../img/probability-model-evaluation-treshold_1_0-12maps.png}
-    \caption[The merged map created with confidence threshold $1.0$.]{Merged map created from $36$ maps shown in figure~\ref{fig:probability-model-evaluation-montage}. $12$ maps are included in the merged map. Confidence threshold is set to $1.0$.}
+    \caption[The merged map created with confidence threshold $1.0$.]{Merged map created from $36$ maps shown in figure~\ref{fig:probability-model-evaluation-montage}. $12$ maps are included in the merged map. Confidence threshold is set to $1.0$. Although the map-merging algorithm was able to reject $24$ maps, the merged map still includes severely broken maps. Broken areas are feature-rich and thus a wrong transformation is estimated.}
     \label{fig:probability-model-evaluation-treshold_1.0-12maps}
 \end{figure}
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{../img/probability-model-evaluation-treshold_1_5-9maps.png}
-    \caption[The merged map created with confidence threshold $1.5$.]{Merged map created from $36$ maps shown in figure~\ref{fig:probability-model-evaluation-montage}. $9$ maps are included in the merged map. Confidence threshold is set to $1.5$.}
+    \caption[The merged map created with confidence threshold $1.5$.]{Merged map created from $36$ maps shown in figure~\ref{fig:probability-model-evaluation-montage}. $9$ maps are included in the merged map. Confidence threshold is set to $1.5$. This map contains even less maps than figure~\ref{fig:probability-model-evaluation-treshold_1.0-12maps}, but threshold is not high enough to reject all broken maps. Severely broken maps are still included in the merged map. Broken areas in the maps were matched together. These areas are relatively feature-rich and matches between them has got enough \gls{RANSAC} inliers  to be considered confident enough.}
     \label{fig:probability-model-evaluation-treshold_1.5-9maps}
 \end{figure}
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{../img/probability-model-evaluation-treshold_2_0-3maps.png}
-    \caption[The merged map created with confidence threshold $2.0$.]{Merged map created from $36$ maps shown in figure~\ref{fig:probability-model-evaluation-montage}. $3$ maps are included in the merged map. Confidence threshold is set to $2.0$.}
+    \caption[The merged map created with confidence threshold $2.0$.]{Merged map created from $36$ maps shown in figure~\ref{fig:probability-model-evaluation-montage}. $3$ maps are included in the merged map. Confidence threshold is set to $2.0$. All broken maps have been rejected. The merged map is correct, transformation between grids was estimated correctly. Maps included in this merged map are small, for larger maps the \gls{SLAM} algorithm mostly failed on presented dataset as seen in figure~\ref{fig:probability-model-evaluation-montage}.}
     \label{fig:probability-model-evaluation-treshold_2.0-3maps}
 \end{figure}
 
