@@ -5,7 +5,7 @@ In this chapter I present a map-merging algorithm for two-dimensional maps based
 
 Although this package was not developed for map-merging in multi-robot configuration, algorithm and its original implementation were used by~\cite{martins2013mrslam} for merging maps of two robots and in coordinated multi-robot exploration solution presented in~\cite{Andre2014}.
 
-Due to its original purpose, mapstitch algorithm shows some limitations for multi-robot map-merging setup. Originally it was designed for offline use~\cite{Andre2014}. Also, it was designed for stitching two maps, one them being large reference map covering most of the environment. Although it is possible to incrementally merge maps from multiple robots with this algorithm, global map quality generally decreases with increasing number of robots. Significant decrease in performance was observed for 4 robots~\cite{Andre2014}.
+Due to its original purpose, mapstitch algorithm shows some limitations for multi-robot map-merging setup. The algorithm was originally designed for offline use~\cite{Andre2014}. Also, it was designed for stitching two maps, one them being large reference map covering most of the environment. Although it is possible to incrementally merge maps from multiple robots with this algorithm, global map quality generally decreases with increasing number of robots. Significant decrease in performance was observed for 4 robots~\cite{Andre2014}.
 
 \begin{algorithm}
     \caption[Mapstitch algorithm.]{Mapstitch original algorithm. Implemented for \gls{ROS} in~\cite{MapstitchROS}}
@@ -89,7 +89,7 @@ Algorithm~\ref{alg:estimategridtrasform} offers overview of the proposed algorit
 
 Stitching pipeline proposed in~\cite{Brown2006} is using \gls{SIFT} features. \gls{SIFT} features have been used with success for stitching in many applications. Some of the recent approaches to stitching, improving traditional \gls{SIFT}-based algorithm, are also building on top of \gls{SIFT} features~\cite{Xie2015}. Use of \gls{SIFT} features is limited by US patent~\cite{lowe2004method}.
 
-I have decided to use \gls{ORB} feature detector and descriptor described in~\cite{Rublee2011}. \gls{ORB} algorithm is patent-free, and available in \gls{OpenCV}. Moreover \gls{ORB} features has already been used with occupancy grid images~\cite{MapstitchROS} and \cite{Andre2014}.
+I have decided to use \gls{ORB} feature detector and descriptor, which was intrtoduced by~\cite{Rublee2011}. \gls{ORB} algorithm is patent-free, and available in \gls{OpenCV}. Moreover \gls{ORB} features has already been used with occupancy grid images~\cite{MapstitchROS} and \cite{Andre2014}.
 
 Other alternatives for feature detection and feature description has not been tested yet. Performance of other detectors for map-merging and effect of choose of detector to overall merging performance remains to be evaluated. Some feature detectors and descriptors promising good performance are~\cite{Alahi2012}, \cite{alcantarilla2011fast} and \cite{calonder2010brief}.
 
