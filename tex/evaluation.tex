@@ -5,7 +5,7 @@ To evaluate map-merging algorithm introduced in Section~\ref{chap:mergingalgorit
 
 \section{Simulation setup}
 
-I used \gls{VREP} simulator for experiment. All simulated robots were Pioneers P3-DX, which formed a homogeneous exploring team. Robots were setup using \texttt{p3dx\_robot} package available at~\cite{GitHubRoboRescue}, which also configures \gls{SLAM} and navigation for robots. Robots were using the \texttt{hector\_slam} package~\cite{2013:RoboCup} providing \gls{SLAM} algorithm and \texttt{move\_base} package~\cite{Marder2016}, part of the \gls{ROS} navigation stack, providing navigation for robots.
+I used \gls{VREP} simulator for experiment. All simulated robots were Pioneers P3-DX, which formed a homogeneous exploring team. Robots were set up using \texttt{p3dx\_robot} package available at~\cite{GitHubRoboRescue}, which also configures \gls{SLAM} and navigation for robots. Robots were using the \texttt{hector\_slam} package~\cite{2013:RoboCup} providing \gls{SLAM} algorithm and \texttt{move\_base} package~\cite{Marder2016}, part of the \gls{ROS} navigation stack, providing navigation for robots.
 
 Cluster of 5 computers was formed to run simulator, robots, map-merging and exploring nodes. \gls{ROS} network was configured across all workstations using a single \gls{ROS} master running \texttt{roscore}. Every robot was using its own \gls{ROS} namespace for topics and was using a prefix for published \texttt{tf} frames to allow running multiple robots under the same \gls{ROS} master. This setup is well supported in \texttt{p3dx\_robot} package.
 
@@ -14,11 +14,11 @@ While \gls{VREP} is powerful and feature-rich simulator, its usage for multi-rob
 \section{\gls{MIT} dataset}
 \label{sec:mit-dataset}
 
-\gls{MIT} dataset is data available online in the form of rosbags~\cite{Fallon2013}. Data comes from mapping multi-floor \gls{MIT} building with PR2 robot. I have used only datasets from the second floor.
+\gls{MIT} dataset is data available online in the form of rosbags~\cite{Fallon2013}. Data was captured by a PR2 robot mapping multi-floor \gls{MIT} building. I have used only datasets from the second floor.
 
 For all rosbags I have created maps using the \texttt{hector\_slam} package. It is the same \gls{SLAM} algorithm, which was used in simulation. This resulted in $36$ occupancy grid maps with sizes ranging from $2048 \times 2048$ cells to $5585 \times 4895$ cells.
 
-Produced maps has been statically served in \gls{ROS} with running map-merging node. This setup is therefore limited to test offline merging, but allows a greater number of maps to participate in merging.
+Produced maps have been statically served in \gls{ROS}. This setup is therefore limited to test offline merging, but allows a greater number of maps to participate in merging.
 
 It is important to note that presented maps has been created by a single robot in a multi-session mapping. It is not a result of multi-robot mapping, although the robot initial positions vary between sessions and produced maps are similar to maps we would expect from multi-robot mapping.
 
@@ -131,7 +131,7 @@ This dataset is very difficult to merge properly, because most of the maps are b
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{../img/mit-dataset-montage.png}
-    \caption[$36$ maps created by \texttt{hector\_slam} from \gls{MIT} dataset.]{$36$ maps created by \texttt{hector\_slam} from \gls{MIT} dataset. Note that the most of the maps contain serious mapping errors. These errors usually comes from \gls{SLAM} invalid estimation of rotation, generating misaligned walls and corners. Because of the new walls and corners, broken maps tend to have more features, especially in broken areas, making filtering of broken maps hard.}
+    \caption[$36$ maps created by \texttt{hector\_slam} from \gls{MIT} dataset.]{$36$ maps created by \texttt{hector\_slam} from \gls{MIT} dataset. Note that the most of the maps contain serious mapping errors. These errors usually come from \gls{SLAM} invalid estimation of rotation, generating misaligned walls and corners. Because of the new walls and corners, broken maps tend to have more features, especially in broken areas, making filtering of broken maps hard.}
     \label{fig:probability-model-evaluation-montage}
 \end{figure}
 
