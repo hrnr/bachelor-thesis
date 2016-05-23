@@ -1,7 +1,7 @@
 \chapter{Evaluation}
 \label{chap:evaluation}
 
-To evaluate map-merging algorithm introduced in section~\ref{chap:mergingalgorithm} and to test performance of implemented map-merging node described in section~\ref{sec:map_merge-package}, I used $2$ data sources. First source are data from  simulation running several P3DX robots. Map-merging node was running through the whole exploring session testing online behaviour of the algorithm. Second data source are maps produced by \gls{SLAM} on \gls{MIT} Stata Center dataset presented in~\cite{Fallon2013}. \gls{MIT} dataset is produced by a single PR2 robot starting from different locations. Although this data does not come from multi-robot mapping, it is possible to test offline merging performance.
+To evaluate map-merging algorithm introduced in Section~\ref{chap:mergingalgorithm} and to test performance of implemented map-merging node described in Section~\ref{sec:map_merge-package}, I used $2$ data sources. First source are data from  simulation running several P3DX robots. Map-merging node was running through the whole exploring session testing online behaviour of the algorithm. Second data source are maps produced by \gls{SLAM} on \gls{MIT} Stata Center dataset presented in~\cite{Fallon2013}. \gls{MIT} dataset is produced by a single PR2 robot starting from different locations. Although this data does not come from multi-robot mapping, it is possible to test offline merging performance.
 
 \section{Simulation setup}
 
@@ -27,7 +27,7 @@ It is important to note that presented maps has been created by a single robot i
 
 Presented merging node can work with both known and unknown initial positions of robots. In the fist case the node uses initial positions to obtain transformation between grids. This setup was used in this experiment. Maps in this mode are not required to have any overlapping area.
 
-Simulation scene is shown in figure~\ref{fig:minimal-overlapping-area-scene}. Figure~\ref{fig:merging-with-known-initial-positions-begin} shows initial maps, figure~\ref{fig:merging-with-known-initial-positions-end} shows maps after simulation ended. Note that figures~\ref{fig:merging-with-known-initial-positions-begin}, \ref{fig:merging-with-known-initial-positions-end} shows maps rotated compared to figure~\ref{fig:minimal-overlapping-area-scene}.
+Simulation scene is shown in Figure~\ref{fig:minimal-overlapping-area-scene}. Figure~\ref{fig:merging-with-known-initial-positions-begin} shows initial maps, Figure~\ref{fig:merging-with-known-initial-positions-end} shows maps after simulation ended. Note that Figures~\ref{fig:merging-with-known-initial-positions-begin}, \ref{fig:merging-with-known-initial-positions-end} shows maps rotated compared to Figure~\ref{fig:minimal-overlapping-area-scene}.
 
 Video capturing map-merging during whole simulation, rosbag with map topics, scene with $3$ robots for \gls{VREP} simulator and full quality graphics are attached.
 
@@ -57,9 +57,9 @@ Video capturing map-merging during whole simulation, rosbag with map topics, sce
 \section{Minimal overlapping area}
 \label{sec:minimal-overlaping-area}
 
-Map-merging algorithm presented in section~\ref{chap:mergingalgorithm} relies on overlapping areas of occupancy grids to produce a merged map. Minimal overlapping area to produce a reliable merge depends on environment being explored. Areas with high number of features in occupancy grids require small overlaps and vice versa.
+Map-merging algorithm presented in Section~\ref{chap:mergingalgorithm} relies on overlapping areas of occupancy grids to produce a merged map. Minimal overlapping area to produce a reliable merge depends on environment being explored. Areas with high number of features in occupancy grids require small overlaps and vice versa.
 
-Experiments showed that a reliable merge requires only about $90$ inliers, sometimes only $80$ inliers is enough to produce a correct transformation as seen in excerpt~\ref{fig:minimal-overlapping-area-log}. This excerpt is from the log of map-merging node presented in section~\ref{sec:map_merge-package} acquired during simulation.
+Experiments showed that a reliable merge requires only about $90$ inliers, sometimes only $80$ inliers is enough to produce a correct transformation as seen in Figure~\ref{fig:minimal-overlapping-area-log}. This excerpt is from the log of map-merging node presented in Section~\ref{sec:map_merge-package} acquired during simulation.
 
 Full log containing number of matches and number of inliers required to produce a transformation along with other details is available in the attachments. Scene for \gls{VREP} simulator, merged map and maps produced by robots are also attached. Maps has been taken as screenshots in rviz visualiser.
 
@@ -95,20 +95,20 @@ Simulation showed that a reliable merge between maps can be produced for $5-6$ o
     \centering
     % 2.22in for 300dpi
     \includegraphics[width=4.44in]{../img/minimal-overlapping-area-final-maps.png}
-    \caption[Maps produced by a multi-robot mapping in the simulator.]{Maps produced by a multi-robot mapping in the simulator with $3$ robots. The merged map (bottom right) is estimated by the map-merging node without knowledge of initial positions. Simulated scene can be seen in figure~\ref{fig:minimal-overlapping-area-scene}. Positions of the robots are final positions where robots finished mapping.}
+    \caption[Maps produced by a multi-robot mapping in the simulator.]{Maps produced by a multi-robot mapping in the simulator with $3$ robots. The merged map (bottom right) is estimated by the map-merging node without knowledge of initial positions. Simulated scene can be seen in Figure~\ref{fig:minimal-overlapping-area-scene}. Positions of the robots are final positions where robots finished mapping.}
     \label{fig:minimal-overlapping-area-final-maps}
 \end{figure}
 
 \section{Retaining largest transformation}
 \label{sec:retaining-largest-transformation}
 
-During online merging the merging algorithm presented in section~\ref{chap:mergingalgorithm} is launched repeatedly on growing grids. It might seem natural to preserve the transformation between largest number of grids. If the algorithm was able to produce a merge between $n$ grids in one point of time, it might seem like a good idea to preserve this transformation and use it for merging grids when the transformation is estimated for less than $n$ grids.
+During online merging the merging algorithm presented in Section~\ref{chap:mergingalgorithm} is launched repeatedly on growing grids. It might seem natural to preserve the transformation between largest number of grids. If the algorithm was able to produce a merge between $n$ grids in one point of time, it might seem like a good idea to preserve this transformation and use it for merging grids when the transformation is estimated for less than $n$ grids.
 
-Experiments showed that this approach produce worse results than approach always using the newest transformation. Largest transformation retaining behaviour is problematic when there is not enough overlapping area between grids. Experiment presented in section~\ref{sec:merging-with-known-initial-positions} have maps that have very small overlaps.
+Experiments showed that this approach produce worse results than approach always using the newest transformation. Largest transformation retaining behaviour is problematic when there is not enough overlapping area between grids. Experiment presented in Section~\ref{sec:merging-with-known-initial-positions} have maps that have very small overlaps.
 
-Map-merging with unknown initial positions with largest transformation retaining launched in the same experiment as presented in section~\ref{sec:merging-with-known-initial-positions} shows the key problem of a such approach. Problem occurs when incorrect merge is produced due to too small overlaps. As shown in figure~\ref{fig:retaining-largest-transformation-montage}, incorrect unstable transformations, which are usually corrected quickly with small maps changes, are preserved due to largest transformation retaining after the estimation algorithm is no longer producing incorrect transformation. Incorrect transformations can be preserved for a long period of time with largest transformation retaining behaviour, when there is not enough overlapping area in the maps, so the incorrect transformation can be replaced with correct larger transformation.
+Map-merging with unknown initial positions with largest transformation retaining launched in the same experiment as presented in Section~\ref{sec:merging-with-known-initial-positions} shows the key problem of a such approach. Problem occurs when incorrect merge is produced due to too small overlaps. As shown in Figure~\ref{fig:retaining-largest-transformation-montage}, incorrect unstable transformations, which are usually corrected quickly with small maps changes, are preserved due to largest transformation retaining after the estimation algorithm is no longer producing incorrect transformation. Incorrect transformations can be preserved for a long period of time with largest transformation retaining behaviour, when there is not enough overlapping area in the maps, so the incorrect transformation can be replaced with correct larger transformation.
 
-Based on this and others experiments largest transformation retaining behaviour has been removed from map-merging node presented in section~\ref{sec:map_merge-package}.
+Based on this and others experiments largest transformation retaining behaviour has been removed from map-merging node presented in Section~\ref{sec:map_merge-package}.
 
 Data for this experiment including rosbag with map topics, scene for \gls{VREP} simulator and presented maps are available in the attachments.
 
@@ -135,7 +135,7 @@ This dataset is very difficult to merge properly, because most of the maps are b
     \label{fig:probability-model-evaluation-montage}
 \end{figure}
 
-Merging algorithm uses thresholding described in section~\ref{sec:findinglargestconnectedcomponent} based on probabilistic model to reject low-confident matches. I have experimented with confidence threshold, which directly affects which matches will be present in merging (matches with low confidence are not considered). Figures~\ref{fig:probability-model-evaluation-treshold_1.0-12maps}, \ref{fig:probability-model-evaluation-treshold_1.5-9maps} and \ref{fig:probability-model-evaluation-treshold_2.0-3maps} show maps merged with confidence thresholds $1.0$, $1.5$ and $2.0$ respectively. Note that number of maps included in the merged map goes from $12$ to $3$.
+Merging algorithm uses thresholding described in Section~\ref{sec:findinglargestconnectedcomponent} based on probabilistic model to reject low-confident matches. I have experimented with confidence threshold, which directly affects which matches will be present in merging (matches with low confidence are not considered). Figures~\ref{fig:probability-model-evaluation-treshold_1.0-12maps}, \ref{fig:probability-model-evaluation-treshold_1.5-9maps} and \ref{fig:probability-model-evaluation-treshold_2.0-3maps} show maps merged with confidence thresholds $1.0$, $1.5$ and $2.0$ respectively. Note that number of maps included in the merged map goes from $12$ to $3$.
 
 Experiment has showed that increasing the confidence threshold to values greater that $1.0$ may lead to better results when maps are difficult to merge. Increasing threshold decreases number of maps merged significantly.
 
@@ -144,19 +144,19 @@ Data used for this experiment are available in the attachments. This data consis
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{../img/probability-model-evaluation-treshold_1_0-12maps.png}
-    \caption[The merged map created with confidence threshold $1.0$.]{Merged map created from $36$ maps shown in figure~\ref{fig:probability-model-evaluation-montage}. $12$ maps are included in the merged map. Confidence threshold is set to $1.0$. Although the map-merging algorithm was able to reject $24$ maps, the merged map still includes severely broken maps. Broken areas are feature-rich and thus a wrong transformation is estimated.}
+    \caption[The merged map created with confidence threshold $1.0$.]{Merged map created from $36$ maps shown in Figure~\ref{fig:probability-model-evaluation-montage}. $12$ maps are included in the merged map. Confidence threshold is set to $1.0$. Although the map-merging algorithm was able to reject $24$ maps, the merged map still includes severely broken maps. Broken areas are feature-rich and thus a wrong transformation is estimated.}
     \label{fig:probability-model-evaluation-treshold_1.0-12maps}
 \end{figure}
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{../img/probability-model-evaluation-treshold_1_5-9maps.png}
-    \caption[The merged map created with confidence threshold $1.5$.]{Merged map created from $36$ maps shown in figure~\ref{fig:probability-model-evaluation-montage}. $9$ maps are included in the merged map. Confidence threshold is set to $1.5$. This map contains even less maps than figure~\ref{fig:probability-model-evaluation-treshold_1.0-12maps}, but threshold is not high enough to reject all broken maps. Severely broken maps are still included in the merged map. Broken areas in the maps were matched together. These areas are relatively feature-rich and matches between them has got enough \gls{RANSAC} inliers  to be considered confident enough.}
+    \caption[The merged map created with confidence threshold $1.5$.]{Merged map created from $36$ maps shown in Figure~\ref{fig:probability-model-evaluation-montage}. $9$ maps are included in the merged map. Confidence threshold is set to $1.5$. This map contains even less maps than Figure~\ref{fig:probability-model-evaluation-treshold_1.0-12maps}, but threshold is not high enough to reject all broken maps. Severely broken maps are still included in the merged map. Broken areas in the maps were matched together. These areas are relatively feature-rich and matches between them has got enough \gls{RANSAC} inliers  to be considered confident enough.}
     \label{fig:probability-model-evaluation-treshold_1.5-9maps}
 \end{figure}
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{../img/probability-model-evaluation-treshold_2_0-3maps.png}
-    \caption[The merged map created with confidence threshold $2.0$.]{Merged map created from $36$ maps shown in figure~\ref{fig:probability-model-evaluation-montage}. $3$ maps are included in the merged map. Confidence threshold is set to $2.0$. All broken maps have been rejected. The merged map is correct, transformation between grids was estimated correctly. Maps included in this merged map are small, for larger maps the \gls{SLAM} algorithm mostly failed on presented dataset as seen in figure~\ref{fig:probability-model-evaluation-montage}.}
+    \caption[The merged map created with confidence threshold $2.0$.]{Merged map created from $36$ maps shown in Figure~\ref{fig:probability-model-evaluation-montage}. $3$ maps are included in the merged map. Confidence threshold is set to $2.0$. All broken maps have been rejected. The merged map is correct, transformation between grids was estimated correctly. Maps included in this merged map are small, for larger maps the \gls{SLAM} algorithm mostly failed on presented dataset as seen in Figure~\ref{fig:probability-model-evaluation-montage}.}
     \label{fig:probability-model-evaluation-treshold_2.0-3maps}
 \end{figure}
 

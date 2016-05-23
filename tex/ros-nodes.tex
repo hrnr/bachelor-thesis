@@ -1,7 +1,7 @@
 \chapter{ROS packages}
 \label{chap:ros-packages}
 
-It this section I present \gls{ROS} packages developed as part of this work. Merging algorithm presented in section~\ref{chap:mergingalgorithm} was implemented in \gls{ROS} package \texttt{multirobot\_map\_merge}. To evaluate performance of map-merging in multi-robot exploring scenarios I have developed the second package, \texttt{explore\_lite} for autonomous exploring.
+It this section I present \gls{ROS} packages developed as part of this work. Merging algorithm presented in Section~\ref{chap:mergingalgorithm} was implemented in \gls{ROS} package \texttt{multirobot\_map\_merge}. To evaluate performance of map-merging in multi-robot exploring scenarios I have developed the second package, \texttt{explore\_lite} for autonomous exploring.
 
 Both packages are now part of the \gls{ROS} distribution. Documentation for packages is available online at the \gls{ROS} wiki pages:
 
@@ -10,7 +10,7 @@ Both packages are now part of the \gls{ROS} distribution. Documentation for pack
 	\item \url{http://wiki.ros.org/explore_lite}
 \end{itemize}
 
-This documentation is also reproduced as appendix~\ref{chap:map_merge-doc} and appendix~\ref{chap:explore-doc}.
+This documentation is also reproduced as Appendix~\ref{chap:map_merge-doc} and Appendix~\ref{chap:explore-doc}.
 
 \section{\texttt{multirobot\_map\_merge} package} % (fold)
 \label{sec:map_merge-package}
@@ -47,7 +47,7 @@ Robot discovery runs in parallel to map-merging at rate which is configurable. R
 
 \subsection{Initial poses estimation}
 
-Initial poses estimation is necessary for situations where initial robot positions could not be measured with required precision by user. Package uses algorithm discussed in section~\ref{chap:mergingalgorithm}, which was specifically designed for this purpose. When robots are starting from different places, getting the initial positions might be difficult without proper equipment. Even when robots are starting exploration from common place, it might be more comfortable for users to let merging system estimate initial positions itself. In this situation merging algorithm can take the advantage of initial overlapping area and produce high-quality merges quickly.
+Initial poses estimation is necessary for situations where initial robot positions could not be measured with required precision by user. Package uses algorithm discussed in Section~\ref{chap:mergingalgorithm}, which was specifically designed for this purpose. When robots are starting from different places, getting the initial positions might be difficult without proper equipment. Even when robots are starting exploration from common place, it might be more comfortable for users to let merging system estimate initial positions itself. In this situation merging algorithm can take the advantage of initial overlapping area and produce high-quality merges quickly.
 
 Estimation is designed to run in parallel to other parts of this package. Estimation rate is user-settable.
 
@@ -65,7 +65,7 @@ Merging frequency is user-adjustable and can be increased to deliver faster upda
 \section{\texttt{explore\_lite} package} % (fold)
 \label{sec:explore_lite-package}
 
-\texttt{explore\_lite} package provides \gls{ROS} node for autonomous exploration. Although there exists \gls{ROS} packages for exploring~\cite{2013:RoboCup}, \cite{DuHadway2010}, \cite{Bovbel2010} and exploring node from~\cite{Andre2014}, none of the existing packages met my requirements out-of-the-box. \cite{2013:RoboCup} is complex and includes custom navigation stack, \cite{DuHadway2010}, \cite{Bovbel2010} are not available as of Apr 2016 for current version of \gls{ROS} and \cite{Andre2014} offers some multi-robot coordination capabilities, but relies on custom ad-hoc communication between robots, which is an approach different from the map-merging node presented in section~\ref{sec:map_merge-package}.
+\texttt{explore\_lite} package provides \gls{ROS} node for autonomous exploration. Although there exists \gls{ROS} packages for exploring~\cite{2013:RoboCup}, \cite{DuHadway2010}, \cite{Bovbel2010} and exploring node from~\cite{Andre2014}, none of the existing packages met my requirements out-of-the-box. \cite{2013:RoboCup} is complex and includes custom navigation stack, \cite{DuHadway2010}, \cite{Bovbel2010} are not available as of Apr 2016 for current version of \gls{ROS} and \cite{Andre2014} offers some multi-robot coordination capabilities, but relies on custom ad-hoc communication between robots, which is an approach different from the map-merging node presented in Section~\ref{sec:map_merge-package}.
 
 For purposes of evaluation of the presented map-merging node, I have developed a new exploration node for \gls{ROS}. This node is based on code of~\cite{DuHadway2010} with major improvements. Main design goal of this node is light-weightiness. I have needed to allow running more robots in a testing environment with limited resources. Although the node does not have multi-robot coordination capabilities as this was not required for running selected simulation scenarios, this node must handle properly \gls{ROS} namespaces and \texttt{tf} namespaces to allow running multiple robots under the same \gls{ROS} master. As a result of these requirements major parts of the node have been redesigned.
 

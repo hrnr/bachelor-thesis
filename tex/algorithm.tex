@@ -24,12 +24,12 @@ Due to its original purpose, mapstitch algorithm shows some limitations for mult
 
 Algorithm~\ref{alg:mapstitch} is original algorithm used in~\cite{MapstitchROS}, version used in~\cite{Andre2014} is only a slightly modified.
 
-Although our algorithm also uses computer vision based approach, it deals with limitations of the algorithm~\ref{alg:mapstitch}. Proposed algorithm is designed to work with arbitrary number of grids (while algorithm~\ref{alg:mapstitch} can only work with two grids). There is no need for iterative merging and moreover algorithm can determine optimal order of individual pairwise merges. I assume this might be the main reason for decrease in performance in $4$-robot setup observed by~\cite{Andre2014}. Also proposed algorithm deals with other problems arising for general $n$-map merge problem such as situations when it is not possible to merge some of the maps because transformation to others could not be reliably estimated, cases where map transformation can be estimated from more sources (multiple neighbours) etc.
+Although our algorithm also uses computer vision based approach, it deals with limitations of the Algorithm~\ref{alg:mapstitch}. Proposed algorithm is designed to work with arbitrary number of grids (while Algorithm~\ref{alg:mapstitch} can only work with two grids). There is no need for iterative merging and moreover algorithm can determine optimal order of individual pairwise merges. I assume this might be the main reason for decrease in performance in $4$-robot setup observed by~\cite{Andre2014}. Also proposed algorithm deals with other problems arising for general $n$-map merge problem such as situations when it is not possible to merge some of the maps because transformation to others could not be reliably estimated, cases where map transformation can be estimated from more sources (multiple neighbours) etc.
 
 \section{Stitching pipeline} % (fold)
 \label{sec:stitchingpipeline}
 
-As discussed in section~\ref{sec:indirect-map-merging} our algorithm is inspired by image stitching algorithms. Stitching algorithms are well-understood and implementations are broadly available. General concept of multi-step stitching pipeline is described in~\cite{Brown2006}. Stitching pipeline is also well established code in \gls{OpenCV}, mostly based on~\cite{Brown2006}, along with~\cite{Szeliski2004} \cite{Shum1998} and others. Figure~\ref{fig:opencv} highlights processing steps in stitching pipeline implemented in \gls{OpenCV}.
+As discussed in Section~\ref{sec:indirect-map-merging} our algorithm is inspired by image stitching algorithms. Stitching algorithms are well-understood and implementations are broadly available. General concept of multi-step stitching pipeline is described in~\cite{Brown2006}. Stitching pipeline is also well established code in \gls{OpenCV}, mostly based on~\cite{Brown2006}, along with~\cite{Szeliski2004} \cite{Shum1998} and others. Figure~\ref{fig:opencv} highlights processing steps in stitching pipeline implemented in \gls{OpenCV}.
 
 \begin{figure}
 	\centering
@@ -39,18 +39,18 @@ As discussed in section~\ref{sec:indirect-map-merging} our algorithm is inspired
 	\label{fig:opencv}
 \end{figure}
 
-Our algorithm will solve the registration part (estimating transformation between grids) according to figure~\ref{fig:opencv}. Compositing part of stitching is relatively simple for occupancy grids compared to images from camera, because we don't need to compensate exposure errors, gain and other deficiencies. Registration solves the main problem of acquiring transformation between individual frames of robots and bridges the problem of merging maps with known initial positions and unknown initial positions.
+Our algorithm will solve the registration part (estimating transformation between grids) according to Figure~\ref{fig:opencv}. Compositing part of stitching is relatively simple for occupancy grids compared to images from camera, because we don't need to compensate exposure errors, gain and other deficiencies. Registration solves the main problem of acquiring transformation between individual frames of robots and bridges the problem of merging maps with known initial positions and unknown initial positions.
 
-\gls{ROS} node for map merging described in section~\ref{sec:map_merge-package} implements also compositing part of the pipeline, which is an easy problem when transformation is estimated.
+\gls{ROS} node for map merging described in Section~\ref{sec:map_merge-package} implements also compositing part of the pipeline, which is an easy problem when transformation is estimated.
 
 For description of the algorithm we will assume maps are represented as occupancy grids, with each cell containing value in range $[0,100]$ indicating probability that there is obstacle in the cell and $-1$ for indicating unknown probability. \gls{ROS} uses the same representation. This representation can be mapped easily to greyscale image, hence using image processing algorithms is natural.
 
-We will consider occupancy grids greyscale images through algorithm~\ref{alg:estimategridtrasform} and vice versa. Values in the range $[0,100]$ are the same, $-1$ is mapped to $255$ in the image. This way we get standard $8$-bit depth greyscale image.
+We will consider occupancy grids greyscale images through Algorithm~\ref{alg:estimategridtrasform} and vice versa. Values in the range $[0,100]$ are the same, $-1$ is mapped to $255$ in the image. This way we get standard $8$-bit depth greyscale image.
 
 Algorithm~\ref{alg:estimategridtrasform} offers overview of the proposed algorithm, detailed description is provided in following sections.
 
 \begin{algorithm}
-    \caption{Proposed algorithm for estimating transformation between multiple occupancy grids. Uses algorithm~\ref{alg:estimatefinaltrans} to estimate final transformations.}
+    \caption{Proposed algorithm for estimating transformation between multiple occupancy grids. Uses Algorithm~\ref{alg:estimatefinaltrans} to estimate final transformations.}
     \label{alg:estimategridtrasform}
     \begin{algorithmic}[1]
         \Require $k$ occupancy grids
@@ -77,7 +77,7 @@ Algorithm~\ref{alg:estimategridtrasform} offers overview of the proposed algorit
             \State $g \gets (grids, matches)$
             \State $h \gets$ largest connected component in $g$
             \State $t \gets$ maximum spanning tree in $h$
-            \State \Call{estimateFinalTransform}{$t$, $P_{(i,j)} \forall e \in \text{edges of } t$} \Comment{walk $t$ and compute transformations to global reference frame. See algorithm~\ref{alg:estimatefinaltrans}.}
+            \State \Call{estimateFinalTransform}{$t$, $P_{(i,j)} \forall e \in \text{edges of } t$} \Comment{walk $t$ and compute transformations to global reference frame. See Algorithm~\ref{alg:estimatefinaltrans}.}
         \EndProcedure
     \end{algorithmic}
 \end{algorithm}
@@ -93,7 +93,7 @@ I have decided to use \gls{ORB} feature detector and descriptor, which was intrt
 
 Other alternatives for feature detection and feature description has not been tested yet. Performance of other detectors for map-merging and effect of choose of detector to overall merging performance remains to be evaluated. Some feature detectors and descriptors promising good performance are~\cite{Alahi2012}, \cite{alcantarilla2011fast} and \cite{calonder2010brief}.
 
-For image stitching, images are usually downscaled for further processing as seen is figure~\ref{fig:opencv}. Feature extraction and feature matching on smaller images is considerably faster and overall accuracy is acceptable. I don't propose any such down scaling for occupancy grids. Occupancy grids acquired from mapping are usually smaller than multi-megapixel images from camera, so stitching time is reasonable even for full-scale grids. Also occupancy grids have usually much smaller number of features than photos making stitching harder and less accurate.
+For image stitching, images are usually downscaled for further processing as seen is Figure~\ref{fig:opencv}. Feature extraction and feature matching on smaller images is considerably faster and overall accuracy is acceptable. I don't propose any such down scaling for occupancy grids. Occupancy grids acquired from mapping are usually smaller than multi-megapixel images from camera, so stitching time is reasonable even for full-scale grids. Also occupancy grids have usually much smaller number of features than photos making stitching harder and less accurate.
 
 During online merging stitching can run with low frequency even if higher map update frequencies are required by simply using previously estimated transformation between grids. This further reduces cost of estimation over time. Transformation between grids is fixed in most cases (when \gls{SLAM} algorithm works reasonably well), because transformation depends only on starting positions of robots. Therefore reusing previous transformations does not reduce map quality considerably.
 
@@ -111,11 +111,11 @@ For occupancy grids in multi-robot mapping scenario it is impractical to assume 
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{../img/matches.pdf}
-    \caption[Matches between occupancy grids during map merging.]{Graph showing matches between $36$ occupancy grids during map merging. This graph was acquired for maps from MIT dataset described in section~\ref{sec:mit-dataset}. Grids without any matches are omitted. Legend: $Nm$ number of matches, $Ni$ number of inliers from \gls{RANSAC}, $C$ confidence.}
+    \caption[Matches between occupancy grids during map merging.]{Graph showing matches between $36$ occupancy grids during map merging. This graph was acquired for maps from MIT dataset described in Section~\ref{sec:mit-dataset}. Grids without any matches are omitted. Legend: $Nm$ number of matches, $Ni$ number of inliers from \gls{RANSAC}, $C$ confidence.}
     \label{fig:matches}
 \end{figure}
 
-Figure~\ref{fig:matches} shows matching results for $36$ occupancy grids acquired during experiment presented in section~\ref{sec:probability-model-evaluation}. Computations for each pair are independent, so it is easy to run matching of all pairs in parallel. This approach is used in map merging node presented in section~\ref{sec:map_merge-package}.
+Figure~\ref{fig:matches} shows matching results for $36$ occupancy grids acquired during experiment presented in Section~\ref{sec:probability-model-evaluation}. Computations for each pair are independent, so it is easy to run matching of all pairs in parallel. This approach is used in map merging node presented in Section~\ref{sec:map_merge-package}.
 
 Because of non-linear number of pairs it is usually too computationally expensive to search for matches using simple brute-force search (even if it runs in parallel) unless it can be offloaded to GPU. For matching on CPU it is better to use approximate methods, which can be much faster.
 
@@ -211,7 +211,7 @@ For \gls{RANSAC} I have chosen following parameters: maximum number of iteration
 \section{Finding largest connected component} % (fold)
 \label{sec:findinglargestconnectedcomponent}
 
-As seen in figure~\ref{fig:matches} it is common that some transformations can not be established between grids. Graph of matchings therefore can have multiple connected components. We need to deal with missing transformations between components to estimate transformations for grids.
+As seen in Figure~\ref{fig:matches} it is common that some transformations can not be established between grids. Graph of matchings therefore can have multiple connected components. We need to deal with missing transformations between components to estimate transformations for grids.
 
 We could include all components to resulting map and position them such they don't overlap. This setup would preserve all information, but resulting map can't be topologically correct. Another approach is to choose only one connected component for final merge. This approach preserves map's topological accuracy. I have chosen the latter approach.
 
@@ -223,7 +223,7 @@ Choosing largest connected component might seem natural, but this approach has i
 
 Modifications of this algorithm might choose to find weighted largest connected component in matchings graph. Weight could be based on discovered area in each map, such that the largest weighted connected component would represent largest discovered area.
 
-I have chosen to use unweighted largest connected component, because it is less computationally expensive (weighting grids to represent discovered area in each grid require visiting each cell of each grid). Algorithm using unweighted largest connected component showed good results in tested scenarios~\ref{sec:minimal-overlaping-area}. Approach using weighted components needs to be evaluated for more robots and larger environments.
+I have chosen to use unweighted largest connected component, because it is less computationally expensive (weighting grids to represent discovered area in each grid require visiting each cell of each grid). Algorithm using unweighted largest connected component showed good results in tested scenarios, see Section~\ref{sec:minimal-overlaping-area}. Approach using weighted components needs to be evaluated for more robots and larger environments.
 
 % section finding_largest_connected_component (end)
 
@@ -236,7 +236,7 @@ Final part of the algorithm estimates transformation to global reference frame f
 
 Selecting global reference frame is not enough, because there may exist multiple paths from grid selected as reference frame to other grids. We construct maximum spanning tree to break these cycles. Edges are weighted with number of inliers to prefer stronger matches. This approach is routinely used for image stitching, the same construct is implemented in \gls{OpenCV}.
 
-Finally we can walk through spanning tree to obtain final transformations. There is now only one path from grid selected as reference frame to other grids. For each grid we can get the final by compositing pairwise transformations along the path. As we are working in homogeneous coordinates this is equivalent to matrix product of pairwise transformations along the path. This can be done in linear time with algorithm~\ref{alg:estimatefinaltrans}.
+Finally we can walk through spanning tree to obtain final transformations. There is now only one path from grid selected as reference frame to other grids. For each grid we can get the final by compositing pairwise transformations along the path. As we are working in homogeneous coordinates this is equivalent to matrix product of pairwise transformations along the path. This can be done in linear time with Algorithm~\ref{alg:estimatefinaltrans}.
 
 \begin{algorithm}
     \caption{Algorithm estimating transformations to global reference frame from pairwise transformations on spanning tree.}

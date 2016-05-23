@@ -52,7 +52,7 @@ Two merging modes are currently supported as orthogonal options. If you know ini
 
 \subsection{merging with known initial positions}
 
-This is preferred mode whenever you are able to determine exact starting point for each robot. You need to provide initial position for each robot. You need to provide set of \texttt{<robot\_namespace>/map\_merge/init\_pose} parameters. These positions should be in \texttt{world\_frame}. See~\ref{sec:rosapi}.
+This is preferred mode whenever you are able to determine exact starting point for each robot. You need to provide initial position for each robot. You need to provide set of \texttt{<robot\_namespace>/map\_merge/init\_pose} parameters. These positions should be in \texttt{world\_frame}. See Section~\ref{sec:rosapi}.
 
 In this merging these parameters are mandatory. If any of the required parameters is missing robot won't be considered for merging (you will get warning with name of affected robot).
 
@@ -80,7 +80,7 @@ Provides map merging services offered by this package. Dynamically looks for new
 \subsubsection{Parameters}
 \paragraph{Robot Parameters}
 
-Parameters that should be defined in the namespace of each robot if you want to use merging with known initial poses of robots (\texttt{known\_init\_poses} is \texttt{true}). Without these parameters robots won't be considered for merging. If you can't provide these parameters use merging without known initial poses. See~\ref{sec:mergingmodes}
+Parameters that should be defined in the namespace of each robot if you want to use merging with known initial poses of robots (\texttt{known\_init\_poses} is \texttt{true}). Without these parameters robots won't be considered for merging. If you can't provide these parameters use merging without known initial poses. See Section~\ref{sec:mergingmodes}
 
     \ROSparam{<robot\_namespace>/map\_merge/init\_pose\_x}{<no\_default>}{double}{\texttt{x} coordinate of robot initial position in \texttt{world\_frame}. Should be in meters. It does not matter which frame you will consider global (preferably it should be different from all robots frames), but relative positions of robots in this frame must be correct.}
 
@@ -100,7 +100,7 @@ Parameters that should be defined in the namespace of this node.
 
     \ROSparam{\~{}robot\_namespace}{<empty string>}{string}{Fixed part of robot map topic. You can employ this parameter to further limit which topics will be considered during dynamic lookup for robots. Only topics which contain (anywhere) this string will be considered for lookup. Unlike \texttt{robot\_map\_topic} you are not limited by namespace logic. Topics will be filtered using text-based search. Therefore \texttt{robot\_namespace} does not need to be ROS namespace, but can contain slashes etc. This must be common part of all robots map topics name (all robots for which you want to merge map).}
 
-    \ROSparam{\~{}known\_init\_poses}{true}{bool}{Selects between merging modes. \texttt{true} if merging with known initial positions. See~\ref{sec:mergingmodes}}
+    \ROSparam{\~{}known\_init\_poses}{true}{bool}{Selects between merging modes. \texttt{true} if merging with known initial positions. See Section~\ref{sec:mergingmodes}}
 
     \ROSparam{\~{}merged\_map\_topic}{map}{string}{Topic name where merged map will be published.}
 
@@ -110,9 +110,9 @@ Parameters that should be defined in the namespace of this node.
 
     \ROSparam{\~{}discovery\_rate}{0.05}{double}{Rate in Hz. Frequency on which this node discovers new robots. Increase this value if you need more agile behaviour when adding new robots. Robots will be discovered sooner.}
 
-    \ROSparam{\~{}estimation\_rate}{0.5}{double}{Rate in Hz. This parameter is relevant only when merging without known positions, see~\ref{sec:mergingmodes}. Frequency on which this node re-estimates transformation between grids. Estimation is cpu-intensive, so you may wish to lower this value.}
+    \ROSparam{\~{}estimation\_rate}{0.5}{double}{Rate in Hz. This parameter is relevant only when merging without known positions, see Section~\ref{sec:mergingmodes}. Frequency on which this node re-estimates transformation between grids. Estimation is cpu-intensive, so you may wish to lower this value.}
 
-    \ROSparam{\~{}estimation\_confidence}{1.0}{double}{Relevant only when merging without known positions, see~\ref{sec:mergingmodes}. Confidence according to probabilistic model for initial positions estimation. Default value 1.0 is suitable for most applications, increase this value for more confident estimations. Number of maps included in the merge may decrease with increasing confidence. Generally larger overlaps between maps will be required for map to be included in merge. Good range for tuning is $[1.0, 2.0]$.}
+    \ROSparam{\~{}estimation\_confidence}{1.0}{double}{Relevant only when merging without known positions, see Section~\ref{sec:mergingmodes}. Confidence according to probabilistic model for initial positions estimation. Default value 1.0 is suitable for most applications, increase this value for more confident estimations. Number of maps included in the merge may decrease with increasing confidence. Generally larger overlaps between maps will be required for map to be included in merge. Good range for tuning is $[1.0, 2.0]$.}
 
 \section{Acknowledgements}
 
