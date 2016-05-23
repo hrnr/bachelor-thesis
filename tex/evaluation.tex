@@ -1,7 +1,7 @@
 \chapter{Evaluation}
 \label{chap:evaluation}
 
-To evaluate map-merging algorithm introduced in Section~\ref{chap:mergingalgorithm} and to test performance of implemented map-merging node described in Section~\ref{sec:map_merge-package}, I used $2$ data sources. First source are data from  simulation running several P3DX robots. Map-merging node was running through the whole exploring session testing online behaviour of the algorithm. Second data source are maps produced by \gls{SLAM} on \gls{MIT} Stata Center dataset presented in~\cite{Fallon2013}. \gls{MIT} dataset is produced by a single PR2 robot starting from different locations. Although this data does not come from multi-robot mapping, it is possible to test offline merging performance.
+To evaluate map-merging algorithm introduced in Section~\ref{chap:mergingalgorithm} and to test performance of implemented map-merging node described in Section~\ref{sec:map_merge-package}, I used $2$ data sources. Data from  simulation running several P3DX robots is the first source. Map-merging node was running through the whole exploring session testing online behaviour of the algorithm. Maps produced by \gls{SLAM} on \gls{MIT} Stata Center dataset presented in~\cite{Fallon2013} are the second data source. \gls{MIT} dataset is produced by a single PR2 robot starting from different locations. Although this data does not come from multi-robot mapping, it is possible to test offline merging performance.
 
 \section{Simulation setup}
 
@@ -14,7 +14,7 @@ While \gls{VREP} is powerful and feature-rich simulator, its usage for multi-rob
 \section{\gls{MIT} dataset}
 \label{sec:mit-dataset}
 
-\gls{MIT} dataset are data available online in the form of rosbags~\cite{Fallon2013}. Data comes from mapping multi-floor \gls{MIT} building with PR2 robot. I have used only datasets from the second floor.
+\gls{MIT} dataset is data available online in the form of rosbags~\cite{Fallon2013}. Data comes from mapping multi-floor \gls{MIT} building with PR2 robot. I have used only datasets from the second floor.
 
 For all rosbags I have created maps using the \texttt{hector\_slam} package. It is the same \gls{SLAM} algorithm, which was used in simulation. This resulted in $36$ occupancy grid maps with sizes ranging from $2048 \times 2048$ cells to $5585 \times 4895$ cells.
 
@@ -110,7 +110,7 @@ Map-merging with unknown initial positions with largest transformation retaining
 
 Based on this and others experiments largest transformation retaining behaviour has been removed from map-merging node presented in Section~\ref{sec:map_merge-package}.
 
-Data for this experiment including rosbag with map topics, scene for \gls{VREP} simulator and presented maps are available in the attachments.
+Data for this experiment including rosbag with map topics, scene for \gls{VREP} simulator and presented maps is available in the attachments.
 
 \begin{figure}
     \centering
@@ -122,7 +122,7 @@ Data for this experiment including rosbag with map topics, scene for \gls{VREP} 
 \section{Probability model evaluation}
 \label{sec:probability-model-evaluation}
 
-Data from \gls{MIT} dataset are complex and difficult for \gls{SLAM} to produce a map without errors. In some cases overlapping areas does not exists. Such data are therefore suitable to test capabilities of map merging node to reject incorrect or non-mergeable maps.
+Data from \gls{MIT} dataset is complex and difficult for \gls{SLAM} to produce a map without errors. In some cases overlapping areas does not exists. Such data is therefore suitable to test capabilities of map merging node to reject incorrect or non-mergeable maps.
 
 Figure~\ref{fig:probability-model-evaluation-montage} shows $36$ maps obtained from \gls{MIT} dataset, all of them are from second floor. Empty maps are caused by \gls{SLAM} node failure. Note that maps contain many errors, some of them are completely broken as \gls{SLAM} localization failed. \texttt{hector\_slam} node uses only scans from base-mounted laser, better results might be achieved with different \gls{SLAM} approaches using stereo cameras and 3D scanning.
 
