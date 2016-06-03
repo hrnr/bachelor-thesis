@@ -1,0 +1,44 @@
+%%% Basic information on the thesis
+
+% Thesis title in English (exactly as in the formal assignment)
+\def\ThesisTitle{Map-merging for multi-robot system}
+
+% Author of the thesis
+\def\ThesisAuthor{Jiří Hörner}
+
+% Year when the thesis is submitted
+\def\YearSubmitted{2016}
+
+% Name of the department or institute, where the work was officially assigned
+% (according to the Organizational Structure of MFF UK in English,
+% or a full name of a department outside MFF)
+\def\Department{Department of Theoretical Computer Science and Mathematical Logic}
+
+% Is it a department (katedra), or an institute (ústav)?
+\def\DeptType{Department}
+
+% Thesis supervisor: name, surname and titles
+\def\Supervisor{RNDr. David Obdržálek, Ph.D.}
+
+% Supervisor's department (again according to Organizational structure of MFF)
+\def\SupervisorsDepartment{Department of Theoretical Computer Science and Mathematical Logic}
+
+% Study programme and specialization
+\def\StudyProgramme{Computer Science}
+\def\StudyBranch{General Computer Science}
+
+% An optional dedication: you can thank whomever you wish (your supervisor,
+% consultant, a person who lent the software, etc.)
+\def\Dedication{%
+I acknowledge my colleague Lukas Jelinek for sharing his insights into VREP simulator. I wish to thank to my family for support.
+}
+
+% Abstract (recommended length around 80-200 words; this is not a copy of your thesis assignment!)
+\def\Abstract{%
+A set of robots mapping an area can potentially combine their information to produce a distributed map more efficiently and reliably than a single robot alone. Multi-robot swarm coordination depends on a consistent, reliable map of the environment. Map-merging algorithms are therefore key komponents for such systems. In this work I present a novel algorithm for merging two-dimensinal maps created by different robots independently without initial knowledge of relative poses of robots. The algorithm is inspired by computer vision image stitching techniques for creating photo panoramas. Presented algorithm relies only on map data represented as occupancy grids, which allows great scalabity for heterogeneous multi-robot swarms and makes algorithm easily deployable with various \gls{SLAM} algorithms. The map-merging algorithm was implemented as publicily available \gls{ROS} package and was accepted in \gls{ROS} distribution. Performance of the algorithm has been evaluated in \gls{ROS} enviroment using \gls{VREP} simulator. For purposes of evaluation \gls{ROS} package for exploring was developed as part of this work.
+}
+
+% 3 to 5 keywords (recommended), each enclosed in curly braces
+\def\Keywords{%
+{map-merging} {multi-robot system} {ROS} {SLAM} {image stitching}
+}
