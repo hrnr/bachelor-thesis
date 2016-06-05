@@ -41,10 +41,10 @@
 
 \maketitle
 
-\block{~}
-{
-    \Abstract
-}
+% \block{~}
+% {
+%     \Abstract
+% }
 
 \begin{columns}
 \column{0.25}
@@ -189,14 +189,6 @@ We need to solve~\eqref{eq:affinetrans} to estimate reduced affine trasformation
 \end{minipage}
 } % end block
 
-\block{Simulation}{
-\begin{tikzfigure}[Scene for experiment with $3$ robots in \gls{VREP} simulator. Robot positions in scene are used as initial positions of robots for experiment.]
-    \centering
-    \includegraphics[width=3.93in]{../img/minimal-overlapping-area-scene.png}
-    \label{fig:minimal-overlapping-area-scene}
-\end{tikzfigure}
-} % end block
-
 \block{Merging with known initial positions}{
 \begin{minipage}[t]{0.47\linewidth}
     \begin{tikzfigure}[Initial maps produced by robots during experiment in the simulator. Merged map is produced with knowledge of initial positions and can be therefore produced even without overlapping areas. In this situation merged map can be sparse.]
@@ -217,6 +209,32 @@ We need to solve~\eqref{eq:affinetrans} to estimate reduced affine trasformation
 \end{minipage}
 } % end block
 
+\block{Rejecting maps with errors}{
+\begin{minipage}[t]{0.47\linewidth}
+    \begin{tikzfigure}[$36$ maps created by \texttt{hector\_slam} from \gls{MIT} dataset. Note that the most of the maps contain serious mapping errors. These errors usually come from \gls{SLAM} invalid estimation of rotation, generating misaligned walls and corners. Because of the new walls and corners, broken maps tend to have more features, especially in broken areas, making filtering of broken maps hard.]
+        \centering
+        \includegraphics[width=\linewidth]{../img/mit-dataset-montage.png}
+        \label{fig:probability-model-evaluation-montage}
+    \end{tikzfigure}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.47\linewidth}
+    \begin{tikzfigure}[Merged map. All broken maps have been rejected by probalistic model used by merging algorithm. The merged map is correct, transformation between grids was estimated correctly. Maps included in this merged map are small, for larger maps the \gls{SLAM} algorithm mostly failed on presented dataset. Only $3$ maps are included in the merged map. Confidence threshold is set to $2.0$.]
+        \centering
+        \includegraphics[width=\linewidth]{../img/probability-model-evaluation-treshold_2_0-3maps.png}
+        \label{fig:probability-model-evaluation-treshold_2.0-3maps}
+\end{tikzfigure}
+\end{minipage}
+} % end block
+
+\block{Retaining largest transformation}{
+\begin{tikzfigure}[Map-merging with largest transformation retaining. From the left: Maps have no overlaps, unable to merge more than a single map. Incorrect transformation estimated due to too small overlaps. Overlapping space is still too small to produce a merge, but incorrect transformation was rejected. Due to largest transformation retaining incorrect merge is still produced.]
+    \centering
+    \includegraphics[width=\linewidth]{../img/retaining-largest-transformation-montage.png}
+    \label{fig:retaining-largest-transformation-montage}
+\end{tikzfigure}
+} % end block
+
 \column{0.25}
 \block{\gls{ROS} packages}{\blindtext \vspace{4cm}
 \note[
@@ -225,7 +243,47 @@ We need to solve~\eqref{eq:affinetrans} to estimate reduced affine trasformation
     width=\linewidth
     ]
 {e-mail \texttt{me@nirvana.com}}
-}
+} % end block
+
+\block{Simulation}{
+\begin{tikzfigure}[Scene for experiment with $3$ robots in \gls{VREP} simulator. Robot positions in scene are used as initial positions of robots for experiment.]
+    \centering
+    % orig width 3.93in
+    \includegraphics[width=\linewidth]{../img/minimal-overlapping-area-scene.png}
+    \label{fig:minimal-overlapping-area-scene}
+\end{tikzfigure}
+} % end block
+
+\block{multirobot\_map\_merge}{
+Map-merging node for \gls{ROS}.
+\begin{tikzfigure}[Output of \texttt{multirobot\_map\_merge}, map merging node for \gls{ROS}. The merged map for $2$ robots. Robots in the environment visualised on the left, merged map on the right.]
+    \centering
+    \includegraphics[width=4.53in]{../img/map_merge_cover.png}
+    \label{fig:mapmergecover}
+\end{tikzfigure}
+
+\begin{tikzfigure}[Architecture of \texttt{multirobot\_map\_merge}.]
+    \centering
+    \includegraphics[width=\linewidth]{../img/map_merge_architecture.pdf}
+    \label{fig:mapmergearchitecture}
+\end{tikzfigure}
+} % end block
+
+\block{explore\_lite}{
+\gls{ROS} node autonomous exploring.
+\begin{tikzfigure}[Visualisation of robot during exploring.]
+    \centering
+    % orig width 2.68in
+    \includegraphics[width=\linewidth]{../img/explore_cover.png}
+    \label{fig:explorecover}
+\end{tikzfigure}
+
+\begin{tikzfigure}[Architecture of \texttt{explore\_lite}]
+    \centering
+    \includegraphics[width=\linewidth]{../img/explore_architecture.pdf}
+    \label{fig:explorearchitecture}
+\end{tikzfigure}
+} % end block
 
 \end{columns}
 
