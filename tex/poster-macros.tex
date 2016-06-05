@@ -1,0 +1,71 @@
+% poster styling
+
+\definecolorstyle{UKColorStyle}{
+    % Define default colors
+    % university red used in logo text
+    \definecolor{colorOne}{HTML}{D62153}
+    % nice gray
+    \definecolor{colorTwo}{HTML}{CCCCCC}
+    % university official red for logo
+    \definecolor{colorThree}{cmyk}{0,0.91,0.65,0.11}
+}{
+     % Background Colors
+    % \colorlet{backgroundcolor}{colorTwo}
+    \colorlet{backgroundcolor}{white}
+    \colorlet{framecolor}{colorTwo}
+    % Title Colors
+    \colorlet{titlefgcolor}{black}
+    \colorlet{titlebgcolor}{white}
+    % Block Colors
+    \colorlet{blocktitlebgcolor}{colorOne}
+    % \colorlet{blocktitlebgcolor}{colorTwo}
+    % \colorlet{blocktitlefgcolor}{colorOne}
+    \colorlet{blocktitlefgcolor}{gray!10!white}
+    \colorlet{blockbodybgcolor}{white!90!colorTwo}
+    \colorlet{blockbodyfgcolor}{black}
+    % Innerblock Colors
+    \colorlet{innerblocktitlebgcolor}{colorThree}
+    \colorlet{innerblocktitlefgcolor}{white}
+    \colorlet{innerblockbodybgcolor}{white}
+    \colorlet{innerblockbodyfgcolor}{black}
+    % Note colors
+    \colorlet{notefgcolor}{black}
+    \colorlet{notebgcolor}{colorThree!40!white}
+    \colorlet{notefrcolor}{colorThree!40!white}
+ } % space is important here
+
+% theme for our university, created by me
+% aligned with university graphical manual
+\definelayouttheme{Charles}{
+    \usecolorstyle{UKColorStyle}
+    \usebackgroundstyle{Default}
+    \usetitlestyle{Filled}
+    \useblockstyle{Basic}
+    \useinnerblockstyle{Default}
+    \usenotestyle{VerticalShading}
+}
+
+% custom title with logo at the left
+\makeatletter
+\renewcommand\TP@maketitle{%
+    \begin{minipage}{0.35\linewidth}
+       \centering
+       \@titlegraphic
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.65\linewidth}
+        \centering
+        \color{titlefgcolor}
+        {\bfseries \Huge \sc \@title \par}
+        \vspace*{1em}
+        {\huge \@author \par}
+        \vspace*{1em}
+        {\LARGE \@institute}
+    \end{minipage}%
+}
+\makeatother
+
+% fix bug with algorithm envirinment
+\AtBeginEnvironment{algorithm}{%
+  \setlength{\columnwidth}{\linewidth}%
+}

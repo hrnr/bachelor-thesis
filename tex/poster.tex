@@ -1,0 +1,232 @@
+\documentclass[17pt, a0paper, portrait]{tikzposter}
+\usepackage[utf8]{inputenc}
+
+%% Further useful packages (included in most LaTeX distributions)
+\usepackage{amsmath}        % extensions for typesetting of math
+\usepackage{amsfonts}       % math fonts
+\usepackage{amsthm}         % theorems, definitions, etc.
+\usepackage{bbding}         % various symbols (squares, asterisks, scissors, ...)
+\usepackage{bm}             % boldface symbols (\bm)
+\usepackage{graphicx}       % embedding of pictures
+\usepackage{fancyvrb}       % improved verbatim environment
+\usepackage{natbib}         % citation style AUTHOR (YEAR), or AUTHOR [NUMBER]
+\usepackage{dcolumn}        % improved alignment of table columns
+\usepackage{booktabs}       % improved horizontal lines in tables
+\usepackage{paralist}       % improved enumerate and itemize
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{mathtools}
+\usepackage[acronym,toc]{glossaries}
+
+% poster specific
+\usepackage{blindtext}
+\usepackage{comment}
+\usepackage{lmodern}
+
+\include{definitions}
+\include{macros}
+\include{abbreviations}
+\include{poster-macros}
+
+\usetheme{Charles}
+
+\title{\ThesisTitle}
+\author{\ThesisAuthor}
+\date{\YearSubmitted}
+\institute{\Department}
+\titlegraphic{\includegraphics[height=15em]{../img/logotyp_fakulty2.pdf}}
+
+\begin{document}
+
+\maketitle
+
+\block{~}
+{
+    \Abstract
+}
+
+\begin{columns}
+\column{0.25}
+\block{Merging algorithm}{
+\begin{tikzfigure}[\gls{OpenCV} Stitching pipeline.]
+    \centering
+    % 4.33in for 300 dpi
+    \includegraphics[width=\linewidth]{../img/StitchingPipeline.jpg}
+    \label{fig:opencv}
+\end{tikzfigure}
+
+
+\begin{algorithm}[H]
+    \caption{Proposed algorithm for estimating transformation between multiple occupancy grids. Uses Algorithm~\ref{alg:estimatefinaltrans} to estimate final transformations.}
+    \label{alg:estimategridtrasform}
+    \begin{algorithmic}[1]
+        \Require $k$ occupancy grids
+        \Ensure for each grid: transformation between grid and global reference frame, or value indicating transformation could not be be estimated for current grid
+        \Procedure{estimateGridTransform}{$grids$}
+            \State detect \gls{ORB} features (keypoints) for each grid
+            \ForAll{$(i,j)$ pair of grids} \Comment{compute transform for each pair}
+                \State match features
+                \State $n \gets \text{number of matches}$
+                \If{$n \le \text{matches threshold}$}
+                    \State confidence $\gets 0$
+                \Else
+                    \State try find restricted affine transformation for features with \gls{RANSAC}
+                    \State $\psi \gets \text{number of inliers in \gls{RANSAC}}$
+                    \If{transformation found}
+                        \State confidence $\gets \frac{\psi}{8 + 0.3 \cdot n}$
+                        \State $P_{(i,j)} \gets$ restricted affine transformation
+                    \Else
+                        \State confidence $\gets 0$
+                    \EndIf
+                \EndIf
+            \EndFor
+            \State matches $\gets (i,j)$ for matches with confidence $\ge 1.0$
+            \State $g \gets (grids, matches)$
+            \State $h \gets$ largest connected component in $g$
+            \State $t \gets$ maximum spanning tree in $h$
+            \State \Call{estimateFinalTransform}{$t$, $P_{(i,j)} \forall e \in \text{edges of } t$} \Comment{walk $t$ and compute transformations to global reference frame. See Algorithm~\ref{alg:estimatefinaltrans}.}
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
+
+
+\begin{tikzfigure}[Graph showing matches between $36$ occupancy grids during map merging. Legend: $Nm$ number of matches, $Ni$ number of inliers from \gls{RANSAC}, $C$ confidence.]
+    \centering
+    \includegraphics[width=\linewidth]{../img/matches.pdf}
+    \label{fig:matches}
+\end{tikzfigure}
+
+
+\begin{defn}[Reduced affine transformation]
+For given matrices $R$ (rotation), $S$ (scaling), $T$ (translation), where
+\begin{align}
+    R &=
+    \begin{pmatrix}
+        \cos{\theta} & -\sin{\theta} \\
+        \sin{\theta} & \cos{\theta} \\
+    \end{pmatrix} \\
+    S &=
+    \begin{pmatrix}
+        s & 0 \\
+        0 & s \\
+    \end{pmatrix} \\
+    T &=
+    \begin{pmatrix}
+        tx \\
+        ty \\
+    \end{pmatrix}
+\end{align}
+we define matrix of reduced affine transformation as
+\begin{equation}
+    A =
+    \begin{pmatrix}
+        RS|T
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+        \cos(\theta)s & -\sin(\theta)s & tx \\
+        \sin(\theta)s & \cos(\theta)s & ty \\
+    \end{pmatrix}
+\end{equation}
+\end{defn}
+
+We need to solve~\eqref{eq:affinetrans} to estimate reduced affine trasformation between grids.
+\begin{align}
+    A'X &= Y \label{eq:affinetrans}\\
+    \begin{pmatrix}
+        \cos(\theta)s & -\sin(\theta)s & tx \\
+        \sin(\theta)s & \cos(\theta)s & ty \\
+        0 & 0 & 1 \\
+    \end{pmatrix}
+    \begin{pmatrix}
+        x_1 \\
+        x_2 \\
+        1
+    \end{pmatrix}
+    &=
+    \begin{pmatrix}
+        y_1 \\
+        y_2 \\
+        1
+    \end{pmatrix}
+\end{align}
+
+
+\begin{algorithm}[H]
+    \caption{Algorithm estimating transformations to global reference frame from pairwise transformations on spanning tree.}
+    \label{alg:estimatefinaltrans}
+    \begin{algorithmic}[1]
+        \Require $t$ maximum spanning tree on grids, $P_{(i,j)}$ pairwise reduced affine transformation in homogeneous coordinates between grids $i, j$.
+        \Ensure $T_i \forall i \in V$ transformations to global reference frame
+        \Procedure{estimateFinalTransform}{$t = (V,E)$, $P_e \forall e \in e$}
+            \State $e \gets$ edges of $t$ sorted by discover time in \gls{BFS} starting from grid with global reference frame \Comment{using \gls{BFS} or \gls{DFS} does not matter here}
+            \State $\forall T_i: T_i \gets I$ \Comment{initialize transformations with identity}
+            \ForAll{$(i,j)$ in $e$}
+                $T_j \gets T_i P_{(i,j)}$
+            \EndFor
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
+} % end block
+
+\column{0.5}
+\block{Merging with unknown initial positions}{
+\begin{minipage}[t]{0.47\linewidth}
+    \begin{tikzfigure}[Maps produced by a multi-robot mapping in the simulator with $3$ robots. The merged map (bottom right) is estimated by the map-merging node without knowledge of initial positions.]
+        \centering
+        % 2.22in for 300dpi
+        \includegraphics[width=\linewidth]{../img/minimal-overlapping-area-final-maps.png}
+        \label{fig:minimal-overlapping-area-final-maps}
+    \end{tikzfigure}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.47\linewidth}
+    \begin{tikzfigure}[Excerpt from the attached log of the map-merging node captured during simulation. Shows output of matching phase of the algorithm for $3$ pairwise matches along with number of inliers.]
+        \VerbatimInput[fontsize=\small, frame=single]{../img/log-excerpt.txt}
+        ~ % this is important
+    \end{tikzfigure}
+\end{minipage}
+} % end block
+
+\block{Simulation}{
+\begin{tikzfigure}[Scene for experiment with $3$ robots in \gls{VREP} simulator. Robot positions in scene are used as initial positions of robots for experiment.]
+    \centering
+    \includegraphics[width=3.93in]{../img/minimal-overlapping-area-scene.png}
+    \label{fig:minimal-overlapping-area-scene}
+\end{tikzfigure}
+} % end block
+
+\block{Merging with known initial positions}{
+\begin{minipage}[t]{0.47\linewidth}
+    \begin{tikzfigure}[Initial maps produced by robots during experiment in the simulator. Merged map is produced with knowledge of initial positions and can be therefore produced even without overlapping areas. In this situation merged map can be sparse.]
+        \centering
+        % 3.35in
+        \includegraphics[width=\linewidth]{../img/merging-with-known-initial-positions-begin.png}
+        \label{fig:merging-with-known-initial-positions-begin}
+    \end{tikzfigure}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.47\linewidth}
+    \begin{tikzfigure}[Final maps produced in the simulator. Merged map is produced with knowledge of initial positions.]
+        \centering
+        % 3.35in for 300 dpi
+        \includegraphics[width=\linewidth]{../img/merging-with-known-initial-positions-end.png}
+        \label{fig:merging-with-known-initial-positions-end}
+    \end{tikzfigure}
+\end{minipage}
+} % end block
+
+\column{0.25}
+\block{\gls{ROS} packages}{\blindtext \vspace{4cm}
+\note[
+    targetoffsetx=0cm,
+    targetoffsety=0cm,
+    width=\linewidth
+    ]
+{e-mail \texttt{me@nirvana.com}}
+}
+
+\end{columns}
+
+\end{document}
