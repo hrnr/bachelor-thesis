@@ -15,4 +15,5 @@ graph matches_graph{
 "17" -- "25"[label="Nm=212, Ni=158, C=2.2067"];
 "19" -- "25"[label="Nm=166, Ni=106, C=1.83391"];
 "26" -- "32"[label="Nm=162, Ni=160, C=2.82686"];
+bgcolor="transparent";
 }
