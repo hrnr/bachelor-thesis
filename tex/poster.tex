@@ -24,14 +24,22 @@
 \usepackage{comment}
 \usepackage{lmodern}
 
+\usepackage[pdftex,unicode]{hyperref}   % Must follow all other packages
+
 \include{definitions}
 \include{macros}
 \include{abbreviations}
 \include{poster-macros}
 
+\hypersetup{breaklinks=true}
+\hypersetup{pdftitle={\ThesisTitle}}
+\hypersetup{pdfauthor={\ThesisAuthor}}
+\hypersetup{pdfkeywords=\Keywords}
+\hypersetup{urlcolor=blue}
+
 \usetheme{Charles}
 
-\title{\ThesisTitle}
+\title{\uppercase{Map-merging for multi-robot system}}
 \author{\ThesisAuthor}
 \date{\YearSubmitted}
 \institute{\Department}
@@ -48,11 +56,14 @@
 
 \begin{columns}
 \column{0.25}
+\block{Map-merging}{
+\blindtext
+} % end block
 \block{Merging algorithm}{
 \begin{tikzfigure}[\gls{OpenCV} Stitching pipeline.]
     \centering
     % 4.33in for 300 dpi
-    \includegraphics[width=\linewidth]{../img/StitchingPipeline.jpg}
+    \includegraphics[width=\linewidth]{../img/StitchingPipeline.png}
     \label{fig:opencv}
 \end{tikzfigure}
 
@@ -236,13 +247,16 @@ We need to solve~\eqref{eq:affinetrans} to estimate reduced affine trasformation
 } % end block
 
 \column{0.25}
-\block{\gls{ROS} packages}{\blindtext \vspace{4cm}
-\note[
-    targetoffsetx=0cm,
-    targetoffsety=0cm,
-    width=\linewidth
-    ]
-{e-mail \texttt{me@nirvana.com}}
+\block{\gls{ROS} packages}{
+Accepted in official \gls{ROS} distribution.
+
+\begin{itemize}
+    \item \texttt{multirobot\_map\_merge}: map-merging without knowledge of initial positions
+    \item \texttt{explore\_lite}: autonomous exploring
+\end{itemize}
+
+Source: \url{https://github.com/hrnr/m-explore.git}
+Author: Jiri Horner \textless laeqten AT gmail DOT com\textgreater
 } % end block
 
 \block{Simulation}{
@@ -252,13 +266,20 @@ We need to solve~\eqref{eq:affinetrans} to estimate reduced affine trasformation
     \includegraphics[width=\linewidth]{../img/minimal-overlapping-area-scene.png}
     \label{fig:minimal-overlapping-area-scene}
 \end{tikzfigure}
+
+\begin{itemize}
+    \item \gls{VREP} simulator
+    \item \gls{ROS} ecosystem
+    \item cluster of $5$ computers
+\end{itemize}
 } % end block
 
 \block{multirobot\_map\_merge}{
 Map-merging node for \gls{ROS}.
 \begin{tikzfigure}[Output of \texttt{multirobot\_map\_merge}, map merging node for \gls{ROS}. The merged map for $2$ robots. Robots in the environment visualised on the left, merged map on the right.]
     \centering
-    \includegraphics[width=4.53in]{../img/map_merge_cover.png}
+    % 4.53in
+    \includegraphics[width=\linewidth]{../img/map_merge_cover.png}
     \label{fig:mapmergecover}
 \end{tikzfigure}
 

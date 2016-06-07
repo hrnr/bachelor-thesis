@@ -3,7 +3,11 @@
 \definecolorstyle{UKColorStyle}{
     % Define default colors
     % university red used in logo text
-    \definecolor{colorOne}{HTML}{D62153}
+    % \definecolor{colorOne}{HTML}{D62153}
+    \definecolor{colorOne}{cmyk}{0.1484,1,0.6729,0.0548}
+    % \definecolor{colorOne}{cmyk}{0.14,1,0.66,0.03}
+    % \definecolor{colorOne}{RGB}{133,53,47}
+    % \definecolor{colorOne}{RGB}{198,9,59}
     % nice gray
     \definecolor{colorTwo}{HTML}{CCCCCC}
     % university official red for logo
@@ -15,6 +19,7 @@
     \colorlet{framecolor}{colorTwo}
     % Title Colors
     \colorlet{titlefgcolor}{black}
+    % \colorlet{titlebgcolor}{colorOne}
     \colorlet{titlebgcolor}{white}
     % Block Colors
     \colorlet{blocktitlebgcolor}{colorOne}
@@ -34,12 +39,23 @@
     \colorlet{notefrcolor}{colorThree!40!white}
  } % space is important here
 
+\definetitlestyle{FilledWithBottomLine}{
+    width=\paperwidth, roundedcorners=0, linewidth=0pt, innersep=1.5cm,
+    titletotopverticalspace=0mm, titletoblockverticalspace=20mm,
+    titlegraphictotitledistance=10pt
+}{
+   \draw[draw=none, fill=titlebgcolor]%
+   (\titleposleft,\titleposbottom) rectangle (\titleposright,\titlepostop); %
+   \draw[draw=none, fill=colorOne]%
+   (\titleposleft,\titleposbottom+40) rectangle (\titleposright,\titleposbottom); %
+}
+
 % theme for our university, created by me
 % aligned with university graphical manual
 \definelayouttheme{Charles}{
     \usecolorstyle{UKColorStyle}
     \usebackgroundstyle{Default}
-    \usetitlestyle{Filled}
+    \usetitlestyle{FilledWithBottomLine}
     \useblockstyle{Basic}
     \useinnerblockstyle{Default}
     \usenotestyle{VerticalShading}
@@ -56,12 +72,15 @@
     \begin{minipage}{0.65\linewidth}
         \centering
         \color{titlefgcolor}
-        {\bfseries \Huge \sc \@title \par}
-        \vspace*{1em}
-        {\huge \@author \par}
-        \vspace*{1em}
+        % {\bfseries \Huge \sc \@title \par}
+        {\fontsize{50}{60} \bfseries \@title \par}
+        % {\Huge \bfseries \@title \par}
+        \vspace*{1.5em}
+        {\Huge \@author \par}
+        \vspace*{1.5em}
         {\LARGE \@institute}
     \end{minipage}%
+    \vspace{40pt}
 }
 \makeatother
 
