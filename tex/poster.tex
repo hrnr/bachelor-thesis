@@ -45,20 +45,30 @@
 \institute{\Department}
 \titlegraphic{\includegraphics[height=15em]{../img/logotyp_fakulty2.pdf}}
 
+% disable marketing
+\tikzposterlatexaffectionproofoff
+
 \begin{document}
 
 \maketitle
 
-% \block{~}
-% {
-%     \Abstract
-% }
-
 \begin{columns}
 \column{0.25}
-\block{Map-merging}{
-\blindtext
+
+% different block color
+\begin{blockemph}
+
+\block{Motivation}{
+\begin{itemize}
+    \item group of robots can be more effective if robots coordinate
+    \item for effective coordination robots needs global map
+    \item map-merging needs to deal with unknown initial positions of robots
+    \item needs to be easily deployable, work with different communication systems and have low requirements on robots equipment
+    \item must work with existing robust \gls{SLAM} algorithms
+\end{itemize}
 } % end block
+\end{blockemph}
+
 \block{Merging algorithm}{
 \begin{tikzfigure}[\gls{OpenCV} Stitching pipeline.]
     \centering
@@ -183,21 +193,36 @@ We need to solve~\eqref{eq:affinetrans} to estimate reduced affine trasformation
 
 \column{0.5}
 \block{Merging with unknown initial positions}{
-\begin{minipage}[t]{0.47\linewidth}
-    \begin{tikzfigure}[Maps produced by a multi-robot mapping in the simulator with $3$ robots. The merged map (bottom right) is estimated by the map-merging node without knowledge of initial positions.]
-        \centering
-        % 2.22in for 300dpi
-        \includegraphics[width=\linewidth]{../img/minimal-overlapping-area-final-maps.png}
-        \label{fig:minimal-overlapping-area-final-maps}
-    \end{tikzfigure}
-\end{minipage}
-\hfill
-\begin{minipage}[t]{0.47\linewidth}
-    \begin{tikzfigure}[Excerpt from the attached log of the map-merging node captured during simulation. Shows output of matching phase of the algorithm for $3$ pairwise matches along with number of inliers.]
-        \VerbatimInput[fontsize=\small, frame=single]{../img/log-excerpt.txt}
-        ~ % this is important
-    \end{tikzfigure}
-\end{minipage}
+\begin{tikzfigure}[Maps produced by a multi-robot mapping in the simulator with $3$ robots. The merged map (right) is estimated by the map-merging node without knowledge of initial positions.]
+    \vspace{-1.5em}
+    \begin{minipage}[t]{0.24\linewidth}
+        \begin{tikzfigure}
+            \centering
+            \includegraphics[width=\linewidth]{../img/minimal-overlapping-area-robot0.png}
+        \end{tikzfigure}
+    \end{minipage}
+    \begin{minipage}[t]{0.24\linewidth}
+        \begin{tikzfigure}
+            \centering
+            \includegraphics[width=\linewidth]{../img/minimal-overlapping-area-robot1.png}
+        \end{tikzfigure}
+    \end{minipage}
+    \begin{minipage}[t]{0.24\linewidth}
+        \begin{tikzfigure}
+            \centering
+            \includegraphics[width=\linewidth]{../img/minimal-overlapping-area-robot2.png}
+        \end{tikzfigure}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.24\linewidth}
+        \begin{tikzfigure}
+            \centering
+            \includegraphics[width=\linewidth]{../img/minimal-overlapping-area-merged-map.png}
+        \end{tikzfigure}
+    \end{minipage}
+    \vspace{2em}
+\end{tikzfigure}
+
 } % end block
 
 \block{Merging with known initial positions}{
@@ -239,7 +264,7 @@ We need to solve~\eqref{eq:affinetrans} to estimate reduced affine trasformation
 } % end block
 
 \block{Retaining largest transformation}{
-\begin{tikzfigure}[Map-merging with largest transformation retaining. From the left: Maps have no overlaps, unable to merge more than a single map. Incorrect transformation estimated due to too small overlaps. Overlapping space is still too small to produce a merge, but incorrect transformation was rejected. Due to largest transformation retaining incorrect merge is still produced.]
+\begin{tikzfigure}[Map-merging with largest transformation retaining. From the left: Maps have no overlaps, unable to merge more than a single map. Incorrect transformation estimated due to too small overlaps. Incorrect transformation was rejected, but due to largest transformation retaining incorrect merge is still produced.]
     \centering
     \includegraphics[width=\linewidth]{../img/retaining-largest-transformation-montage.png}
     \label{fig:retaining-largest-transformation-montage}
@@ -247,36 +272,23 @@ We need to solve~\eqref{eq:affinetrans} to estimate reduced affine trasformation
 } % end block
 
 \column{0.25}
-\block{\gls{ROS} packages}{
+\block{ROS packages}{
 Accepted in official \gls{ROS} distribution.
 
 \begin{itemize}
-    \item \texttt{multirobot\_map\_merge}: map-merging without knowledge of initial positions
+    \item \texttt{multirobot\_map\_merge}: map-merging without knowledge of initial position
     \item \texttt{explore\_lite}: autonomous exploring
 \end{itemize}
 
-Source: \url{https://github.com/hrnr/m-explore.git}
-Author: Jiri Horner \textless laeqten AT gmail DOT com\textgreater
-} % end block
-
-\block{Simulation}{
-\begin{tikzfigure}[Scene for experiment with $3$ robots in \gls{VREP} simulator. Robot positions in scene are used as initial positions of robots for experiment.]
-    \centering
-    % orig width 3.93in
-    \includegraphics[width=\linewidth]{../img/minimal-overlapping-area-scene.png}
-    \label{fig:minimal-overlapping-area-scene}
-\end{tikzfigure}
-
-\begin{itemize}
-    \item \gls{VREP} simulator
-    \item \gls{ROS} ecosystem
-    \item cluster of $5$ computers
-\end{itemize}
+\begin{tabular}{ l l }
+Source: &\url{https://github.com/hrnr/m-explore.git} \\
+Contact: &\url{horner.jiri@gmail.com} \\
+\end{tabular}
 } % end block
 
 \block{multirobot\_map\_merge}{
 Map-merging node for \gls{ROS}.
-\begin{tikzfigure}[Output of \texttt{multirobot\_map\_merge}, map merging node for \gls{ROS}. The merged map for $2$ robots. Robots in the environment visualised on the left, merged map on the right.]
+\begin{tikzfigure}[The merged map for $2$ robots. Robots in the environment visualised on the left, merged map on the right.]
     \centering
     % 4.53in
     \includegraphics[width=\linewidth]{../img/map_merge_cover.png}
@@ -291,7 +303,7 @@ Map-merging node for \gls{ROS}.
 } % end block
 
 \block{explore\_lite}{
-\gls{ROS} node autonomous exploring.
+\gls{ROS} node for autonomous exploring.
 \begin{tikzfigure}[Visualisation of robot during exploring.]
     \centering
     % orig width 2.68in
@@ -305,6 +317,33 @@ Map-merging node for \gls{ROS}.
     \label{fig:explorearchitecture}
 \end{tikzfigure}
 } % end block
+
+\block{Simulation}{
+\begin{tikzfigure}[Scene for experiment with $3$ robots in \gls{VREP} simulator.]
+    \centering
+    % orig width 3.93in
+    \includegraphics[width=\linewidth]{../img/minimal-overlapping-area-scene.png}
+    \label{fig:minimal-overlapping-area-scene}
+\end{tikzfigure}
+
+\begin{itemize}
+    \item \gls{VREP} simulator
+    \item \gls{ROS} ecosystem
+    \item cluster of $5$ computers
+\end{itemize}
+} % end block
+
+% different block color
+\begin{blockemph}
+\block{Results}{
+\begin{itemize}
+    \item map-merging algorithm for arbitrary number of robots with online merging capabilities
+    \item support for heterogeneous multi-robot systems
+    \item lightweight autonomous exploring package for \gls{ROS}
+    \item two \gls{ROS} packages accepted in official \gls{ROS} distribution
+\end{itemize}
+} % end block
+\end{blockemph}
 
 \end{columns}
 
