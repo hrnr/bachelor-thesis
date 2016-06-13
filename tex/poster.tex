@@ -59,7 +59,7 @@
 \block{Motivation}{
 \begin{itemize}
     \item group of robots can be more effective if robots coordinate
-    \item for effective coordination robots needs global map
+    \item for effective coordination robots need global map
     \item map-merging needs to deal with unknown initial positions of robots
     \item needs to be easily deployable, work with different communication systems and have low requirements on robots equipment
     \item must work with existing robust \gls{SLAM} algorithms
@@ -68,11 +68,10 @@
 \end{blockemph}
 
 \block{Merging algorithm}{
-\begin{tikzfigure}[\gls{OpenCV} Stitching pipeline.]
+\begin{tikzfigure}[Graph showing matches between $36$ occupancy grids during map merging. Legend: $Nm$ number of matches, $Ni$ number of inliers from \gls{RANSAC}, $C$ confidence.]
     \centering
-    % 4.33in for 300 dpi
-    \includegraphics[width=\linewidth]{../img/StitchingPipeline.png}
-    \label{fig:opencv}
+    \includegraphics[width=\linewidth]{../img/matches_twopi.pdf}
+    \label{fig:matches}
 \end{tikzfigure}
 
 
@@ -110,10 +109,11 @@
 \end{algorithm}
 
 
-\begin{tikzfigure}[Graph showing matches between $36$ occupancy grids during map merging. Legend: $Nm$ number of matches, $Ni$ number of inliers from \gls{RANSAC}, $C$ confidence.]
+\begin{tikzfigure}[\gls{OpenCV} Stitching pipeline. Presented map-merging algorithm is inspired by image stitching techniques.]
     \centering
-    \includegraphics[width=\linewidth]{../img/matches.pdf}
-    \label{fig:matches}
+    % 4.33in for 300 dpi
+    \includegraphics[width=\linewidth]{../img/StitchingPipeline.png}
+    \label{fig:opencv}
 \end{tikzfigure}
 
 
@@ -172,21 +172,21 @@ We need to solve~\eqref{eq:affinetrans} to estimate reduced affine trasformation
 \end{align}
 
 
-\begin{algorithm}[H]
-    \caption{Algorithm estimating transformations to global reference frame from pairwise transformations on spanning tree.}
-    \label{alg:estimatefinaltrans}
-    \begin{algorithmic}[1]
-        \Require $t$ maximum spanning tree on grids, $P_{(i,j)}$ pairwise reduced affine transformation in homogeneous coordinates between grids $i, j$.
-        \Ensure $T_i \forall i \in V$ transformations to global reference frame
-        \Procedure{estimateFinalTransform}{$t = (V,E)$, $P_e \forall e \in e$}
-            \State $e \gets$ edges of $t$ sorted by discover time in \gls{BFS} starting from grid with global reference frame \Comment{using \gls{BFS} or \gls{DFS} does not matter here}
-            \State $\forall T_i: T_i \gets I$ \Comment{initialize transformations with identity}
-            \ForAll{$(i,j)$ in $e$}
-                $T_j \gets T_i P_{(i,j)}$
-            \EndFor
-        \EndProcedure
-    \end{algorithmic}
-\end{algorithm}
+% \begin{algorithm}[H]
+%     \caption{Algorithm estimating transformations to global reference frame from pairwise transformations on spanning tree.}
+%     \label{alg:estimatefinaltrans}
+%     \begin{algorithmic}[1]
+%         \Require $t$ maximum spanning tree on grids, $P_{(i,j)}$ pairwise reduced affine transformation in homogeneous coordinates between grids $i, j$.
+%         \Ensure $T_i \forall i \in V$ transformations to global reference frame
+%         \Procedure{estimateFinalTransform}{$t = (V,E)$, $P_e \forall e \in e$}
+%             \State $e \gets$ edges of $t$ sorted by discover time in \gls{BFS} starting from grid with global reference frame \Comment{using \gls{BFS} or \gls{DFS} does not matter here}
+%             \State $\forall T_i: T_i \gets I$ \Comment{initialize transformations with identity}
+%             \ForAll{$(i,j)$ in $e$}
+%                 $T_j \gets T_i P_{(i,j)}$
+%             \EndFor
+%         \EndProcedure
+%     \end{algorithmic}
+% \end{algorithm}
 } % end block
 
 \column{0.5}
