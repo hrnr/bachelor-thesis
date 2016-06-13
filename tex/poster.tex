@@ -76,7 +76,7 @@
 
 
 \begin{algorithm}[H]
-    \caption{Proposed algorithm for estimating transformation between multiple occupancy grids. Uses Algorithm~\ref{alg:estimatefinaltrans} to estimate final transformations.}
+    \caption{Proposed algorithm for estimating transformation between multiple occupancy grids.}
     \label{alg:estimategridtrasform}
     \begin{algorithmic}[1]
         \Require $k$ occupancy grids
@@ -103,7 +103,7 @@
             \State $g \gets (grids, matches)$
             \State $h \gets$ largest connected component in $g$
             \State $t \gets$ maximum spanning tree in $h$
-            \State \Call{estimateFinalTransform}{$t$, $P_{(i,j)} \forall e \in \text{edges of } t$} \Comment{walk $t$ and compute transformations to global reference frame. See Algorithm~\ref{alg:estimatefinaltrans}.}
+            \State \Call{estimateFinalTransform}{$t$, $P_{(i,j)} \forall e \in \text{edges of } t$} \Comment{walk $t$ and compute transformations to global reference frame.}
         \EndProcedure
     \end{algorithmic}
 \end{algorithm}
@@ -150,6 +150,7 @@ we define matrix of reduced affine transformation as
 \end{equation}
 \end{defn}
 
+\vspace{1em}
 We need to solve~\eqref{eq:affinetrans} to estimate reduced affine trasformation between grids.
 \begin{align}
     A'X &= Y \label{eq:affinetrans}\\
