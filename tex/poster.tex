@@ -61,8 +61,8 @@
     \item group of robots can be more effective if robots coordinate
     \item for effective coordination robots need global map
     \item map-merging needs to deal with unknown initial positions of robots
-    \item needs to be easily deployable, work with different communication systems and have low requirements on robots equipment
-    \item must work with existing robust \gls{SLAM} algorithms
+    \item solution needs to be easily deployable, work with different communication systems and have low requirements on robots equipment
+    \item algorithm must work with existing robust \gls{SLAM} algorithms
 \end{itemize}
 } % end block
 \end{blockemph}
@@ -191,7 +191,7 @@ We need to solve~\eqref{eq:affinetrans} to estimate reduced affine trasformation
 
 \column{0.5}
 \block{Merging with unknown initial positions}{
-\begin{tikzfigure}[Maps produced by a multi-robot mapping in the simulator with $3$ robots. The merged map (right) is estimated by the map-merging node without knowledge of initial positions. Simulation showed that a reliable merge between maps can be produced for $5-6$ overlapping rooms. After transformation is estimated, produced map is comparable to the reference map.]
+\begin{tikzfigure}[Maps produced by our map-merging algorithm in the simulator with $3$ robots. The merged map (right) is estimated by the map-merging node without knowledge of initial positions. Simulation showed that a reliable merge between maps can be produced for $5-6$ overlapping rooms. After transformation is estimated, produced map is comparable to the reference map.]
     \vspace{-1em}
     \begin{minipage}[t]{0.24\linewidth}
         \includegraphics[width=\linewidth]{../img/minimal-overlapping-area-robot0.png}
@@ -213,7 +213,7 @@ We need to solve~\eqref{eq:affinetrans} to estimate reduced affine trasformation
 
 \block{Merging with known initial positions}{
 \begin{minipage}[t]{0.47\linewidth}
-    \begin{tikzfigure}[Initial maps produced by robots during experiment in the simulator. Merged map is produced with knowledge of initial positions and can be therefore produced even without overlapping areas. In this situation merged map can be sparse.]
+    \begin{tikzfigure}[Initial maps produced by robots during experiment in the simulator. Merged map is produced with knowledge of initial positions and can be therefore produced even without overlapping areas. In this situation, merged map can be sparse.]
         \centering
         % 3.35in
         \includegraphics[width=\linewidth]{../img/merging-with-known-initial-positions-begin.png}
@@ -241,7 +241,7 @@ We need to solve~\eqref{eq:affinetrans} to estimate reduced affine trasformation
 \end{minipage}
 \hfill
 \begin{minipage}[t]{0.47\linewidth}
-    \begin{tikzfigure}[Merged map. All broken maps have been rejected by probalistic model used by merging algorithm. The merged map is correct, transformation between grids was estimated correctly. Maps included in this merged map are small, for larger maps the \gls{SLAM} algorithm mostly failed on presented dataset. Only $3$ maps are included in the merged map. Confidence threshold is set to $2.0$.]
+    \begin{tikzfigure}[Merged map. All broken maps have been rejected by probabilistic model used in merging algorithm. The merged map is correct, transformation between grids was estimated successfully. Maps included in this merged map are small, for larger maps the \gls{SLAM} algorithm mostly failed on presented dataset. Only $3$ maps are included in the merged map. Confidence threshold is set to $2.0$.]
         \centering
         \includegraphics[width=\linewidth]{../img/probability-model-evaluation-treshold_2_0-3maps.png}
         \label{fig:probability-model-evaluation-treshold_2.0-3maps}
@@ -250,7 +250,7 @@ We need to solve~\eqref{eq:affinetrans} to estimate reduced affine trasformation
 } % end block
 
 \block{Retaining largest transformation}{
-\begin{tikzfigure}[Map-merging with largest transformation retaining. From the left: Maps have no overlaps, unable to merge more than a single map. Incorrect transformation estimated due to too small overlaps. Incorrect transformation was rejected, but due to largest transformation retaining incorrect merge is still produced.]
+\begin{tikzfigure}[Map-merging with largest transformation retaining. Left: Maps have no overlaps, unable to merge more than a single map. Middle: Incorrect transformation estimated due to too small overlaps. Right: Incorrect transformation was rejected, but due to largest transformation retaining incorrect merge is still produced.]
     \centering
     \includegraphics[width=\linewidth]{../img/retaining-largest-transformation-montage.png}
     \label{fig:retaining-largest-transformation-montage}
@@ -259,7 +259,7 @@ We need to solve~\eqref{eq:affinetrans} to estimate reduced affine trasformation
 
 \column{0.25}
 \block{ROS packages}{
-Accepted in official \gls{ROS} distribution.
+This work has been accepted in official \gls{ROS} distribution as two packages:
 
 \begin{itemize}
     \item \texttt{multirobot\_map\_merge}: map-merging without knowledge of initial position
@@ -305,6 +305,9 @@ Map-merging node for \gls{ROS}.
 } % end block
 
 \block{Simulation}{
+
+The map-merging algorithm has been thoroughly tested in the simulator.
+
 \begin{tikzfigure}[Scene for experiment with $3$ robots in \gls{VREP} simulator.]
     \centering
     % orig width 3.93in
@@ -314,8 +317,7 @@ Map-merging node for \gls{ROS}.
 
 \begin{itemize}
     \item \gls{VREP} simulator
-    \item \gls{ROS} ecosystem
-    \item cluster of $5$ computers
+    \item \gls{ROS} ecosystem, cluster of $5$ computers
 \end{itemize}
 } % end block
 
