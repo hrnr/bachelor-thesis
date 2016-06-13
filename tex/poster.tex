@@ -191,34 +191,22 @@ We need to solve~\eqref{eq:affinetrans} to estimate reduced affine trasformation
 
 \column{0.5}
 \block{Merging with unknown initial positions}{
-\begin{tikzfigure}[Maps produced by a multi-robot mapping in the simulator with $3$ robots. The merged map (right) is estimated by the map-merging node without knowledge of initial positions.]
-    \vspace{-1.5em}
+\begin{tikzfigure}[Maps produced by a multi-robot mapping in the simulator with $3$ robots. The merged map (right) is estimated by the map-merging node without knowledge of initial positions. Simulation showed that a reliable merge between maps can be produced for $5-6$ overlapping rooms. After transformation is estimated, produced map is comparable to the reference map.]
+    \vspace{-1em}
     \begin{minipage}[t]{0.24\linewidth}
-        \begin{tikzfigure}
-            \centering
-            \includegraphics[width=\linewidth]{../img/minimal-overlapping-area-robot0.png}
-        \end{tikzfigure}
+        \includegraphics[width=\linewidth]{../img/minimal-overlapping-area-robot0.png}
     \end{minipage}
     \begin{minipage}[t]{0.24\linewidth}
-        \begin{tikzfigure}
-            \centering
-            \includegraphics[width=\linewidth]{../img/minimal-overlapping-area-robot1.png}
-        \end{tikzfigure}
+        \includegraphics[width=\linewidth]{../img/minimal-overlapping-area-robot1.png}
     \end{minipage}
     \begin{minipage}[t]{0.24\linewidth}
-        \begin{tikzfigure}
-            \centering
-            \includegraphics[width=\linewidth]{../img/minimal-overlapping-area-robot2.png}
-        \end{tikzfigure}
+        \includegraphics[width=\linewidth]{../img/minimal-overlapping-area-robot2.png}
     \end{minipage}
     \hfill
     \begin{minipage}[t]{0.24\linewidth}
-        \begin{tikzfigure}
-            \centering
-            \includegraphics[width=\linewidth]{../img/minimal-overlapping-area-merged-map.png}
-        \end{tikzfigure}
+        \includegraphics[width=\linewidth]{../img/minimal-overlapping-area-merged-map.png}
     \end{minipage}
-    \vspace{2em}
+    \vspace{1.5em}
 \end{tikzfigure}
 
 } % end block
