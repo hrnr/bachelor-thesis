@@ -212,23 +212,40 @@ We need to solve~\eqref{eq:affinetrans} to estimate reduced affine trasformation
 } % end block
 
 \block{Merging with known initial positions}{
-\begin{minipage}[t]{0.47\linewidth}
-    \begin{tikzfigure}[Initial maps produced by robots during experiment in the simulator. Merged map is produced with knowledge of initial positions and can be therefore produced even without overlapping areas. In this situation, merged map can be sparse.]
-        \centering
-        % 3.35in
-        \includegraphics[width=\linewidth]{../img/merging-with-known-initial-positions-begin.png}
-        \label{fig:merging-with-known-initial-positions-begin}
-    \end{tikzfigure}
-\end{minipage}
-\hfill
-\begin{minipage}[t]{0.47\linewidth}
-    \begin{tikzfigure}[Final maps produced in the simulator. Merged map is produced with knowledge of initial positions.]
-        \centering
-        % 3.35in for 300 dpi
-        \includegraphics[width=\linewidth]{../img/merging-with-known-initial-positions-end.png}
-        \label{fig:merging-with-known-initial-positions-end}
-    \end{tikzfigure}
-\end{minipage}
+\begin{tikzfigure}[Initial maps produced by robots during experiment in the simulator. Merged map (right) is produced with knowledge of initial positions and can be therefore produced even without overlapping areas. In this situation, merged map can be sparse.]
+    \vspace{-1em}
+    \begin{minipage}[t]{0.24\linewidth}
+        \includegraphics[width=\linewidth]{../img/merging-with-known-initial-positions-begin-robot0.png}
+    \end{minipage}
+    \begin{minipage}[t]{0.24\linewidth}
+        \includegraphics[width=\linewidth]{../img/merging-with-known-initial-positions-begin-robot1.png}
+    \end{minipage}
+    \begin{minipage}[t]{0.24\linewidth}
+        \includegraphics[width=\linewidth]{../img/merging-with-known-initial-positions-begin-robot2.png}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.24\linewidth}
+        \includegraphics[width=\linewidth]{../img/merging-with-known-initial-positions-begin-merged_known.png}
+    \end{minipage}
+    \vspace{1.5em}
+\end{tikzfigure}
+\begin{tikzfigure}[Final maps produced in the simulator. Merged map (right) is produced with knowledge of initial positions.]
+    \vspace{-1em}
+    \begin{minipage}[t]{0.24\linewidth}
+        \includegraphics[width=\linewidth]{../img/merging-with-known-initial-positions-end-robot0.png}
+    \end{minipage}
+    \begin{minipage}[t]{0.24\linewidth}
+        \includegraphics[width=\linewidth]{../img/merging-with-known-initial-positions-end-robot1.png}
+    \end{minipage}
+    \begin{minipage}[t]{0.24\linewidth}
+        \includegraphics[width=\linewidth]{../img/merging-with-known-initial-positions-end-robot2.png}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.24\linewidth}
+        \includegraphics[width=\linewidth]{../img/merging-with-known-initial-positions-end-merged_known.png}
+    \end{minipage}
+    \vspace{1.5em}
+\end{tikzfigure}
 } % end block
 
 \block{Rejecting maps with errors}{
