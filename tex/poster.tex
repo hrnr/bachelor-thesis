@@ -74,9 +74,9 @@
     \label{fig:matches}
 \end{tikzfigure}
 
-
+\vspace{1em}
 \begin{algorithm}[H]
-    \caption{Proposed algorithm for estimating transformation between multiple occupancy grids.}
+    \caption{Proposed algorithm for estimating transformation between multiple occupancy grids. Uses Algorithm~\ref{alg:estimatefinaltrans} to estimate final transformations.}
     \label{alg:estimategridtrasform}
     \begin{algorithmic}[1]
         \Require $k$ occupancy grids
@@ -103,20 +103,12 @@
             \State $g \gets (grids, matches)$
             \State $h \gets$ largest connected component in $g$
             \State $t \gets$ maximum spanning tree in $h$
-            \State \Call{estimateFinalTransform}{$t$, $P_{(i,j)} \forall e \in \text{edges of } t$} \Comment{walk $t$ and compute transformations to global reference frame.}
+            \State \Call{estimateFinalTransform}{$t$, $P_{(i,j)} \forall e \in \text{edges of } t$} \Comment{walk $t$ and compute transformations to global reference frame. See Algorithm~\ref{alg:estimatefinaltrans}.}
         \EndProcedure
     \end{algorithmic}
 \end{algorithm}
 
-
-\begin{tikzfigure}[\gls{OpenCV} Stitching pipeline. Presented map-merging algorithm is inspired by image stitching techniques.]
-    \centering
-    % 4.33in for 300 dpi
-    \includegraphics[width=\linewidth]{../img/StitchingPipeline.png}
-    \label{fig:opencv}
-\end{tikzfigure}
-
-
+\vspace{1em}
 \begin{defn}[Reduced affine transformation]
 For given matrices $R$ (rotation), $S$ (scaling), $T$ (translation), where
 \begin{align}
@@ -136,7 +128,10 @@ For given matrices $R$ (rotation), $S$ (scaling), $T$ (translation), where
         ty \\
     \end{pmatrix}
 \end{align}
+
+\vspace{1em}
 we define matrix of reduced affine transformation as
+\vspace{1em}
 \begin{equation}
     A =
     \begin{pmatrix}
@@ -172,22 +167,22 @@ We need to solve~\eqref{eq:affinetrans} to estimate reduced affine trasformation
     \end{pmatrix}
 \end{align}
 
-
-% \begin{algorithm}[H]
-%     \caption{Algorithm estimating transformations to global reference frame from pairwise transformations on spanning tree.}
-%     \label{alg:estimatefinaltrans}
-%     \begin{algorithmic}[1]
-%         \Require $t$ maximum spanning tree on grids, $P_{(i,j)}$ pairwise reduced affine transformation in homogeneous coordinates between grids $i, j$.
-%         \Ensure $T_i \forall i \in V$ transformations to global reference frame
-%         \Procedure{estimateFinalTransform}{$t = (V,E)$, $P_e \forall e \in e$}
-%             \State $e \gets$ edges of $t$ sorted by discover time in \gls{BFS} starting from grid with global reference frame \Comment{using \gls{BFS} or \gls{DFS} does not matter here}
-%             \State $\forall T_i: T_i \gets I$ \Comment{initialize transformations with identity}
-%             \ForAll{$(i,j)$ in $e$}
-%                 $T_j \gets T_i P_{(i,j)}$
-%             \EndFor
-%         \EndProcedure
-%     \end{algorithmic}
-% \end{algorithm}
+\vspace{1em}
+\begin{algorithm}[H]
+    \caption{Algorithm estimating transformations to global reference frame from pairwise transformations on spanning tree.}
+    \label{alg:estimatefinaltrans}
+    \begin{algorithmic}[1]
+        \Require $t$ maximum spanning tree on grids, $P_{(i,j)}$ pairwise reduced affine transformation in homogeneous coordinates between grids $i, j$.
+        \Ensure $T_i \forall i \in V$ transformations to global reference frame
+        \Procedure{estimateFinalTransform}{$t = (V,E)$, $P_e \forall e \in e$}
+            \State $e \gets$ edges of $t$ sorted by discover time in \gls{BFS} starting from grid with global reference frame \Comment{using \gls{BFS} or \gls{DFS} does not matter here}
+            \State $\forall T_i: T_i \gets I$ \Comment{initialize transformations with identity}
+            \ForAll{$(i,j)$ in $e$}
+                $T_j \gets T_i P_{(i,j)}$
+            \EndFor
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
 } % end block
 
 \column{0.5}
